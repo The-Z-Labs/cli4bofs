@@ -1,0 +1,84 @@
+#
+# Coreutils implemented as BOFs
+#
+---
+name: "uname"
+description: "Print information about the machine and operating system. Compatible with POSIX uname(1) system command."
+author: "Z-Labs"
+tags: ['host recon', 'coreutils']
+OS: 'linux'
+header: ['inline', 's']
+sources:
+    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/uname.zig'
+usage:
+   'uname [OPTION]...
+    Print certain system information. With no OPTION, same as -s.
+
+    -a, --all                print all information
+    -s, --kernel-name        print the kernel name
+    -n, --nodename           print the network node hostname
+    -r, --kernel-release     print the kernel release
+    -v, --kernel-version     print the kernel version
+    -m, --machine            print the machine hardware name'
+examples:
+    - "uname"
+    - "uname -a"
+
+#
+# Net-tools implemented as BOFs
+# TODO: arp (cross-platform)
+# https://github.com/ecki/net-tools/blob/master/arp.c
+# https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/master/src/SA/arp/entry.c
+#
+
+#
+# Z-Labs BOFs 
+#
+
+---
+name: "udpScanner"
+description: "UDP scanner"
+author: "Z-Labs"
+tags: ['net recon']
+OS: "cross"
+header: ['thread', 'sb']
+sources:
+    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/cUDPscan.zig'
+usage: '<targetSpecification:portSpecification> [bufferPtr]'
+examples:
+    - "cUDPScan 192.168.0.1:21,80"
+    - "cUDPScan 192.168.0.1:80-85"
+    - "cUDPScan 102.168.1.1-2:22"
+    - "cUDPScan 102.168.1.1-32:22-32,427"
+
+#
+# Third party BOFs
+#
+
+---
+name: "zerologon"
+description: "Exploit for CVE-2020-1472, a.k.a. Zerologon. This allows for an attacker to reset the machine account of a target Domain Controller, leading to Domain Admin compromise. **This exploit will break the functionality of this domain controller!**"
+author: "Rsmudge"
+tags: ['exploit']
+OS: "windows"
+header: ['inline', 'ZZZ']
+sources:
+    - 'https://raw.githubusercontent.com/rsmudge/ZeroLogon-BOF/master/src/zerologon.c'
+usage: "zerologon <dc_fqdn> <dc_netbios> <dc_account>"
+examples:
+    - "zerologon DC.corp.acme.com DC DC$"
+
+---
+name: "arp"
+description: "List arp table"
+author: "Trustedsec"
+tags: ['host recon']
+OS: "windows"
+header: ['inline', '']
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/master/src/SA/arp/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/master/src/common/bofdefs.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/master/src/common/base.c'
+usage: "arp"
+examples:
+    - "arp"
