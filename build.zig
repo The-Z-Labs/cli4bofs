@@ -13,8 +13,8 @@ pub fn build(b: *std.Build) void {
 
     const Options = @import("libs/bof-launcher/bof-launcher/build.zig").Options;
     const options = Options{ .target = target, .optimize = optimize };
-    std.debug.print("{any}\n", .{options.target.os_tag});
-    std.debug.print("{any}\n", .{options.target.getOsTag()});
+    //std.debug.print("{any}\n", .{options.target.os_tag});
+    //std.debug.print("{any}\n", .{options.target.getOsTag()});
     const bof_launcher_lib = @import("libs/bof-launcher/bof-launcher/build.zig").build(b, options);
     const bof_launcher_api_module = b.createModule(.{
         .source_file = .{ .path = thisDir() ++ "/libs/bof-launcher/bof-launcher/src/bof_launcher_api.zig" },

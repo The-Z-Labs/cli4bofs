@@ -5,9 +5,6 @@ const yaml = @import("yaml");
 const io = std.io;
 const mem = std.mem;
 
-const stdout = io.getStdOut().writer();
-const stderr = io.getStdErr().writer();
-
 fn runBofFromFile(
     allocator: std.mem.Allocator,
     bof_path: [:0]const u8,
@@ -36,6 +33,7 @@ fn runBofFromFile(
 }
 
 fn usage(name: [:0]const u8) void {
+    const stdout = io.getStdOut().writer();
     stdout.print("Usage: {s} <BOF> [[prefix:]ARGUMENT]...\n\n", .{name}) catch unreachable;
     stdout.print("Execute given BOF from filesystem with provided ARGUMENTs.\n\n", .{}) catch unreachable;
     stdout.print("ARGUMENTS:\n\n", .{}) catch unreachable;
@@ -57,6 +55,7 @@ pub fn loadBofCollection(
     allocator: std.mem.Allocator,
     file_path: []const u8,
 ) !void {
+    const stderr = io.getStdErr().writer();
     if (file_path == null) {
         return stderr.writeAll("fatal: no input path to yaml file specified\n\n");
     }
@@ -66,6 +65,7 @@ pub fn loadBofCollection(
 
     const source = try file.readToEndAlloc(allocator, std.math.maxInt(u32));
 
+    const stdout = io.getStdOut().writer();
     var parsed = try yaml.Yaml.load(allocator, source);
     try parsed.stringify(stdout);
 }
@@ -90,6 +90,8 @@ const Bof_record = struct {
 };
 
 pub fn main() !u8 {
+    const stderr = io.getStdErr().writer();
+    const stdout = io.getStdOut().writer();
 
     ///////////////////////////////////////////////////////////
     // heap preparation
