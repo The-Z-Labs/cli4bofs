@@ -4,7 +4,7 @@ Command line interface for (running) BOFs.
 
 ## Description
 
-Swiss army knife tool for mainataining collection of BOFs files. Allows for running any BOF from filesystem and pass arguments to it. Handy for testing, prototyping and developing BOFs.
+Swiss army knife tool for mainataining collection of BOFs files. Allows for running any BOF from filesystem and pass arguments to it. Handy also for testing, prototyping and developing BOFs.
 
 ## BOF collection
 
