@@ -34,7 +34,17 @@ fn runBofFromFile(
 
 fn usage(name: [:0]const u8) void {
     const stdout = io.getStdOut().writer();
-    stdout.print("Usage: {s} <BOF> [[prefix:]ARGUMENT]...\n\n", .{name}) catch unreachable;
+    stdout.print("Usage: {s} [command] [options]\n\n", .{name}) catch unreachable;
+    stdout.print("Commands:\n\n", .{}) catch unreachable;
+    stdout.print("exec\t\tExecute given BOF from filesystem\n", .{}) catch unreachable;
+    stdout.print("info\t\tDisplay details about BOF\n", .{}) catch unreachable;
+    stdout.print("\nGeneral Options:\n\n", .{}) catch unreachable;
+    stdout.print("-c, --collection\tProvide custom BOF yaml collection\n", .{}) catch unreachable;
+    stdout.print("-h, --help\t\tPrint this help\n", .{}) catch unreachable;
+}
+
+fn usageExec() void {
+    const stdout = io.getStdOut().writer();
     stdout.print("Execute given BOF from filesystem with provided ARGUMENTs.\n\n", .{}) catch unreachable;
     stdout.print("ARGUMENTS:\n\n", .{}) catch unreachable;
     stdout.print("ARGUMENT's data type can be specified using one of following prefix:\n", .{}) catch unreachable;
@@ -127,6 +137,8 @@ pub fn main() !u8 {
         exec,
         info,
         usage,
+        list,
+        help,
     };
     var cmd = Cmd.none;
 
@@ -139,7 +151,7 @@ pub fn main() !u8 {
         return 0;
     };
 
-    const bof_name = cmd_args_iter.next().?;
+    var bof_name: [:0]const u8 = undefined;
 
     var bof_path_buffer: [std.fs.MAX_PATH_BYTES:0]u8 = undefined;
 
@@ -147,6 +159,7 @@ pub fn main() !u8 {
         usage(prog_name);
     } else if (mem.eql(u8, "exec", command_name)) {
         cmd = Cmd.exec;
+        bof_name = cmd_args_iter.next().?;
 
         const absolute_bof_path = std.fs.cwd().realpathZ(bof_name, bof_path_buffer[0..]) catch {
             stderr.writeAll("No BOF provided. Aborting.\n") catch unreachable;
@@ -155,8 +168,14 @@ pub fn main() !u8 {
         bof_path_buffer[absolute_bof_path.len] = 0;
     } else if (mem.eql(u8, "info", command_name)) {
         cmd = Cmd.info;
+        bof_name = cmd_args_iter.next().?;
     } else if (mem.eql(u8, "usage", command_name)) {
         cmd = Cmd.usage;
+        bof_name = cmd_args_iter.next().?;
+    } else if (mem.eql(u8, "list", command_name)) {
+        cmd = Cmd.list;
+    } else if (mem.eql(u8, "help", command_name)) {
+        cmd = Cmd.help;
     } else {
         try stderr.writeAll("fatal: unrecognized command provided.\n");
     }
@@ -203,6 +222,16 @@ pub fn main() !u8 {
             if (std.mem.eql(u8, bof_name, bof.name)) {
                 stdout.print("Usage:\n{s}\n", .{bof.usage}) catch unreachable;
             }
+        }
+    } else if (cmd == Cmd.list) {
+        for (bofs_collection) |bof| {
+            stdout.print("{s}\n", .{bof.name}) catch unreachable;
+        }
+    } else if (cmd == Cmd.help) {
+        const cmd_help = cmd_args_iter.next().?;
+
+        if (std.mem.eql(u8, cmd_help, "exec")) {
+            usageExec();
         }
     }
 
