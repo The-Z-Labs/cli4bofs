@@ -1,8 +1,34 @@
 const std = @import("std");
 
+fn osTagStr(os_tag: std.Target.Os.Tag) []const u8 {
+    return switch (os_tag) {
+        .windows => "win",
+        .linux => "lin",
+        else => unreachable,
+    };
+}
+
+fn cpuArchStr(arch: std.Target.Cpu.Arch) []const u8 {
+    return switch (arch) {
+        .x86_64 => "x64",
+        .x86 => "x86",
+        .aarch64 => "aarch64",
+        .arm => "arm",
+        else => unreachable,
+    };
+}
+
 pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
     const target = b.standardTargetOptions(.{});
+
+    const zig_yaml_module = b.dependency("zig_yaml", .{ .target = target, .optimize = optimize }).module("yaml");
+
+    const bof_launcher_dep = b.dependency("bof_launcher", .{ .optimize = optimize });
+    const bof_launcher_lib = bof_launcher_dep.artifact("bof_launcher_" ++
+        comptime osTagStr(@import("builtin").os.tag) ++ "_" ++
+        cpuArchStr(@import("builtin").cpu.arch));
+    const bof_launcher_api_module = bof_launcher_dep.module("bof_launcher_api");
 
     const exe = b.addExecutable(.{
         .name = "cli4bofs",
@@ -11,24 +37,11 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
-    const Options = @import("libs/bof-launcher/bof-launcher/build.zig").Options;
-    const options = Options{ .target = target, .optimize = optimize };
-    //std.debug.print("{any}\n", .{options.target.os_tag});
-    //std.debug.print("{any}\n", .{options.target.getOsTag()});
-    const bof_launcher_lib = @import("libs/bof-launcher/bof-launcher/build.zig").build(b, options);
-    const bof_launcher_api_module = b.createModule(.{
-        .source_file = .{ .path = thisDir() ++ "/libs/bof-launcher/bof-launcher/src/bof_launcher_api.zig" },
-    });
     exe.linkLibrary(bof_launcher_lib);
-    exe.addModule("bof-launcher", bof_launcher_api_module);
-
-    const yaml_module = b.addModule("yaml", .{
-        .source_file = std.build.FileSource{ .path = thisDir() ++ "/libs/zig-yaml/src/yaml.zig" },
-    });
-    exe.addModule("yaml", yaml_module);
+    exe.root_module.addImport("bof-launcher", bof_launcher_api_module);
+    exe.root_module.addImport("yaml", zig_yaml_module);
 
     b.installArtifact(exe);
-    //const zwin32_pkg = @import("../../build.zig").zwin32_pkg;
 }
 
 inline fn thisDir() []const u8 {
