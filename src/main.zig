@@ -187,7 +187,7 @@ pub fn main() !u8 {
     defer bofs.releaseLauncher();
 
     if (cmd == Cmd.exec) {
-        stdout.print("Executing (BOF name): {any}\n", .{bof_name}) catch unreachable;
+        stdout.print("Executing (BOF name): {s}\n", .{bof_name}) catch unreachable;
         ///////////////////////////////////////////////////////////
         // command line arguments processing: handling BOF arguments
         ///////////////////////////////////////////////////////////

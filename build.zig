@@ -22,7 +22,11 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
     const target = b.standardTargetOptions(.{});
 
-    const zig_yaml_module = b.dependency("zig_yaml", .{ .target = target, .optimize = optimize }).module("yaml");
+    const zig_yaml_module = b.dependency("zig_yaml", .{
+        .target = target,
+        .optimize = optimize,
+        .log = false,
+    }).module("yaml");
 
     const bof_launcher_dep = b.dependency("bof_launcher", .{ .optimize = optimize });
     const bof_launcher_lib = bof_launcher_dep.artifact("bof_launcher_" ++
