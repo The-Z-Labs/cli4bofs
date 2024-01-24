@@ -32,6 +32,22 @@ fn runBofFromFile(
     return context.getExitCode();
 }
 
+fn loadFileContent(
+    allocator: std.mem.Allocator,
+    file_path: [:0]const u8,
+) ![]u8 {
+    const file = std.fs.openFileAbsoluteZ(file_path, .{}) catch unreachable;
+    defer file.close();
+
+    var file_data = std.ArrayList(u8).init(allocator);
+    defer file_data.deinit();
+
+    try file.reader().readAllArrayList(&file_data, 16 * 1024 * 1024);
+    //try file_data.append(0);
+
+    return file_data.toOwnedSlice();
+}
+
 fn usage(name: [:0]const u8) void {
     const stdout = io.getStdOut().writer();
     stdout.print("Usage: {s} [command] [options]\n\n", .{name}) catch unreachable;
@@ -196,6 +212,24 @@ pub fn main() !u8 {
 
         bof_args.begin();
         while (cmd_args_iter.next()) |arg| {
+            // handle case when file:<filepath> argument is provided
+            if (mem.indexOf(u8, arg, "file:") != null) {
+                var iter = mem.tokenize(u8, arg, ":");
+
+                _ = iter.next() orelse return error.BadData;
+                const file_path = iter.next() orelse return error.BadData;
+
+                // load file content and remove final '\n' cahracter (if present)
+                const file_data = mem.trimRight(u8, try loadFileContent(
+                    allocator,
+                    @ptrCast(file_path),
+                ), "\n");
+
+                try bof_args.add(try std.fmt.allocPrint(allocator, "i:{d}", .{file_data.len}));
+                try bof_args.add(mem.asBytes(&file_data.ptr));
+
+                continue;
+            }
             try bof_args.add(arg);
         }
         bof_args.end();
