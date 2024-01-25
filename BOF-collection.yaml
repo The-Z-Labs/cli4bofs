@@ -46,10 +46,10 @@ sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/udpScanner.zig'
 usage: '<targetSpecification:portSpecification> <bufferLen> <bufferPtr>'
 examples:
-    - "cUDPScan 192.168.0.1:21,80 i:0"
-    - "cUDPScan 192.168.0.1:80-85 i:0"
-    - "cUDPScan 102.168.1.1-2:53 i:0"
-    - "cUDPScan 102.168.1.1-32:22-32,427 \"i:$(wc -c udpPayloads.txt)\" file:/tmp/udpPayloads"
+    - "udpScanner 192.168.0.1:21,80 i:0"
+    - "udpScanner 192.168.0.1:80-85 i:0"
+    - "udpScanner 102.168.1.1-2:53 i:0"
+    - "udpScanner 102.168.1.1-32:22-32,427 \"i:$(wc -c udpPayloads.txt)\" file:/tmp/udpPayloads"
 
 #
 # Third party BOFs
