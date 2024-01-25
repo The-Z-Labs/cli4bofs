@@ -7,7 +7,7 @@ description: "Print information about the machine and operating system. Compatib
 author: "Z-Labs"
 tags: ['host recon', 'coreutils']
 OS: 'linux'
-header: ['inline', 's']
+header: ['inline', 'z']
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/uname.zig'
 usage:
@@ -41,15 +41,15 @@ description: "UDP scanner"
 author: "Z-Labs"
 tags: ['net recon']
 OS: "cross"
-header: ['thread', 'sb']
+header: ['thread', 'zib']
 sources:
-    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/cUDPscan.zig'
-usage: '<targetSpecification:portSpecification> [bufferPtr]'
+    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/udpScanner.zig'
+usage: '<targetSpecification:portSpecification> <bufferLen> <bufferPtr>'
 examples:
-    - "cUDPScan 192.168.0.1:21,80"
-    - "cUDPScan 192.168.0.1:80-85"
-    - "cUDPScan 102.168.1.1-2:22"
-    - "cUDPScan 102.168.1.1-32:22-32,427"
+    - "cUDPScan 192.168.0.1:21,80 i:0"
+    - "cUDPScan 192.168.0.1:80-85 i:0"
+    - "cUDPScan 102.168.1.1-2:53 i:0"
+    - "cUDPScan 102.168.1.1-32:22-32,427 \"i:$(wc -c udpPayloads.txt)\" file:/tmp/udpPayloads"
 
 #
 # Third party BOFs
