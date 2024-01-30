@@ -1,10 +1,10 @@
 # cli4bofs 
 
-Command line interface for (running) BOFs.
+Standalone command line interface for launching [BOF files](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/beacon-object-files_main.htm) outside of [Cobalt Strike Beacon](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/welcome_main.htm) environment. Under the hood it uses our [bof-launcher library](https://github.com/The-Z-Labs/bof-launcher) to accomplish its main task: running BOFs files on Windows (x86, x64) and Linux/UNIX (x86, x64, ARM, AARCH64) platforms.
 
 ## Description
 
-Swiss army knife tool for mainataining collection of BOFs files. Allows for running any BOF from filesystem and pass arguments to it. Handy also for testing, prototyping and developing BOFs.
+Swiss army knife tool for running and mainataining collection of BOFs files. Allows for running any BOF from filesystem and for conveniently passing arguments to it. Defines simple `yaml` schema for essential information about BOF files, like: description, URL(s) of the source code, arguments, usage examples, etc. Handy also for testing, prototyping and developing BOFs.
 
 ## BOF collection
 
@@ -25,23 +25,6 @@ examples:
     - "cUDPScan 192.168.0.1:80-85"
     - "cUDPScan 102.168.1.1-2:22"
     - "cUDPScan 102.168.1.1-32:22-32,427"
-
-#
-# Third party BOFs
-#
-
----
-name: "zerologon"
-description: "Exploit for CVE-2020-1472, a.k.a. Zerologon. This allows for an attacker to reset the machine account of a target Domain Controller, leading to Domain Admin compromise. **This exploit will break the functionality of this domain controller!**"
-author: "Rsmudge"
-tags: ['exploit']
-OS: "windows"
-header: ['inline', 'ZZZ']
-sources:
-    - 'https://raw.githubusercontent.com/rsmudge/ZeroLogon-BOF/master/src/zerologon.c'
-usage: "zerologon <dc_fqdn> <dc_netbios> <dc_account>"
-examples:
-    - "zerologon DC.corp.acme.com DC DC$"
 ```
 
 ## Usage
