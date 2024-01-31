@@ -1,6 +1,6 @@
 # cli4bofs 
 
-Standalone command line interface for launching [BOF files](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/beacon-object-files_main.htm) outside of [Cobalt Strike Beacon](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/welcome_main.htm) environment. Under the hood it uses our [bof-launcher library](https://github.com/The-Z-Labs/bof-launcher) to accomplish its main task: running BOFs files on Windows (x86, x64) and Linux/UNIX (x86, x64, ARM, AARCH64) platforms.
+Standalone command line interface for launching [BOF files](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/beacon-object-files_main.htm) outside of [Cobalt Strike Beacon](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/welcome_main.htm) environment. Under the hood it uses our [bof-launcher library](https://github.com/The-Z-Labs/bof-launcher) to accomplish its main task: running BOFs files on Windows (x86, x64) and Linux/UNIX (x86, x64, ARM, AARCH64) platforms directly from a filesystem.
 
 ## Description
 
@@ -8,7 +8,7 @@ Swiss army knife tool for running and mainataining collection of BOFs files. All
 
 ## BOF collection
 
-Example of `BOF-collection.yaml` file:
+Example of an entry in `BOF-collection.yaml` file:
 
 ```
 name: "udpScanner"
@@ -16,15 +16,15 @@ description: "UDP scanner"
 author: "Z-Labs"
 tags: ['net recon']
 OS: "cross"
-header: ['thread', 'sb']
+header: ['thread', 'zib', 'persist']
 sources:
-    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/cUDPscan.zig'
-usage: '<targetSpecification:portSpecification> [bufferPtr]'
+    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/udpScanner.zig'
+usage: 'str:<targetSpecification:portSpecification> int:<UDPProbesBufferLen> str:[UDPProbesBufferPtr]'
 examples:
-    - "cUDPScan 192.168.0.1:21,80"
-    - "cUDPScan 192.168.0.1:80-85"
-    - "cUDPScan 102.168.1.1-2:22"
-    - "cUDPScan 102.168.1.1-32:22-32,427"
+    - "udpScanner str:192.168.0.1:21,80 i:2340 str:MEMORY_ADDRESS"
+    - "udpScanner 192.168.0.1:80-85 file:/tmp/udpProbes"
+    - "udpScanner 102.168.1.1-2:4956 i:0"
+    - "udpScanner 102.168.1.1-32:137-140,427 i:7200 MEMORY_ADDRESS"
 ```
 
 ## Usage
@@ -32,7 +32,7 @@ examples:
 Usage commands:
 
 ```
-Usage: ./zig-out/bin/cli4bofs [command] [options]
+Usage: cli4bofs [command] [options]
 
 Commands:
 
@@ -48,7 +48,7 @@ General Options:
 Usage of `exec` subcommand:
 
 ```
-Usage: ./zig-out/bin/cli4bofs_lin_x64 <BOF> [[prefix:]ARGUMENT]...
+Usage: cli4bofs <BOF> [[prefix:]ARGUMENT]...
 
 Execute given BOF from filesystem with provided ARGUMENTs.
 
@@ -68,6 +68,6 @@ EXAMPLES:
 cli4bofs uname -a
 cli4bofs udpScanner 192.168.2.2-10:427
 cli4bofs udpScanner z:192.168.2.2-10:427
-cli4bofs udpScanner 192.168.2.2-10:427 file:/path/to/file/with/udpPayloads
+cli4bofs udpScanner 192.168.2.2-10:427 file:/tmp/udpProbes
 ```
 
