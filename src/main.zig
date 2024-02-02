@@ -50,16 +50,16 @@ fn loadFileContent(
 
 fn usage(name: [:0]const u8) void {
     const stdout = io.getStdOut().writer();
-    stdout.print("Usage: {s} [command] [options]\n\n", .{name}) catch unreachable;
+    stdout.print("Usage: {s} command [options]\n\n", .{name}) catch unreachable;
     stdout.print("Commands:\n\n", .{}) catch unreachable;
-    stdout.print("help COMMAND\t\tDisplay help about given command\n", .{}) catch unreachable;
-    stdout.print("exec BOF\t\tExecute given BOF from a filesystem\n", .{}) catch unreachable;
-    stdout.print("info BOF\t\tDisplay BOF description and usage examples\n", .{}) catch unreachable;
-    stdout.print("usage BOF\t\tSee BOF invocation details and parameter types\n", .{}) catch unreachable;
-    stdout.print("examples BOF\t\tSee the BOF usage examples\n", .{}) catch unreachable;
+    stdout.print("help     \tCOMMAND\t\tDisplay help about given command\n", .{}) catch unreachable;
+    stdout.print("exec     \tBOF\t\tExecute given BOF from a filesystem\n", .{}) catch unreachable;
+    stdout.print("info     \tBOF\t\tDisplay BOF description and usage examples\n", .{}) catch unreachable;
+    stdout.print("usage    \tBOF\t\tSee BOF invocation details and parameter types\n", .{}) catch unreachable;
+    stdout.print("examples \tBOF\t\tSee the BOF usage examples\n", .{}) catch unreachable;
     stdout.print("\nGeneral Options:\n\n", .{}) catch unreachable;
-    stdout.print("-c, --collection\tProvide custom BOF yaml collection\n", .{}) catch unreachable;
-    stdout.print("-h, --help\t\tPrint this help\n", .{}) catch unreachable;
+    stdout.print("-c, --collection\t\tProvide custom BOF yaml collection\n", .{}) catch unreachable;
+    stdout.print("-h, --help\t\t\tPrint this help\n", .{}) catch unreachable;
 }
 
 fn usageExec() void {
