@@ -12,19 +12,45 @@ Example of an entry in `BOF-collection.yaml` file:
 
 ```
 name: "udpScanner"
-description: "UDP scanner"
+description: "Universal UDP port sweeper."
 author: "Z-Labs"
-tags: ['net recon']
+tags: ['net-recon']
 OS: "cross"
-header: ['thread', 'zib', 'persist']
+header: ['thread', 'zib']
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/udpScanner.zig'
-usage: 'str:<targetSpecification:portSpecification> int:<UDPProbesBufferLen> str:[UDPProbesBufferPtr]'
-examples:
-    - "udpScanner str:192.168.0.1:21,80 i:2340 str:MEMORY_ADDRESS"
-    - "udpScanner 192.168.0.1:80-85 file:/tmp/udpProbes"
-    - "udpScanner 102.168.1.1-2:4956 i:0"
-    - "udpScanner 102.168.1.1-32:137-140,427 i:7200 MEMORY_ADDRESS"
+usage: '
+    udpScanner str:IPSpec[:portSpec] [int:BUF_LEN str:BUF_MEMORY_ADDR]
+
+Arguments:
+
+    str:IPSpec[:portSpec]    ex: 192.168.0.1; 10.0.0-255.1-254; 192.168.0.1:161,427,10-15
+    [int:BUF_LEN]            length of UDP probes buffer
+    [str:BUF_MEMORY_ADDR]    pointer to the buffer containing one or more UDP probe(s). One probe per line is allowed.
+
+UDP probe syntax (with example):
+
+<portSpec> <probeName> <hexadecimal encoded probe data>\n
+53,69,135,1761 dnsReq 000010000000000000000000'
+
+examples: '
+    Scanning provided IP range on most common UDP ports with builtin UDP probes:
+
+      udpScanner str:192.168.0.1-32
+
+    Scanning only cherry-picked ports (if no builtin UDP probe for the chosen port is available then length and content of the packet payload will be randomly generated: 
+
+      udpScanner str:192.168.0.1:123,161
+      udpScanner str:102.168.1.1-128:53,427,137
+      udpScanner str:192.168.0.1:100-200
+
+    Example of running with provided UDP probes:
+
+      udpScanner str:192.168.0.1-32 int:BUF_LEN str:BUF_MEMORY_ADDRESS
+
+    Example of running udpScanner using cli4bofs tool and with UDP probes provided from the file:
+
+      cli4bofs exec udpScanner 102.168.1.1-4:161,427 file:/tmp/udpPayloads'
 ```
 
 ## Usage

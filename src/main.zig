@@ -52,8 +52,11 @@ fn usage(name: [:0]const u8) void {
     const stdout = io.getStdOut().writer();
     stdout.print("Usage: {s} [command] [options]\n\n", .{name}) catch unreachable;
     stdout.print("Commands:\n\n", .{}) catch unreachable;
-    stdout.print("exec\t\tExecute given BOF from filesystem\n", .{}) catch unreachable;
-    stdout.print("info\t\tDisplay details about BOF\n", .{}) catch unreachable;
+    stdout.print("help COMMAND\t\tDisplay help about given command\n", .{}) catch unreachable;
+    stdout.print("exec BOF\t\tExecute given BOF from a filesystem\n", .{}) catch unreachable;
+    stdout.print("info BOF\t\tDisplay BOF description and usage examples\n", .{}) catch unreachable;
+    stdout.print("usage BOF\t\tSee BOF invocation details and parameter types\n", .{}) catch unreachable;
+    stdout.print("examples BOF\t\tSee the BOF usage examples\n", .{}) catch unreachable;
     stdout.print("\nGeneral Options:\n\n", .{}) catch unreachable;
     stdout.print("-c, --collection\tProvide custom BOF yaml collection\n", .{}) catch unreachable;
     stdout.print("-h, --help\t\tPrint this help\n", .{}) catch unreachable;
@@ -112,7 +115,7 @@ const Bof_record = struct {
     header: []const []const u8,
     sources: []const []const u8,
     usage: []const u8,
-    examples: []const []const u8,
+    examples: []const u8,
 };
 
 pub fn main() !u8 {
@@ -152,7 +155,8 @@ pub fn main() !u8 {
         none,
         exec,
         info,
-        usage,
+        invocation,
+        examples,
         list,
         help,
     };
@@ -184,16 +188,19 @@ pub fn main() !u8 {
         bof_path_buffer[absolute_bof_path.len] = 0;
     } else if (mem.eql(u8, "info", command_name)) {
         cmd = Cmd.info;
-        bof_name = cmd_args_iter.next().?;
+        bof_name = cmd_args_iter.next() orelse return 1;
     } else if (mem.eql(u8, "usage", command_name)) {
-        cmd = Cmd.usage;
-        bof_name = cmd_args_iter.next().?;
+        cmd = Cmd.invocation;
+        bof_name = cmd_args_iter.next() orelse return 1;
+    } else if (mem.eql(u8, "examples", command_name)) {
+        cmd = Cmd.examples;
+        bof_name = cmd_args_iter.next() orelse return 1;
     } else if (mem.eql(u8, "list", command_name)) {
         cmd = Cmd.list;
     } else if (mem.eql(u8, "help", command_name)) {
         cmd = Cmd.help;
     } else {
-        try stderr.writeAll("fatal: unrecognized command provided.\n");
+        try stderr.writeAll("Fatal: unrecognized command provided. Aborting.\n");
     }
 
     ///////////////////////////////////////////////////////////
@@ -251,10 +258,16 @@ pub fn main() !u8 {
                 stdout.print("Description: {s}\n", .{bof.description}) catch unreachable;
             }
         }
-    } else if (cmd == Cmd.usage) {
+    } else if (cmd == Cmd.invocation) {
         for (bofs_collection) |bof| {
             if (std.mem.eql(u8, bof_name, bof.name)) {
                 stdout.print("Usage:\n{s}\n", .{bof.usage}) catch unreachable;
+            }
+        }
+    } else if (cmd == Cmd.examples) {
+        for (bofs_collection) |bof| {
+            if (std.mem.eql(u8, bof_name, bof.name)) {
+                stdout.print("Usage examples:\n{s}\n", .{bof.examples}) catch unreachable;
             }
         }
     } else if (cmd == Cmd.list) {
@@ -262,10 +275,12 @@ pub fn main() !u8 {
             stdout.print("{s}\n", .{bof.name}) catch unreachable;
         }
     } else if (cmd == Cmd.help) {
-        const cmd_help = cmd_args_iter.next().?;
+        const cmd_help = cmd_args_iter.next() orelse return 1;
 
         if (std.mem.eql(u8, cmd_help, "exec")) {
             usageExec();
+        } else {
+            try stderr.writeAll("Fatal: unrecognized command provided. Aborting.\n");
         }
     }
 

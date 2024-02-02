@@ -5,24 +5,69 @@
 name: "uname"
 description: "Print information about the machine and operating system. Compatible with POSIX uname(1) system command."
 author: "Z-Labs"
-tags: ['host recon', 'coreutils']
+tags: ['host-recon', 'coreutils']
 OS: 'linux'
 header: ['inline', 'z']
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/uname.zig'
 usage:
-   'uname [OPTION]...
+   'uname [str:OPTION]
+
     Print certain system information. With no OPTION, same as -s.
 
-    -a, --all                print all information
-    -s, --kernel-name        print the kernel name
-    -n, --nodename           print the network node hostname
-    -r, --kernel-release     print the kernel release
-    -v, --kernel-version     print the kernel version
-    -m, --machine            print the machine hardware name'
-examples:
-    - "uname"
-    - "uname -a"
+    -a    print all information
+    -s    print the kernel name
+    -n    print the network node hostname
+    -r    print the kernel release
+    -v    print the kernel version
+    -m    print the machine hardware name'
+examples:"
+    uname
+    uname -a
+    uname -r"
+
+
+---
+name: "udpScanner"
+description: "Universal UDP port sweeper."
+author: "Z-Labs"
+tags: ['net-recon']
+OS: "cross"
+header: ['thread', 'zib']
+sources:
+    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/udpScanner.zig'
+usage: '
+    udpScanner str:IPSpec[:portSpec] [int:BUF_LEN str:BUF_MEMORY_ADDR]
+
+Arguments:
+
+    str:IPSpec[:portSpec]    ex: 192.168.0.1; 10.0.0-255.1-254; 192.168.0.1:161,427,10-15
+    [int:BUF_LEN]            length of UDP probes buffer
+    [str:BUF_MEMORY_ADDR]    pointer to the buffer containing one or more UDP probe(s). One probe per line is allowed.
+
+UDP probe syntax (with example):
+
+<portSpec> <probeName> <hexadecimal encoded probe data>\n
+53,69,135,1761 dnsReq 000010000000000000000000'
+
+examples: '
+    Scanning provided IP range on most common UDP ports with builtin UDP probes:
+
+      udpScanner str:192.168.0.1-32
+
+    Scanning only cherry-picked ports (if no builtin UDP probe for the chosen port is available then length and content of the packet payload will be randomly generated: 
+
+      udpScanner str:192.168.0.1:123,161
+      udpScanner str:102.168.1.1-128:53,427,137
+      udpScanner str:192.168.0.1:100-200
+
+    Example of running with provided UDP probes:
+
+      udpScanner str:192.168.0.1-32 int:BUF_LEN str:BUF_MEMORY_ADDRESS
+
+    Example of running udpScanner using cli4bofs tool and with UDP probes provided from the file:
+
+      cli4bofs exec udpScanner 102.168.1.1-4:161,427 file:/tmp/udpPayloads'
 
 #
 # Net-tools implemented as BOFs
@@ -30,26 +75,6 @@ examples:
 # https://github.com/ecki/net-tools/blob/master/arp.c
 # https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/master/src/SA/arp/entry.c
 #
-
-#
-# Z-Labs BOFs 
-#
-
----
-name: "udpScanner"
-description: "UDP scanner"
-author: "Z-Labs"
-tags: ['net recon']
-OS: "cross"
-header: ['thread', 'zib']
-sources:
-    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/udpScanner.zig'
-usage: '<targetSpecification:portSpecification> <bufferLen> <bufferPtr>'
-examples:
-    - "udpScanner 192.168.0.1:21,80 i:0"
-    - "udpScanner 192.168.0.1:80-85 i:0"
-    - "udpScanner 102.168.1.1-2:53 i:0"
-    - "udpScanner 102.168.1.1-32:22-32,427 \"i:$(wc -c udpPayloads.txt)\" file:/tmp/udpPayloads"
 
 #
 # Third party BOFs
@@ -66,7 +91,7 @@ sources:
     - 'https://raw.githubusercontent.com/rsmudge/ZeroLogon-BOF/master/src/zerologon.c'
 usage: "zerologon <dc_fqdn> <dc_netbios> <dc_account>"
 examples:
-    - "zerologon DC.corp.acme.com DC DC$"
+    "zerologon DC.corp.acme.com DC DC$"
 
 ---
 name: "arp"
@@ -81,4 +106,4 @@ sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/master/src/common/base.c'
 usage: "arp"
 examples:
-    - "arp"
+    "arp"
