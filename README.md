@@ -58,17 +58,20 @@ examples: '
 Usage commands:
 
 ```
-Usage: cli4bofs [command] [options]
+Usage: ./zig-out/bin/cli4bofs command [options]
 
 Commands:
 
-exec		Execute given BOF from filesystem
-info		Display details about BOF
+help     	COMMAND	Display help about given command
+exec     	BOF		Execute given BOF from a filesystem
+info     	BOF		Display BOF description and usage examples
+usage    	BOF		See BOF invocation details and parameter types
+examples 	BOF		See the BOF usage examples
 
 General Options:
 
--c, --collection	Provide custom BOF yaml collection
--h, --help		    Print this help
+-c, --collection		Provide custom BOF yaml collection
+-h, --help			Print this help
 ```
 
 Usage of `exec` subcommand:
