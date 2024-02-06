@@ -20,6 +20,7 @@ fn cpuArchStr(arch: std.Target.Cpu.Arch) []const u8 {
 
 pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
+
     const target = b.standardTargetOptions(.{});
 
     const zig_yaml_module = b.dependency("zig_yaml", .{
