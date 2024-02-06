@@ -1,0 +1,32 @@
+# Ignore all files by default, but scan all directories
+*
+!*/
+
+!*.c
+!*.cpp
+!*.inl
+!*.zig
+!*.zig.zon
+!*.h
+!*.asm
+!*.bat
+!*.py
+!Makefile
+!LICENSE*
+
+!*.ini
+!*.txt
+!*.md
+
+!bin/fasm.exe
+!bin/fasm
+
+!.ignore
+!.gitkeep
+!.gitignore
+!.gitattributes
+
+# Ignore some special directories
+zig-cache
+zig-out
+backup
