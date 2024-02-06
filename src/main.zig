@@ -228,14 +228,16 @@ pub fn main() !u8 {
                 _ = iter.next() orelse return error.BadData;
                 const file_path = iter.next() orelse return error.BadData;
 
+                // TODO: Memory leak
                 // load file content and remove final '\n' character (if present)
                 const file_data = mem.trimRight(u8, try loadFileContent(
                     allocator,
                     @ptrCast(file_path),
                 ), "\n");
 
+                // TODO: Memory leak
                 try bof_args.add(try std.fmt.allocPrint(allocator, "i:{d}", .{file_data.len}));
-                try bof_args.add(mem.asBytes(&file_data.ptr));
+                try bof_args.add(file_data);
 
                 continue;
             }
