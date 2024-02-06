@@ -2,6 +2,10 @@ const std = @import("std");
 const bofs = @import("bof-launcher");
 const yaml = @import("yaml");
 
+pub const std_options = struct {
+    pub const log_level: std.log.Level = .info;
+};
+
 const io = std.io;
 const mem = std.mem;
 
@@ -13,18 +17,14 @@ fn runBofFromFile(
     const file = std.fs.openFileAbsoluteZ(bof_path, .{}) catch unreachable;
     defer file.close();
 
-    var file_data = std.ArrayListAligned(u8, 16).init(allocator);
-    defer file_data.deinit();
+    const file_data = file.reader().readAllAlloc(allocator, 16 * 1024 * 1024) catch unreachable;
+    defer allocator.free(file_data);
 
-    try file.reader().readAllArrayListAligned(16, &file_data, 16 * 1024 * 1024);
-
-    const object = try bofs.Object.initFromMemory(file_data.items);
+    const object = try bofs.Object.initFromMemory(file_data);
     defer object.release();
 
-    const context = try object.runAsyncThread(arg_data, null, null);
+    const context = try object.run(arg_data);
     defer context.release();
-
-    context.wait();
 
     if (context.getOutput()) |output| {
         try std.io.getStdOut().writer().print("{s}", .{output});
@@ -106,7 +106,7 @@ test "simple test" {
     try std.testing.expectEqual(@as(i32, 42), list.pop());
 }
 
-const Bof_record = struct {
+const BofRecord = struct {
     name: []const u8,
     description: []const u8,
     author: []const u8,
@@ -126,9 +126,8 @@ pub fn main() !u8 {
     // heap preparation
     ///////////////////////////////////////////////////////////
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    var arena = std.heap.ArenaAllocator.init(gpa.allocator());
-    defer arena.deinit();
-    const allocator = arena.allocator();
+    defer _ = gpa.deinit();
+    const allocator = gpa.allocator();
 
     ///////////////////////////////////////////////////////////
     // 1. look for BOF-collection.yaml file in cwd
@@ -138,9 +137,12 @@ pub fn main() !u8 {
     defer file.close();
 
     const source = try file.readToEndAlloc(allocator, std.math.maxInt(u32));
+    defer allocator.free(source);
 
     var parsed = try yaml.Yaml.load(allocator, source);
-    const bofs_collection = try parsed.parse([]Bof_record);
+    defer parsed.deinit();
+
+    const bofs_collection = try parsed.parse([]BofRecord);
 
     ///////////////////////////////////////////////////////////
     // commands processing:
@@ -226,7 +228,7 @@ pub fn main() !u8 {
                 _ = iter.next() orelse return error.BadData;
                 const file_path = iter.next() orelse return error.BadData;
 
-                // load file content and remove final '\n' cahracter (if present)
+                // load file content and remove final '\n' character (if present)
                 const file_data = mem.trimRight(u8, try loadFileContent(
                     allocator,
                     @ptrCast(file_path),
