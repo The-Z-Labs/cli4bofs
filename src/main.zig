@@ -237,7 +237,7 @@ pub fn main() !u8 {
 
                 // TODO: Memory leak
                 try bof_args.add(try std.fmt.allocPrint(allocator, "i:{d}", .{file_data.len}));
-                try bof_args.add(file_data);
+                try bof_args.add(mem.asBytes(&file_data.ptr));
 
                 continue;
             }
