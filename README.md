@@ -104,3 +104,33 @@ examples: '
 
       cli4bofs exec udpScanner 102.168.1.1-4:161,427 file:/tmp/udpPayloads'
 ```
+
+Thanks to `BOF-collection.yaml` files one can conveniently get information needed to understand particular `BOF` and learn how to use it. As an example, listing available `BOFs` and displaying its usage details, will be shown:
+
+```
+$ cli4bofs list
+uname
+udpScanner
+zerologon
+arp
+```
+
+Displaying parameter specification and usage explanation for selected `BOF`:
+
+```
+$ cli4bofs usage udpScanner
+Usage:
+
+    udpScanner str:IPSpec[:portSpec] [int:BUF_LEN str:BUF_MEMORY_ADDR]
+
+Arguments:
+
+    str:IPSpec[:portSpec]    ex: 192.168.0.1; 10.0.0-255.1-254; 192.168.0.1:161,427,10-15
+    [int:BUF_LEN]            length of UDP probes buffer
+    [str:BUF_MEMORY_ADDR]    pointer to the buffer containing one or more UDP probe(s). One probe per line is allowed.
+
+UDP probe syntax (with example):
+
+<portSpec> <probeName> <hexadecimal encoded probe data>\n
+53,69,135,1761 dnsReq 000010000000000000000000
+```
