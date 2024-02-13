@@ -70,8 +70,8 @@ examples 	BOF        See the BOF usage examples
 
 General Options:
 
--c, --collection    Provide custom BOF yaml collection
--h, --help          Print this help
+-c, --collection       Provide custom BOF yaml collection
+-h, --help             Print this help
 ```
 
 Usage of `exec` subcommand:
