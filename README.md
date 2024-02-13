@@ -58,6 +58,8 @@ cli4bofs udpScanner 192.168.2.2-10:427 file:/tmp/udpProbes
 
 ## Yaml BOF collections
 
+In addition to `BOF` execution capability, `cli4bofs` tool can be used to show information like: BOF description, parameters specification, example BOF usage, etc. During startup the tool looks for `BOF-collection.yaml` file in current directory and reads all available data regarding `BOFs` collection from it.
+
 For documenting BOFs, simple `yaml` schema can be used. Example of a yaml BOF specification for our [udpScanner BOF](https://github.com/The-Z-Labs/bof-launcher/blob/main/bofs/src/udpScanner.zig) is shown below:
 
 ```
@@ -102,5 +104,3 @@ examples: '
 
       cli4bofs exec udpScanner 102.168.1.1-4:161,427 file:/tmp/udpPayloads'
 ```
-
-
