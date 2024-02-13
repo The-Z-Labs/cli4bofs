@@ -55,7 +55,7 @@ examples: '
 
 ## Usage
 
-Usage commands:
+### Generic commands usage
 
 ```
 Usage: ./zig-out/bin/cli4bofs command [options]
@@ -74,7 +74,7 @@ General Options:
 -h, --help             Print this help
 ```
 
-Usage of `exec` subcommand:
+### Usage of 'exec' subcommand
 
 ```
 Usage: cli4bofs <BOF> [[prefix:]ARGUMENT]...
