@@ -6,6 +6,56 @@ Standalone command line interface for launching [BOF files](https://hstechdocs.h
 
 Swiss army knife tool for running and mainataining collection of BOFs files. Allows for running any BOF from filesystem and for conveniently passing arguments to it. Defines simple `yaml` schema for essential information about BOF files, like: description, URL(s) of the source code, arguments, usage examples, etc. Handy also for testing, prototyping and developing BOFs.
 
+## Program usage
+
+### Generic commands usage
+
+```
+Usage: ./zig-out/bin/cli4bofs command [options]
+
+Commands:
+
+help     	COMMAND    Display help about given command
+exec     	BOF        Execute given BOF from a filesystem
+info     	BOF        Display BOF description and usage examples
+usage    	BOF        See BOF invocation details and parameter types
+examples 	BOF        See the BOF usage examples
+
+General Options:
+
+-c, --collection       Provide custom BOF yaml collection
+-h, --help             Print this help
+```
+
+### Usage of 'exec' subcommand
+
+`exec` subcommands allows for executing `BOF` directly from a filesystem. One can also conveniently pass arguments to `BOF` using one of `sizZb` (followed by `:`) characters as a prefix to indicate argument's type, as expalined below:
+
+```
+Usage: cli4bofs <BOF> [[prefix:]ARGUMENT]...
+
+Execute given BOF from filesystem with provided ARGUMENTs.
+
+ARGUMENTS:
+
+ARGUMENT's data type can be specified using one of following prefix:
+	short OR s	 - 16-bit signed integer.
+	int OR i	 - 32-bit signed integer.
+	str OR z	 - zero-terminated characters string.
+	wstr OR Z	 - zer-terminated wide characters string.
+	file OR b	 - special type followed by file path indicating that a pointer to a buffer filled with content of the file will be passed to BOF.
+
+If prefix is ommited then ARGUMENT is treated as a zero-terminated characters string (str / z).
+
+EXAMPLES:
+
+cli4bofs uname -a
+cli4bofs udpScanner 192.168.2.2-10:427
+cli4bofs udpScanner z:192.168.2.2-10:427
+cli4bofs udpScanner 192.168.2.2-10:427 file:/tmp/udpProbes
+```
+
+
 ## BOF collection
 
 Example of an entry in `BOF-collection.yaml` file:
@@ -53,50 +103,4 @@ examples: '
       cli4bofs exec udpScanner 102.168.1.1-4:161,427 file:/tmp/udpPayloads'
 ```
 
-## Usage
-
-### Generic commands usage
-
-```
-Usage: ./zig-out/bin/cli4bofs command [options]
-
-Commands:
-
-help     	COMMAND    Display help about given command
-exec     	BOF        Execute given BOF from a filesystem
-info     	BOF        Display BOF description and usage examples
-usage    	BOF        See BOF invocation details and parameter types
-examples 	BOF        See the BOF usage examples
-
-General Options:
-
--c, --collection       Provide custom BOF yaml collection
--h, --help             Print this help
-```
-
-### Usage of 'exec' subcommand
-
-```
-Usage: cli4bofs <BOF> [[prefix:]ARGUMENT]...
-
-Execute given BOF from filesystem with provided ARGUMENTs.
-
-ARGUMENTS:
-
-ARGUMENT's data type can be specified using one of following prefix:
-	short OR s	 - 16-bit signed integer.
-	int OR i	 - 32-bit signed integer.
-	str OR z	 - zero-terminated characters string.
-	wstr OR Z	 - zer-terminated wide characters string.
-	file OR b	 - special type followed by file path indicating that a pointer to a buffer filled with content of the file will be passed to BOF.
-
-If prefix is ommited then ARGUMENT is treated as a zero-terminated characters string (str / z).
-
-EXAMPLES:
-
-cli4bofs uname -a
-cli4bofs udpScanner 192.168.2.2-10:427
-cli4bofs udpScanner z:192.168.2.2-10:427
-cli4bofs udpScanner 192.168.2.2-10:427 file:/tmp/udpProbes
-```
 
