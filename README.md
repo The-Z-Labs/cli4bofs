@@ -29,7 +29,7 @@ General Options:
 
 ### Usage of 'exec' subcommand
 
-`exec` subcommands allows for executing `BOF` directly from a filesystem. One can also conveniently pass arguments to `BOF` using one of `sizZb` (followed by `:`) characters as a prefix to indicate argument's type, as expalined below:
+`exec` subcommands allows for executing `BOF` directly from a filesystem. One can also conveniently pass arguments to `BOF` using one of `sizZb` (followed by `:`) characters as a prefix to indicate argument's type, as explained below:
 
 ```
 Usage: cli4bofs <BOF> [[prefix:]ARGUMENT]...
@@ -56,9 +56,9 @@ cli4bofs udpScanner 192.168.2.2-10:427 file:/tmp/udpProbes
 ```
 
 
-## BOF collection
+## Yaml BOF collections
 
-Example of an entry in `BOF-collection.yaml` file:
+For documenting BOFs, simple `yaml` schema can be used. Example of a yaml BOF specification for our [udpScanner BOF](https://github.com/The-Z-Labs/bof-launcher/blob/main/bofs/src/udpScanner.zig) is shown below:
 
 ```
 name: "udpScanner"
