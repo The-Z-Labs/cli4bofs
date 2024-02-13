@@ -2,8 +2,8 @@ const std = @import("std");
 const bofs = @import("bof-launcher");
 const yaml = @import("yaml");
 
-pub const std_options = struct {
-    pub const log_level: std.log.Level = .info;
+pub const std_options = .{
+    .log_level = .info,
 };
 
 const io = std.io;
