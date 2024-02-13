@@ -181,10 +181,13 @@ pub fn main() !u8 {
         usage(prog_name);
     } else if (mem.eql(u8, "exec", command_name)) {
         cmd = Cmd.exec;
-        bof_name = cmd_args_iter.next().?;
+        bof_name = cmd_args_iter.next() orelse {
+            try stderr.writeAll("No BOF provided. Aborting.\n");
+            return 0;
+        };
 
         const absolute_bof_path = std.fs.cwd().realpathZ(bof_name, bof_path_buffer[0..]) catch {
-            stderr.writeAll("No BOF provided. Aborting.\n") catch unreachable;
+            stderr.writeAll("BOF not found. Aborting.\n") catch unreachable;
             return 0;
         };
         bof_path_buffer[absolute_bof_path.len] = 0;
@@ -212,7 +215,7 @@ pub fn main() !u8 {
     defer bofs.releaseLauncher();
 
     if (cmd == Cmd.exec) {
-        stdout.print("Executing (BOF name): {s}\n", .{bof_name}) catch unreachable;
+
         ///////////////////////////////////////////////////////////
         // command line arguments processing: handling BOF arguments
         ///////////////////////////////////////////////////////////
