@@ -169,7 +169,7 @@ pub fn main() !u8 {
 
     const prog_name = cmd_args_iter.next() orelse unreachable;
     const command_name = cmd_args_iter.next() orelse {
-        stderr.writeAll("No command or general option provided. Aborting.\n") catch unreachable;
+        usage(prog_name);
         return 0;
     };
 
