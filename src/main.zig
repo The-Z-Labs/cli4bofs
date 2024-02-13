@@ -114,16 +114,21 @@ pub fn main() !u8 {
     // 1. look for BOF-collection.yaml file in cwd
     // 2. parse it if available and store results in the ArrayList
     ///////////////////////////////////////////////////////////
-    const file = try std.fs.cwd().openFile("BOF-collection.yaml", .{});
-    defer file.close();
+    const bofs_collection, const yaml_file = blk: {
+        const file = std.fs.cwd().openFile("BOF-collection.yaml", .{}) catch {
+            break :blk .{ @as([*]BofRecord, undefined)[0..0], null };
+        };
+        defer file.close();
 
-    const source = try file.readToEndAlloc(allocator, std.math.maxInt(u32));
-    defer allocator.free(source);
+        const source = try file.readToEndAlloc(allocator, std.math.maxInt(u32));
+        defer allocator.free(source);
 
-    var parsed = try yaml.Yaml.load(allocator, source);
-    defer parsed.deinit();
+        var yaml_file = try yaml.Yaml.load(allocator, source);
+        const bofs_collection = try yaml_file.parse([]BofRecord);
 
-    const bofs_collection = try parsed.parse([]BofRecord);
+        break :blk .{ bofs_collection, yaml_file };
+    };
+    defer if (yaml_file) |yf| @constCast(&yf).*.deinit();
 
     ///////////////////////////////////////////////////////////
     // commands processing:
