@@ -183,23 +183,32 @@ pub fn main() !u8 {
         cmd = Cmd.exec;
         bof_name = cmd_args_iter.next() orelse {
             try stderr.writeAll("No BOF provided. Aborting.\n");
-            return 0;
+            return 1;
         };
 
         const absolute_bof_path = std.fs.cwd().realpathZ(bof_name, bof_path_buffer[0..]) catch {
             stderr.writeAll("BOF not found. Aborting.\n") catch unreachable;
-            return 0;
+            return 1;
         };
         bof_path_buffer[absolute_bof_path.len] = 0;
     } else if (mem.eql(u8, "info", command_name)) {
         cmd = Cmd.info;
-        bof_name = cmd_args_iter.next() orelse return 1;
+        bof_name = cmd_args_iter.next() orelse {
+            try stderr.writeAll("No BOF name provided. Aborting.\n");
+            return 1;
+        };
     } else if (mem.eql(u8, "usage", command_name)) {
         cmd = Cmd.invocation;
-        bof_name = cmd_args_iter.next() orelse return 1;
+        bof_name = cmd_args_iter.next() orelse {
+            try stderr.writeAll("No BOF name provided. Aborting.\n");
+            return 1;
+        };
     } else if (mem.eql(u8, "examples", command_name)) {
         cmd = Cmd.examples;
-        bof_name = cmd_args_iter.next() orelse return 1;
+        bof_name = cmd_args_iter.next() orelse {
+            try stderr.writeAll("No BOF name provided. Aborting.\n");
+            return 1;
+        };
     } else if (mem.eql(u8, "list", command_name)) {
         cmd = Cmd.list;
     } else if (mem.eql(u8, "help", command_name)) {
@@ -263,6 +272,9 @@ pub fn main() !u8 {
             if (std.mem.eql(u8, bof_name, bof.name)) {
                 stdout.print("Name: {s}\n", .{bof.name}) catch unreachable;
                 stdout.print("Description: {s}\n", .{bof.description}) catch unreachable;
+                stdout.print("BOF authors(s): {s}\n", .{bof.author}) catch unreachable;
+                stdout.print("\n\nUSAGE INFORMATION: {s}\n", .{bof.usage}) catch unreachable;
+                stdout.print("\n\nEXAMPLES: {s}\n", .{bof.examples}) catch unreachable;
             }
         }
     } else if (cmd == Cmd.invocation) {

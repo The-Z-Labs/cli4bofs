@@ -29,7 +29,7 @@ examples:"
 
 ---
 name: "udpScanner"
-description: "Universal UDP port sweeper."
+description: "Universal UDP port sweeper"
 author: "Z-Labs"
 tags: ['net-recon']
 OS: "cross"
