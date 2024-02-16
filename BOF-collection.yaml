@@ -1,35 +1,6 @@
-#
-# Coreutils implemented as BOFs
-#
----
-name: "uname"
-description: "Print information about the machine and operating system. Compatible with POSIX uname(1) system command."
-author: "Z-Labs"
-tags: ['host-recon', 'coreutils']
-OS: 'linux'
-header: ['inline', 'z']
-sources:
-    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/uname.zig'
-usage:
-   'uname [str:OPTION]
-
-    Print certain system information. With no OPTION, same as -s.
-
-    -a    print all information
-    -s    print the kernel name
-    -n    print the network node hostname
-    -r    print the kernel release
-    -v    print the kernel version
-    -m    print the machine hardware name'
-examples:"
-    uname
-    uname -a
-    uname -r"
-
-
 ---
 name: "udpScanner"
-description: "Universal UDP port sweeper"
+description: "Universal UDP port sweeper."
 author: "Z-Labs"
 tags: ['net-recon']
 OS: "cross"
@@ -41,9 +12,9 @@ usage: '
 
 Arguments:
 
-    str:IPSpec[:portSpec]    ex: 192.168.0.1; 10.0.0-255.1-254; 192.168.0.1:161,427,10-15
-    [int:BUF_LEN]            length of UDP probes buffer
-    [str:BUF_MEMORY_ADDR]    pointer to the buffer containing one or more UDP probe(s). One probe per line is allowed.
+ str:IPSpec[:portSpec]    ex: 192.168.0.1; 10.0.0-255.1-254; 192.168.0.1:161,427,10-15
+ [int:BUF_LEN]            length of UDP probes buffer
+ [str:BUF_MEMORY_ADDR]    pointer to the buffer containing one or more UDP probe(s). One probe per line is allowed.
 
 UDP probe syntax (with example):
 
@@ -51,59 +22,94 @@ UDP probe syntax (with example):
 53,69,135,1761 dnsReq 000010000000000000000000'
 
 examples: '
-    Scanning provided IP range on most common UDP ports with builtin UDP probes:
+ Scanning provided IP range on most common UDP ports with builtin UDP probes:
 
-      udpScanner str:192.168.0.1-32
+   udpScanner str:192.168.0.1-32
 
-    Scanning only cherry-picked ports (if no builtin UDP probe for the chosen port is available then length and content of the packet payload will be randomly generated: 
+ Scanning only cherry-picked ports (if no builtin UDP probe for the chosen port is available then length and content of the packet payload will be randomly generated:
 
-      udpScanner str:192.168.0.1:123,161
-      udpScanner str:102.168.1.1-128:53,427,137
-      udpScanner str:192.168.0.1:100-200
+   udpScanner str:192.168.0.1:123,161
+   udpScanner str:102.168.1.1-128:53,427,137
+   udpScanner str:192.168.0.1:100-200
 
-    Example of running with provided UDP probes:
+ Example of running with provided UDP probes:
 
-      udpScanner str:192.168.0.1-32 int:BUF_LEN str:BUF_MEMORY_ADDRESS
+   udpScanner str:192.168.0.1-32 int:BUF_LEN str:BUF_MEMORY_ADDRESS
 
-    Example of running udpScanner using cli4bofs tool and with UDP probes provided from the file:
+ Example of running udpScanner using cli4bofs tool and with UDP probes provided from the file:
 
-      cli4bofs exec udpScanner 102.168.1.1-4:161,427 file:/tmp/udpPayloads'
-
-#
-# Net-tools implemented as BOFs
-# TODO: arp (cross-platform)
-# https://github.com/ecki/net-tools/blob/master/arp.c
-# https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/master/src/SA/arp/entry.c
-#
-
-#
-# Third party BOFs
-#
-
+   cli4bofs exec udpScanner 102.168.1.1-4:161,427 file:/tmp/udpPayloads'
 ---
-name: "zerologon"
-description: "Exploit for CVE-2020-1472, a.k.a. Zerologon. This allows for an attacker to reset the machine account of a target Domain Controller, leading to Domain Admin compromise. **This exploit will break the functionality of this domain controller!**"
-author: "Rsmudge"
-tags: ['exploit']
-OS: "windows"
-header: ['inline', 'ZZZ']
-sources:
-    - 'https://raw.githubusercontent.com/rsmudge/ZeroLogon-BOF/master/src/zerologon.c'
-usage: "zerologon <dc_fqdn> <dc_netbios> <dc_account>"
-examples:
-    "zerologon DC.corp.acme.com DC DC$"
-
----
-name: "arp"
-description: "List arp table"
-author: "Trustedsec"
-tags: ['host recon']
-OS: "windows"
+name: uname
+description: "Print certain system information. With no FLAGS, same as -s"
+author: Z-Labs
+tags: ['host-recon']
+OS: linux
 header: ['inline', '']
 sources:
-    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/master/src/SA/arp/entry.c'
-    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/master/src/common/bofdefs.h'
-    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/master/src/common/base.c'
-usage: "arp"
-examples:
-    "arp"
+    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/uname.zig'
+usage: '
+ uname [str:FLAGS]
+
+ Flags:
+ -a    print all information
+ -s    print the kernel name
+ -n    print the network node hostname
+ -r    print the kernel release
+ -v    print the kernel version
+ -m    print the machine hardware name
+'
+examples: '
+ uname
+ uname -a
+'
+
+---
+name: hostid
+description: "Print the numeric identifier for the current host"
+author: Z-Labs
+tags: ['host-recon']
+OS: linux
+header: ['inline', '']
+sources:
+    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/hostid.zig'
+usage: '
+ hostid
+'
+examples: '
+ hostid
+'
+
+---
+name: hostname
+description: "Show system host name"
+author: Z-Labs
+tags: ['host-recon']
+OS: linux
+header: ['inline', '']
+sources:
+    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/hostname.zig'
+usage: '
+ hostname
+'
+examples: '
+ hostname
+'
+
+---
+name: id
+description: "Print user and group information for each specified USER, or (when USER omitted) for the current process"
+author: Z-Labs
+tags: ['host-recon']
+OS: linux
+header: ['inline', '']
+sources:
+    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/id.zig'
+usage: '
+ id [str:USER]
+'
+examples: '
+ id
+ id root
+'
+
