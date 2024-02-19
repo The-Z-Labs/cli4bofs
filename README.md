@@ -16,10 +16,10 @@ Usage: ./zig-out/bin/cli4bofs command [options]
 Commands:
 
 help     	COMMAND    Display help about given command
-exec     	BOF        Execute given BOF from a filesystem
-info     	BOF        Display BOF description and usage examples
-usage    	BOF        See BOF invocation details and parameter types
-examples 	BOF        See the BOF usage examples
+exec     	<BOF>      Execute given BOF from a filesystem
+info     	<BOF>      Display BOF description and usage examples
+usage    	<BOF>      See BOF invocation details and parameter types
+examples 	<BOF>      See the BOF usage examples
 
 General Options:
 
@@ -27,7 +27,7 @@ General Options:
 -h, --help             Print this help
 ```
 
-### Usage of 'exec' subcommand
+### Usage of `exec` subcommand
 
 `exec` subcommands allows for executing `BOF` directly from a filesystem. One can also conveniently pass arguments to `BOF` using one of `sizZb` (followed by `:`) characters as a prefix to indicate argument's type, as explained below:
 
