@@ -15,7 +15,7 @@ Usage: ./zig-out/bin/cli4bofs command [options]
 
 Commands:
 
-help     	COMMAND    Display help about given command
+help     	<COMMAND>  Display help about given command
 exec     	<BOF>      Execute given BOF from a filesystem
 info     	<BOF>      Display BOF description and usage examples
 usage    	<BOF>      See BOF invocation details and parameter types
