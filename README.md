@@ -1,10 +1,10 @@
 # cli4bofs 
 
-Standalone command line interface for launching [BOF files](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/beacon-object-files_main.htm) outside of [Cobalt Strike Beacon](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/welcome_main.htm) environment. Under the hood it uses our [bof-launcher library](https://github.com/The-Z-Labs/bof-launcher) to accomplish its main task: running BOFs files on Windows (x86, x64) and Linux/UNIX (x86, x64, ARM, AARCH64) platforms directly from a filesystem. You can get the binaries for all supported platforms [here](https://github.com/The-Z-Labs/cli4bofs/releases).
+Standalone command line interface for launching [BOF files](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/beacon-object-files_main.htm) outside of [Cobalt Strike Beacon](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/welcome_main.htm) environment. Under the hood it uses [bof-launcher library](https://github.com/The-Z-Labs/bof-launcher) to accomplish its main task: running BOFs files on Windows (x86, x64) and Linux/UNIX (x86, x64, ARM, AARCH64) platforms directly from a filesystem.
 
 ## Description
 
-Swiss army knife tool for running and mainataining collection of BOFs files. Allows for running any BOF from filesystem and for conveniently passing arguments to it. Defines simple `yaml` schema for essential information about BOF files, like: description, URL(s) of the source code, arguments, usage examples, etc. Handy also for testing, prototyping and developing BOFs.
+Swiss army knife tool for running and mainataining collection of BOFs files. Allows for running any BOF from a filesystem and for conveniently passing arguments to it. Defines simple `yaml` schema for essential information about BOF files, like: description, URL(s) of the source code, arguments, usage examples, etc. Handy also for testing, prototyping and developing BOFs.
 
 ## Program usage
 
@@ -15,11 +15,11 @@ Usage: ./zig-out/bin/cli4bofs command [options]
 
 Commands:
 
-help     	<COMMAND>  Display help about given command
-exec     	<BOF>      Execute given BOF from a filesystem
-info     	<BOF>      Display BOF description and usage examples
-usage    	<BOF>      See BOF invocation details and parameter types
-examples 	<BOF>      See the BOF usage examples
+help     	COMMAND    Display help about given command
+exec     	BOF        Execute given BOF from a filesystem
+info     	BOF        Display BOF description and usage examples
+usage    	BOF        See BOF invocation details and parameter types
+examples 	BOF        See the BOF usage examples
 
 General Options:
 
@@ -27,9 +27,9 @@ General Options:
 -h, --help             Print this help
 ```
 
-### Usage of `exec` subcommand
+### Usage of 'exec' subcommand
 
-`exec` subcommands allows for executing `BOF` directly from a filesystem. One can also conveniently pass arguments to `BOF` using one of `sizZb` (followed by `:`) characters as a prefix to indicate argument's type, as explained below:
+`exec` subcommand allows for executing `BOF` directly from a filesystem. One can also conveniently pass arguments to `BOF` using one of `sizZb` (followed by `:`) characters as a prefix to indicate argument's type, as explained below:
 
 ```
 Usage: cli4bofs <BOF> [[prefix:]ARGUMENT]...
@@ -58,9 +58,9 @@ cli4bofs udpScanner 192.168.2.2-10:427 file:/tmp/udpProbes
 
 ## Yaml BOF collections
 
-In addition to `BOF` execution capability, `cli4bofs` tool can be used to show information like: BOF description, parameters specification, example BOF usage, etc. During startup the tool looks for `BOF-collection.yaml` file in current directory and reads all available data regarding `BOFs` collection from it.
+In addition to `BOF` execution capability, `cli4bofs` tool can be used to store and present BOF's documentation, like: BOF description, parameters specification, example BOF usage, etc. During the startup the tool looks for `BOF-collection.yaml` file in the current directory and looks for the record regarding chosen `BOF`.
 
-For documenting BOFs, simple `yaml` schema can be used. Example of a yaml BOF specification for our [udpScanner BOF](https://github.com/The-Z-Labs/bof-launcher/blob/main/bofs/src/udpScanner.zig) is shown below:
+For documenting BOFs, simple `yaml` schema can be used. Example of an yaml BOF specification for our [udpScanner BOF](https://github.com/The-Z-Labs/bof-launcher/blob/main/bofs/src/udpScanner.zig) is shown below:
 
 ```
 name: "udpScanner"
@@ -105,7 +105,7 @@ examples: '
       cli4bofs exec udpScanner 102.168.1.1-4:161,427 file:/tmp/udpPayloads'
 ```
 
-Thanks to `BOF-collection.yaml` files one can conveniently get information needed to understand particular `BOF` and learn how to use it. As an example, listing available `BOFs` and displaying its usage details, will be shown:
+As an example, listing available `BOFs` in the collection:
 
 ```
 $ cli4bofs list
