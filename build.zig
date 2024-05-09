@@ -25,7 +25,12 @@ pub fn build(b: *std.Build) void {
         .{ .cpu_arch = .x86_64, .os_tag = .windows, .abi = .gnu },
         .{ .cpu_arch = .x86_64, .os_tag = .linux, .abi = .gnu },
         .{ .cpu_arch = .aarch64, .os_tag = .linux, .abi = .gnu },
-        .{ .cpu_arch = .arm, .os_tag = .linux, .abi = .gnueabihf },
+        .{
+            .cpu_arch = .arm,
+            .os_tag = .linux,
+            .abi = .gnueabihf,
+            .cpu_model = .{ .explicit = &std.Target.arm.cpu.arm1136j_s }, // ARMv6
+        },
     };
 
     const std_target = b.standardTargetOptions(.{ .whitelist = supported_targets });
