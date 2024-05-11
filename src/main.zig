@@ -163,6 +163,7 @@ pub fn main() !u8 {
 
     if (mem.eql(u8, "-h", command_name) or mem.eql(u8, "--help", command_name)) {
         try usage(prog_name);
+        return 0;
     } else if (mem.eql(u8, "exec", command_name)) {
         cmd = .exec;
         bof_name = cmd_args_iter.next() orelse {
