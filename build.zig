@@ -69,7 +69,7 @@ pub fn build(b: *std.Build) void {
                 "_",
                 &.{ "cli4bofs", osTagStr(target.result.os.tag), cpuArchStr(target.result.cpu.arch) },
             ) catch unreachable,
-            .root_source_file = .{ .path = thisDir() ++ "/src/main.zig" },
+            .root_source_file = b.path("src/main.zig"),
             .target = target,
             .optimize = optimize,
         });
@@ -80,8 +80,4 @@ pub fn build(b: *std.Build) void {
 
         b.installArtifact(exe);
     }
-}
-
-inline fn thisDir() []const u8 {
-    return comptime std.fs.path.dirname(@src().file) orelse ".";
 }
