@@ -9,6 +9,32 @@ pub const std_options = .{
 const io = std.io;
 const mem = std.mem;
 
+const BofRecord = struct {
+    name: []const u8,
+    description: []const u8,
+    author: []const u8,
+    tags: []const []const u8,
+    OS: []const u8,
+    header: ?[]const []const u8,
+    execution_hint: ?[]const u8,
+    entrypoints: ?[]const []const u8,
+    sources: []const []const u8,
+    usage: []const u8,
+    examples: []const u8,
+    arguments: ?[]const struct {
+        name: []const u8,
+        desc: []const u8,
+        type: []const u8,
+        required: []const u8,
+        entrypoint: ?[]const u8,
+    },
+    errors: ?[]const struct {
+        name: []const u8,
+        code: u8,
+        message: []const u8,
+    },
+};
+
 fn runBofFromFile(
     allocator: std.mem.Allocator,
     bof_path: [:0]const u8,
@@ -55,7 +81,7 @@ fn usage(name: [:0]const u8) !void {
     try stdout.print("help     \tCOMMAND\t\tDisplay help about given command\n", .{});
     try stdout.print("exec     \tBOF\t\tExecute given BOF from a filesystem\n", .{});
     try stdout.print("info     \tBOF\t\tDisplay BOF description and usage examples\n", .{});
-    try stdout.print("usage    \tBOF\t\tSee BOF invocation details and parameter types\n", .{});
+    try stdout.print("usage    \tBOF\t\tSee BOF usage details and parameter types\n", .{});
     try stdout.print("examples \tBOF\t\tSee the BOF usage examples\n", .{});
     try stdout.print("\nGeneral Options:\n\n", .{});
     try stdout.print("-c, --collection\t\tProvide custom BOF yaml collection\n", .{});
@@ -86,18 +112,6 @@ fn usageExec() !void {
     try stdout.print("cli4bofs udpScanner z:192.168.2.2-10:427\n", .{});
     try stdout.print("cli4bofs udpScanner 192.168.2.2-10:427 file:/path/to/file/with/udpPayloads\n", .{});
 }
-
-const BofRecord = struct {
-    name: []const u8,
-    description: []const u8,
-    author: []const u8,
-    tags: []const []const u8,
-    OS: []const u8,
-    header: []const []const u8,
-    sources: []const []const u8,
-    usage: []const u8,
-    examples: []const u8,
-};
 
 pub fn main() !u8 {
     const stderr = io.getStdErr().writer();
@@ -134,7 +148,7 @@ pub fn main() !u8 {
     // commands processing:
     // exec <BOF>: opening and launching BOF file
     // info <BOF>: dispalying BOF facts
-    // usage <BOF>: dispalying BOF usage and examples
+    // usage <BOF>: dispalying BOF usage
     // general options:
     // -h / --help
     // -c / --collection - user-provided BOF-collection.yaml path
@@ -142,7 +156,7 @@ pub fn main() !u8 {
     const Cmd = enum {
         exec,
         info,
-        invocation,
+        usage,
         examples,
         list,
         help,
@@ -183,11 +197,13 @@ pub fn main() !u8 {
             return 1;
         };
     } else if (mem.eql(u8, "usage", command_name)) {
-        cmd = .invocation;
+        cmd = .usage;
         bof_name = cmd_args_iter.next() orelse {
             try stderr.writeAll("No BOF name provided. Aborting.\n");
             return 1;
         };
+
+        try stdout.print("Number of docs items: {d}\n\n", .{yaml_file.?.docs.items.len});
     } else if (mem.eql(u8, "examples", command_name)) {
         cmd = .examples;
         bof_name = cmd_args_iter.next() orelse {
@@ -268,10 +284,25 @@ pub fn main() !u8 {
                 }
             }
         },
-        .invocation => {
+        .usage => {
             for (bofs_collection) |bof| {
                 if (std.mem.eql(u8, bof_name, bof.name)) {
-                    try stdout.print("Usage:\n{s}\n", .{bof.usage});
+                    try stdout.print("ARGUMENTS:\n\n", .{});
+                    for (bof.arguments.?, 0..) |arg, i| {
+                        _ = i;
+        
+                        if (std.mem.eql(u8, arg.required, "false")) try stdout.print("[ ", .{});
+                        try stdout.print("{s}:{s}", .{arg.type, arg.name});
+                        if (std.mem.eql(u8, arg.required, "false")) try stdout.print(" ]", .{});
+                        try stdout.print("\t\t{s}\n", .{arg.desc});
+                    }
+
+                    try stdout.print("\nPOSSIBLE ERRORS:\n\n", .{});
+                    for (bof.errors.?, 0..) |err, i| {
+                        _ = i;
+        
+                        try stdout.print("{s} ({d}) : {s}\n", .{err.name, err.code, err.message});
+                    }
                 }
             }
         },
