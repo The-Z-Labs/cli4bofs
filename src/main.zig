@@ -162,14 +162,16 @@ pub fn main() !u8 {
         help,
     };
 
-    var cmd_args_iter = try std.process.argsWithAllocator(allocator);
-    defer cmd_args_iter.deinit();
+    const cmd_args = try std.process.argsAlloc(allocator);
+    defer std.process.argsFree(allocator, cmd_args);
 
-    const prog_name = cmd_args_iter.next() orelse unreachable;
-    const command_name = cmd_args_iter.next() orelse {
+    const prog_name = cmd_args[0];
+
+    if(cmd_args.len < 2) {
         try usage(prog_name);
         return 0;
-    };
+    }
+    const command_name = cmd_args[1];
 
     var cmd: Cmd = undefined;
     var bof_name: [:0]const u8 = undefined;
@@ -178,12 +180,19 @@ pub fn main() !u8 {
     if (mem.eql(u8, "-h", command_name) or mem.eql(u8, "--help", command_name)) {
         try usage(prog_name);
         return 0;
+    } else if (mem.eql(u8, "list", command_name)) {
+        cmd = .list;
     } else if (mem.eql(u8, "exec", command_name)) {
         cmd = .exec;
-        bof_name = cmd_args_iter.next() orelse {
+        if(cmd_args.len < 3) {
             try stderr.writeAll("No BOF provided. Aborting.\n");
             return 1;
-        };
+        }
+        bof_name = cmd_args[2];
+
+        // strip off .elf.x64.o suffix from bof_name
+        var it = mem.tokenize(u8, bof_name, ".");
+        bof_name = @as(?[:0]const u8, @ptrCast(it.next())) orelse return error.BadData;
 
         const absolute_bof_path = std.fs.cwd().realpathZ(bof_name, bof_path_buffer[0..]) catch {
             try stderr.writeAll("BOF not found. Aborting.\n");
@@ -192,28 +201,33 @@ pub fn main() !u8 {
         bof_path_buffer[absolute_bof_path.len] = 0;
     } else if (mem.eql(u8, "info", command_name)) {
         cmd = .info;
-        bof_name = cmd_args_iter.next() orelse {
+        if(cmd_args.len < 3) {
             try stderr.writeAll("No BOF name provided. Aborting.\n");
             return 1;
-        };
+        }
+        bof_name = cmd_args[2];
     } else if (mem.eql(u8, "usage", command_name)) {
         cmd = .usage;
-        bof_name = cmd_args_iter.next() orelse {
+        if(cmd_args.len < 3) {
             try stderr.writeAll("No BOF name provided. Aborting.\n");
             return 1;
-        };
+        }
+        bof_name = cmd_args[2];
 
         try stdout.print("Number of docs items: {d}\n\n", .{yaml_file.?.docs.items.len});
     } else if (mem.eql(u8, "examples", command_name)) {
         cmd = .examples;
-        bof_name = cmd_args_iter.next() orelse {
+        if(cmd_args.len < 3) {
             try stderr.writeAll("No BOF name provided. Aborting.\n");
             return 1;
-        };
-    } else if (mem.eql(u8, "list", command_name)) {
-        cmd = .list;
+        }
+        bof_name = cmd_args[2];
     } else if (mem.eql(u8, "help", command_name)) {
         cmd = .help;
+        if(cmd_args.len < 3) {
+            try stderr.writeAll("No command name provided. Aborting.\n");
+            return 1;
+        }
     } else {
         try stderr.writeAll("Fatal: unrecognized command provided. Aborting.\n");
         return 1;
@@ -236,8 +250,33 @@ pub fn main() !u8 {
             var file_data: ?[]u8 = null;
             defer if (file_data) |fd| allocator.free(fd);
 
+            var argv_iter = try std.process.argsWithAllocator(allocator);
+            defer argv_iter.deinit();
+            _ = argv_iter.skip(); // skip prog name
+            _ = argv_iter.skip(); // skip command name
+            _ = argv_iter.skip(); // skip BOF name
+
+            // conduct parameter validation if BofRecord for given BOF exists in BOF-collection.yaml file
+            const bof_doc = for (bofs_collection) |b| {
+                if (std.mem.eql(u8, bof_name, b.name)) {
+                    break b;
+                }
+            } else null;
+
+            if (bof_doc.?.arguments) |arguments| for (arguments) |doc_arg| {
+
+                const cmd_arg = argv_iter.next();
+                if(cmd_arg) |a| {
+                    try stdout.print("BOF user argument: {s}\n", .{a});
+                } else if (std.mem.eql(u8, doc_arg.required, "true")) {
+                    try stdout.print("BOF user argument: {s} is required! Aborting.\n", .{doc_arg.name});
+                    return 1;
+                }
+            };
+
             bof_args.begin();
-            while (cmd_args_iter.next()) |arg| {
+            // start from BOF arguments
+            for (cmd_args[3..]) |arg| {
                 // handle case when file:<filepath> argument is provided
                 if (mem.indexOf(u8, arg, "file:") != null) {
                     var iter = mem.tokenize(u8, arg, ":");
@@ -271,7 +310,8 @@ pub fn main() !u8 {
                 bof_args.getBuffer(),
             );
 
-            try stdout.print("BOF exit code: {d}\n", .{result});
+            return result;
+
         },
         .info => {
             for (bofs_collection) |bof| {
@@ -319,7 +359,7 @@ pub fn main() !u8 {
             }
         },
         .help => {
-            const cmd_help = cmd_args_iter.next() orelse return 1;
+            const cmd_help = cmd_args[2];
 
             if (std.mem.eql(u8, cmd_help, "exec")) {
                 try usageExec();
