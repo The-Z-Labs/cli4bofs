@@ -35,6 +35,30 @@ const BofRecord = struct {
     },
 };
 
+fn checkArgType(arg: [:0]const u8, doc_type: []const u8) bool {
+
+    var iter = mem.tokenizeScalar(u8, arg, ':');
+    const type_prefix = iter.next() orelse unreachable;
+
+    var current_type: [:0]const u8 = undefined;
+    if (mem.eql(u8, arg, type_prefix) or mem.eql(u8, type_prefix, "str") or mem.eql(u8, type_prefix, "z")) {
+        current_type = "string";
+    } else if (mem.eql(u8, type_prefix, "short") or mem.eql(u8, type_prefix, "s")) {
+        current_type = "short";
+    } else if (mem.eql(u8, type_prefix, "integer") or mem.eql(u8, type_prefix, "i")) {
+        current_type = "integer";
+    } else if (mem.eql(u8, type_prefix, "wstr") or mem.eql(u8, type_prefix, "Z")) {
+        current_type = "wstring";
+    } else if (mem.eql(u8, type_prefix, "file") or mem.eql(u8, type_prefix, "b")) {
+        current_type = "buffer";
+    }
+
+    if (!mem.eql(u8, current_type, doc_type))
+        return false;
+
+    return true;
+}
+
 fn runBofFromFile(
     allocator: std.mem.Allocator,
     bof_path: [:0]const u8,
@@ -267,9 +291,16 @@ pub fn main() !u8 {
 
                 const cmd_arg = argv_iter.next();
                 if(cmd_arg) |a| {
-                    try stdout.print("BOF user argument: {s}\n", .{a});
+
+                    // verify if argument's type is correct:
+                    if(!checkArgType(a, doc_arg.type)) {
+                        try stdout.print("Wrong argument type provided. BOF argument: '{s}' should be of type: '{s}'. Aborting.\n", .{doc_arg.name, doc_arg.type});
+                        return 1;
+                    }
+
+                // complain if the argument wasn't provided but it is required:
                 } else if (std.mem.eql(u8, doc_arg.required, "true")) {
-                    try stdout.print("BOF user argument: {s} is required! Aborting.\n", .{doc_arg.name});
+                    try stdout.print("BOF user argument: '{s}' is required! Aborting.\n", .{doc_arg.name});
                     return 1;
                 }
             };
