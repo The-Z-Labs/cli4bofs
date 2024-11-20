@@ -238,7 +238,6 @@ pub fn main() !u8 {
         }
         bof_name = cmd_args[2];
 
-        try stdout.print("Number of docs items: {d}\n\n", .{yaml_file.?.docs.items.len});
     } else if (mem.eql(u8, "examples", command_name)) {
         cmd = .examples;
         if(cmd_args.len < 3) {
@@ -358,21 +357,34 @@ pub fn main() !u8 {
         .usage => {
             for (bofs_collection) |bof| {
                 if (std.mem.eql(u8, bof_name, bof.name)) {
-                    try stdout.print("ARGUMENTS:\n\n", .{});
+
+                    try stdout.print("ENTRYPOINTS:\n\n", .{});
+
+                    if(bof.entrypoints == null) {
+                        try stdout.print("go(...)\n", .{});
+                    } else {
+                        for (bof.entrypoints.?) |entryp| {
+                            try stdout.print("{s}(...)\n", .{entryp});
+                        }
+                    }
+
+                    try stdout.print("\nARGUMENTS:\n\n", .{});
+
                     for (bof.arguments.?, 0..) |arg, i| {
                         _ = i;
         
                         if (std.mem.eql(u8, arg.required, "false")) try stdout.print("[ ", .{});
-                        try stdout.print("{s}:{s}", .{arg.type, arg.name});
+                        const column1 = try std.fmt.allocPrint(allocator, "{s}:{s}", .{arg.type, arg.name});
+                        try stdout.print("{s:<32}", .{column1});
                         if (std.mem.eql(u8, arg.required, "false")) try stdout.print(" ]", .{});
-                        try stdout.print("\t\t{s}\n", .{arg.desc});
+                        try stdout.print("{s}\n", .{arg.desc});
                     }
 
                     try stdout.print("\nPOSSIBLE ERRORS:\n\n", .{});
                     for (bof.errors.?, 0..) |err, i| {
                         _ = i;
         
-                        try stdout.print("{s} ({d}) : {s}\n", .{err.name, err.code, err.message});
+                        try stdout.print("{s} ({x}) : {s}\n", .{err.name, err.code, err.message});
                     }
                 }
             }
