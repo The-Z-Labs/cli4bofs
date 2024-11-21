@@ -368,16 +368,23 @@ pub fn main() !u8 {
                         }
                     }
 
-                    try stdout.print("\nARGUMENTS:\n\n", .{});
-
-                    for (bof.arguments.?, 0..) |arg, i| {
-                        _ = i;
-        
-                        if (std.mem.eql(u8, arg.required, "false")) try stdout.print("[ ", .{});
-                        const column1 = try std.fmt.allocPrint(allocator, "{s}:{s}", .{arg.type, arg.name});
-                        try stdout.print("{s:<32}", .{column1});
-                        if (std.mem.eql(u8, arg.required, "false")) try stdout.print(" ]", .{});
-                        try stdout.print("{s}\n", .{arg.desc});
+                    if(bof.entrypoints == null) {
+                        try stdout.print("\nARGUMENTS:\n\n", .{});
+                    }
+                    else {
+                        for (bof.entrypoints.?) |entryp| {
+                            try stdout.print("\nARGUMENTS: {s}(...)\n\n", .{entryp});
+                            for (bof.arguments.?, 0..) |arg, i| {
+                                _ = i;
+                                if (std.mem.eql(u8, arg.entrypoint.?, entryp)) {
+                                    if (std.mem.eql(u8, arg.required, "false")) try stdout.print("[ ", .{});
+                                    const column1 = try std.fmt.allocPrint(allocator, "{s}:{s}", .{arg.type, arg.name});
+                                    try stdout.print("{s:<32}", .{column1});
+                                    if (std.mem.eql(u8, arg.required, "false")) try stdout.print(" ]", .{});
+                                    try stdout.print("{s}\n", .{arg.desc});
+                                }
+                            }
+                        }
                     }
 
                     try stdout.print("\nPOSSIBLE ERRORS:\n\n", .{});
