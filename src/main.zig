@@ -17,7 +17,8 @@ const BofRecord = struct {
     OS: []const u8,
     header: ?[]const []const u8,
     execution_hint: ?[]const u8,
-    entrypoints: ?[]const []const u8,
+    entrypoint: ?[]const u8,
+    api: ?[]const []const u8,
     sources: []const []const u8,
     usage: []const u8,
     examples: []const u8,
@@ -26,7 +27,7 @@ const BofRecord = struct {
         desc: []const u8,
         type: []const u8,
         required: []const u8,
-        entrypoint: ?[]const u8,
+        api: ?[]const u8,
     },
     errors: ?[]const struct {
         name: []const u8,
@@ -358,28 +359,44 @@ pub fn main() !u8 {
             for (bofs_collection) |bof| {
                 if (std.mem.eql(u8, bof_name, bof.name)) {
 
-                    try stdout.print("ENTRYPOINTS:\n\n", .{});
-
-                    if(bof.entrypoints == null) {
-                        try stdout.print("go(...)\n", .{});
-                    } else {
-                        for (bof.entrypoints.?) |entryp| {
-                            try stdout.print("{s}(...)\n", .{entryp});
-                        }
-                    }
-
-                    if(bof.entrypoints == null) {
+                    // display BOF entrypoint function ( go() ) if it exists
+                    try stdout.print("\nENTRYPOINT:\n\n", .{});
+                    if(bof.entrypoint) |entryp| {
+                        try stdout.print("{s}()\n", .{entryp});
                         try stdout.print("\nARGUMENTS:\n\n", .{});
-                    }
-                    else {
-                        for (bof.entrypoints.?) |entryp| {
-                            try stdout.print("\nARGUMENTS: {s}(...)\n\n", .{entryp});
+                        for (bof.arguments.?, 0..) |arg, i| {
+                                _ = i;
+                                if (arg.api == null) {
+                                    var column1: []u8 = undefined;
+                                    if (std.mem.eql(u8, arg.required, "false")) {
+                                        column1 = try std.fmt.allocPrint(allocator, "[ {s}:{s} ]", .{arg.type, arg.name});
+                                    }
+                                    else
+                                        column1 = try std.fmt.allocPrint(allocator, "{s}:{s}", .{arg.type, arg.name});
+                                    try stdout.print("{s:<32}", .{column1});
+                                    try stdout.print("{s}\n", .{arg.desc});
+                                }
+                            }
+                    } else
+                        try stdout.print("None\n", .{});
+
+                    // display API function signatures exposed by a BOF if any
+                    if(bof.api != null) {
+                        try stdout.print("\nAPI:\n\n", .{});
+                        for (bof.api.?) |api_entry| {
+                            try stdout.print("{s}\n", .{api_entry});
+                        }
+
+                        for (bof.api.?) |entryp| {
+                            var iter = std.mem.tokenizeScalar(u8, entryp, '(');
+                            const funcName = iter.next() orelse return error.BadData;
+
+                            try stdout.print("\nARGUMENTS: {s}()\n\n", .{funcName});
                             for (bof.arguments.?, 0..) |arg, i| {
                                 _ = i;
-                                if (std.mem.eql(u8, arg.entrypoint.?, entryp)) {
+                                if (std.mem.eql(u8, arg.api.?, funcName)) {
                                     if (std.mem.eql(u8, arg.required, "false")) try stdout.print("[ ", .{});
-                                    const column1 = try std.fmt.allocPrint(allocator, "{s}:{s}", .{arg.type, arg.name});
-                                    try stdout.print("{s:<32}", .{column1});
+                                    try stdout.print("{s:<32}", .{arg.name});
                                     if (std.mem.eql(u8, arg.required, "false")) try stdout.print(" ]", .{});
                                     try stdout.print("{s}\n", .{arg.desc});
                                 }
@@ -387,6 +404,7 @@ pub fn main() !u8 {
                         }
                     }
 
+                    // dsiplay error codes and their meaning returned by a BOF
                     try stdout.print("\nPOSSIBLE ERRORS:\n\n", .{});
                     for (bof.errors.?, 0..) |err, i| {
                         _ = i;
