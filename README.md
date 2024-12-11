@@ -32,7 +32,7 @@ General Options:
 `exec` subcommand allows for executing `BOF` directly from a filesystem. One can also conveniently pass arguments to `BOF` using one of `sizZb` (followed by `:`) characters as a prefix to indicate argument's type, as explained below:
 
 ```
-Usage: cli4bofs <BOF> [[prefix:]ARGUMENT]...
+Usage: cli4bofs exec <BOF> [[prefix:]ARGUMENT]...
 
 Execute given BOF from filesystem with provided ARGUMENTs.
 
