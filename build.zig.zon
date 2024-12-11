@@ -11,8 +11,8 @@
     },
     .dependencies = .{
         .bof_launcher = .{
-            .url = "https://github.com/The-Z-Labs/bof-launcher/archive/2f08b35e89654b7497d06d81c0b3766087ec4cbf.tar.gz",
-            .hash = "12207f8c11daea7ac82879a106a59a4475304f62358b374899b4e6a3499ba3b4e793",
+            .url = "https://github.com/The-Z-Labs/bof-launcher/archive/4f9e9d50237b7e63079c9708a671a0d18ea1ee8f.tar.gz",
+            .hash = "122067dfd5fdbea0d8522d60aa57003a2a63499ece9e611caca917ae0fd51f931de2",
         },
         .zig_yaml = .{
             .url = "https://github.com/kubkon/zig-yaml/archive/325dbdd276604dccf184c32fef9600b0ac48343d.tar.gz",
