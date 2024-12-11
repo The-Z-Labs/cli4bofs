@@ -20,7 +20,7 @@ const BofRecord = struct {
     entrypoint: ?[]const u8,
     api: ?[]const []const u8,
     sources: []const []const u8,
-    usage: []const u8,
+    usage: ?[]const u8,
     examples: []const u8,
     arguments: ?[]const struct {
         name: []const u8,
@@ -348,7 +348,7 @@ pub fn main() !u8 {
                     try stdout.print("Name: {s}\n", .{bof.name});
                     try stdout.print("Description: {s}\n", .{bof.description});
                     try stdout.print("BOF authors(s): {s}\n", .{bof.author});
-                    try stdout.print("\n\nUSAGE INFORMATION: {s}\n", .{bof.usage});
+                    try stdout.print("\n\nUSAGE INFORMATION: {?s}\n", .{bof.usage});
                     try stdout.print("\n\nEXAMPLES: {s}\n", .{bof.examples});
                 }
             }
@@ -369,6 +369,7 @@ pub fn main() !u8 {
                                 if (std.mem.eql(u8, arg.required, "false")) {
                                     column1 = try std.fmt.allocPrint(allocator, "[ {s}:{s} ]", .{ arg.type, arg.name });
                                 } else column1 = try std.fmt.allocPrint(allocator, "{s}:{s}", .{ arg.type, arg.name });
+                                defer allocator.free(column1);
                                 try stdout.print("{s:<32}", .{column1});
                                 try stdout.print("{s}\n", .{arg.desc});
                             }
@@ -401,11 +402,9 @@ pub fn main() !u8 {
 
                     // dsiplay error codes and their meaning returned by a BOF
                     try stdout.print("\nPOSSIBLE ERRORS:\n\n", .{});
-                    for (bof.errors.?, 0..) |err, i| {
-                        _ = i;
-
+                    if (bof.errors) |errors| for (errors) |err| {
                         try stdout.print("{s} ({x}) : {s}\n", .{ err.name, err.code, err.message });
-                    }
+                    };
                 }
             }
         },
