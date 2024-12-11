@@ -37,7 +37,6 @@ const BofRecord = struct {
 };
 
 fn checkArgType(arg: [:0]const u8, doc_type: []const u8) bool {
-
     var iter = mem.tokenizeScalar(u8, arg, ':');
     const type_prefix = iter.next() orelse unreachable;
 
@@ -163,6 +162,8 @@ pub fn main() !u8 {
         defer allocator.free(source);
 
         var yaml_file = try yaml.Yaml.load(allocator, source);
+        errdefer yaml_file.deinit();
+
         const bofs_collection = try yaml_file.parse([]BofRecord);
 
         break :blk .{ bofs_collection, yaml_file };
@@ -192,7 +193,7 @@ pub fn main() !u8 {
 
     const prog_name = cmd_args[0];
 
-    if(cmd_args.len < 2) {
+    if (cmd_args.len < 2) {
         try usage(prog_name);
         return 0;
     }
@@ -209,7 +210,7 @@ pub fn main() !u8 {
         cmd = .list;
     } else if (mem.eql(u8, "exec", command_name)) {
         cmd = .exec;
-        if(cmd_args.len < 3) {
+        if (cmd_args.len < 3) {
             try stderr.writeAll("No BOF provided. Aborting.\n");
             return 1;
         }
@@ -226,29 +227,28 @@ pub fn main() !u8 {
         bof_path_buffer[absolute_bof_path.len] = 0;
     } else if (mem.eql(u8, "info", command_name)) {
         cmd = .info;
-        if(cmd_args.len < 3) {
+        if (cmd_args.len < 3) {
             try stderr.writeAll("No BOF name provided. Aborting.\n");
             return 1;
         }
         bof_name = cmd_args[2];
     } else if (mem.eql(u8, "usage", command_name)) {
         cmd = .usage;
-        if(cmd_args.len < 3) {
+        if (cmd_args.len < 3) {
             try stderr.writeAll("No BOF name provided. Aborting.\n");
             return 1;
         }
         bof_name = cmd_args[2];
-
     } else if (mem.eql(u8, "examples", command_name)) {
         cmd = .examples;
-        if(cmd_args.len < 3) {
+        if (cmd_args.len < 3) {
             try stderr.writeAll("No BOF name provided. Aborting.\n");
             return 1;
         }
         bof_name = cmd_args[2];
     } else if (mem.eql(u8, "help", command_name)) {
         cmd = .help;
-        if(cmd_args.len < 3) {
+        if (cmd_args.len < 3) {
             try stderr.writeAll("No command name provided. Aborting.\n");
             return 1;
         }
@@ -288,17 +288,16 @@ pub fn main() !u8 {
             } else null;
 
             if (bof_doc.?.arguments) |arguments| for (arguments) |doc_arg| {
-
                 const cmd_arg = argv_iter.next();
-                if(cmd_arg) |a| {
+                if (cmd_arg) |a| {
 
                     // verify if argument's type is correct:
-                    if(!checkArgType(a, doc_arg.type)) {
-                        try stdout.print("Wrong argument type provided. BOF argument: '{s}' should be of type: '{s}'. Aborting.\n", .{doc_arg.name, doc_arg.type});
+                    if (!checkArgType(a, doc_arg.type)) {
+                        try stdout.print("Wrong argument type provided. BOF argument: '{s}' should be of type: '{s}'. Aborting.\n", .{ doc_arg.name, doc_arg.type });
                         return 1;
                     }
 
-                // complain if the argument wasn't provided but it is required:
+                    // complain if the argument wasn't provided but it is required:
                 } else if (std.mem.eql(u8, doc_arg.required, "true")) {
                     try stdout.print("BOF user argument: '{s}' is required! Aborting.\n", .{doc_arg.name});
                     return 1;
@@ -342,7 +341,6 @@ pub fn main() !u8 {
             );
 
             return result;
-
         },
         .info => {
             for (bofs_collection) |bof| {
@@ -361,27 +359,24 @@ pub fn main() !u8 {
 
                     // display BOF entrypoint function ( go() ) if it exists
                     try stdout.print("\nENTRYPOINT:\n\n", .{});
-                    if(bof.entrypoint) |entryp| {
+                    if (bof.entrypoint) |entryp| {
                         try stdout.print("{s}()\n", .{entryp});
                         try stdout.print("\nARGUMENTS:\n\n", .{});
                         for (bof.arguments.?, 0..) |arg, i| {
-                                _ = i;
-                                if (arg.api == null) {
-                                    var column1: []u8 = undefined;
-                                    if (std.mem.eql(u8, arg.required, "false")) {
-                                        column1 = try std.fmt.allocPrint(allocator, "[ {s}:{s} ]", .{arg.type, arg.name});
-                                    }
-                                    else
-                                        column1 = try std.fmt.allocPrint(allocator, "{s}:{s}", .{arg.type, arg.name});
-                                    try stdout.print("{s:<32}", .{column1});
-                                    try stdout.print("{s}\n", .{arg.desc});
-                                }
+                            _ = i;
+                            if (arg.api == null) {
+                                var column1: []u8 = undefined;
+                                if (std.mem.eql(u8, arg.required, "false")) {
+                                    column1 = try std.fmt.allocPrint(allocator, "[ {s}:{s} ]", .{ arg.type, arg.name });
+                                } else column1 = try std.fmt.allocPrint(allocator, "{s}:{s}", .{ arg.type, arg.name });
+                                try stdout.print("{s:<32}", .{column1});
+                                try stdout.print("{s}\n", .{arg.desc});
                             }
-                    } else
-                        try stdout.print("None\n", .{});
+                        }
+                    } else try stdout.print("None\n", .{});
 
                     // display API function signatures exposed by a BOF if any
-                    if(bof.api != null) {
+                    if (bof.api != null) {
                         try stdout.print("\nAPI:\n\n", .{});
                         for (bof.api.?) |api_entry| {
                             try stdout.print("{s}\n", .{api_entry});
@@ -408,8 +403,8 @@ pub fn main() !u8 {
                     try stdout.print("\nPOSSIBLE ERRORS:\n\n", .{});
                     for (bof.errors.?, 0..) |err, i| {
                         _ = i;
-        
-                        try stdout.print("{s} ({x}) : {s}\n", .{err.name, err.code, err.message});
+
+                        try stdout.print("{s} ({x}) : {s}\n", .{ err.name, err.code, err.message });
                     }
                 }
             }
