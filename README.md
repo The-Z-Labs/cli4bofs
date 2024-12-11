@@ -49,10 +49,10 @@ If prefix is ommited then ARGUMENT is treated as a zero-terminated characters st
 
 EXAMPLES:
 
-cli4bofs uname -a
-cli4bofs udpScanner 192.168.2.2-10:427
-cli4bofs udpScanner z:192.168.2.2-10:427
-cli4bofs udpScanner 192.168.2.2-10:427 file:/tmp/udpProbes
+cli4bofs exec uname -a
+cli4bofs exec udpScanner 192.168.2.2-10:427
+cli4bofs exec udpScanner z:192.168.2.2-10:427
+cli4bofs exec udpScanner 192.168.2.2-10:427 file:/tmp/udpProbes
 ```
 
 
