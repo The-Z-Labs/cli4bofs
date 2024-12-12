@@ -1,0 +1,19 @@
+
+cli4bofs v0.3.0 [2024-05-29]
+
+o Updated to the latest bof-launcher library version.
+
+o Added missing return statement.
+
+cli4bofs v0.2.0 [2024-05-09]
+
+o Added build for ARMv6 arch.
+
+o Migrated to Zig 0.12.0.
+
+o Updated to the latest version of bof-launcher library.
+
+cli4bofs v0.1.0 [2024-02-16]
+
+o Released initial version of the tool.
+
