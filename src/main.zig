@@ -104,6 +104,7 @@ fn usage(name: [:0]const u8) !void {
     try stdout.print("info     \tBOF\t\tDisplay BOF description and usage examples\n", .{});
     try stdout.print("usage    \tBOF\t\tSee BOF usage details and parameter types\n", .{});
     try stdout.print("examples \tBOF\t\tSee the BOF usage examples\n", .{});
+    try stdout.print("list     \t[TAG]\t\tList all BOFs from current collection\n", .{});
     try stdout.print("\nGeneral Options:\n\n", .{});
     try stdout.print("-c, --collection\t\tProvide custom BOF yaml collection\n", .{});
     try stdout.print("-h, --help\t\t\tPrint this help\n", .{});
@@ -200,11 +201,19 @@ pub fn main() !u8 {
     var bof_name: [:0]const u8 = undefined;
     var bof_path_buffer: [std.fs.MAX_PATH_BYTES:0]u8 = undefined;
 
+    var list_tag: []u8 = undefined;
+    var list_by_tag: bool = false;
+
     if (mem.eql(u8, "-h", command_name) or mem.eql(u8, "--help", command_name)) {
         try usage(prog_name);
         return 0;
     } else if (mem.eql(u8, "list", command_name)) {
         cmd = .list;
+
+        if (cmd_args.len > 2) {
+            list_by_tag = true;
+            list_tag = cmd_args[2];
+        }
     } else if (mem.eql(u8, "exec", command_name)) {
         cmd = .exec;
         if (cmd_args.len < 3) {
@@ -412,7 +421,9 @@ pub fn main() !u8 {
             }
         },
         .list => {
-            for (bofs_collection) |bof| {
+            if (list_by_tag) {
+                try stdout.print("Bofs tagged: {s}\n", .{list_tag});
+            } else for (bofs_collection) |bof| {
                 try stdout.print("{s}\n", .{bof.name});
             }
         },
