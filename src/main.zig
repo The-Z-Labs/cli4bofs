@@ -106,7 +106,7 @@ fn usage(name: [:0]const u8) !void {
     try stdout.print("info     \t<BOF>\t\tDisplay BOF description and usage examples\n", .{});
     try stdout.print("usage    \t<BOF>\t\tSee BOF usage details and parameter types\n", .{});
     try stdout.print("examples \t<BOF>\t\tSee the BOF usage examples\n", .{});
-    try stdout.print("list     \t[TAG]\t\tList all BOFs from current collection\n", .{});
+    try stdout.print("list     \t[TAG]\t\tList BOFs (all or based on provided TAG) from current collection\n", .{});
     try stdout.print("\nGeneral Options:\n\n", .{});
     try stdout.print("-c, --collection\t\tProvide custom BOF yaml collection\n", .{});
     try stdout.print("-h, --help\t\t\tPrint this help\n", .{});
@@ -439,11 +439,28 @@ pub fn main() !u8 {
             }
         },
         .list => {
-            if (list_by_tag) {
-                try stdout.print("Bofs tagged: {s}\n", .{list_tag});
-            } else for (bofs_collection) |bof| {
-                try stdout.print("{s}\n", .{bof.name});
-            }
+                var platform: []u8 = undefined;
+
+                if (list_by_tag)
+                    try stdout.print("BOFs with '{s}' tag:\n", .{list_tag});
+
+                for (bofs_collection) |bof| {
+                    if (std.mem.eql(u8, bof.OS, "windows")) {
+                        platform = try std.fmt.allocPrint(allocator, "windows", .{});
+                    } else if (std.mem.eql(u8, bof.OS, "linux")) {
+                        platform = try std.fmt.allocPrint(allocator, "linux", .{});
+                    } else
+                        platform = try std.fmt.allocPrint(allocator, "windows,linux", .{});
+
+                    if (list_by_tag) {
+                        for (bof.tags) |tag| {
+                            if (std.mem.eql(u8, tag, list_tag))
+                                try stdout.print("{s:<16} | {s:<13} | {s}\n", .{bof.name, platform, bof.description});
+                        }
+                    } else try stdout.print("{s:<16} | {s:<13} | {s}\n", .{bof.name, platform, bof.description});
+
+                    defer allocator.free(platform);
+                }
         },
         .help => {
             const cmd_help = cmd_args[2];
