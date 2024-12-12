@@ -9,6 +9,8 @@ pub const std_options = .{
 const io = std.io;
 const mem = std.mem;
 
+const version = std.SemanticVersion{ .major = 0, .minor = 4, .patch = 0 };
+
 const BofRecord = struct {
     name: []const u8,
     description: []const u8,
@@ -99,15 +101,16 @@ fn usage(name: [:0]const u8) !void {
     const stdout = io.getStdOut().writer();
     try stdout.print("Usage: {s} command [options]\n\n", .{name});
     try stdout.print("Commands:\n\n", .{});
-    try stdout.print("help     \tCOMMAND\t\tDisplay help about given command\n", .{});
-    try stdout.print("exec     \tBOF\t\tExecute given BOF from a filesystem\n", .{});
-    try stdout.print("info     \tBOF\t\tDisplay BOF description and usage examples\n", .{});
-    try stdout.print("usage    \tBOF\t\tSee BOF usage details and parameter types\n", .{});
-    try stdout.print("examples \tBOF\t\tSee the BOF usage examples\n", .{});
+    try stdout.print("help     \t<COMMAND>\tDisplay help about given command\n", .{});
+    try stdout.print("exec     \t<BOF>\t\tExecute given BOF from a filesystem\n", .{});
+    try stdout.print("info     \t<BOF>\t\tDisplay BOF description and usage examples\n", .{});
+    try stdout.print("usage    \t<BOF>\t\tSee BOF usage details and parameter types\n", .{});
+    try stdout.print("examples \t<BOF>\t\tSee the BOF usage examples\n", .{});
     try stdout.print("list     \t[TAG]\t\tList all BOFs from current collection\n", .{});
     try stdout.print("\nGeneral Options:\n\n", .{});
     try stdout.print("-c, --collection\t\tProvide custom BOF yaml collection\n", .{});
     try stdout.print("-h, --help\t\t\tPrint this help\n", .{});
+    try stdout.print("-v, --version\t\t\tPrint version number\n", .{});
 }
 
 fn usageExec() !void {
@@ -129,10 +132,10 @@ fn usageExec() !void {
         .{},
     );
     try stdout.print("\nEXAMPLES:\n\n", .{});
-    try stdout.print("cli4bofs uname -a\n", .{});
-    try stdout.print("cli4bofs udpScanner 192.168.2.2-10:427\n", .{});
-    try stdout.print("cli4bofs udpScanner z:192.168.2.2-10:427\n", .{});
-    try stdout.print("cli4bofs udpScanner 192.168.2.2-10:427 file:/path/to/file/with/udpPayloads\n", .{});
+    try stdout.print("cli4bofs exec uname -a\n", .{});
+    try stdout.print("cli4bofs exec udpScanner 192.168.2.2-10:427\n", .{});
+    try stdout.print("cli4bofs exec udpScanner z:192.168.2.2-10:427\n", .{});
+    try stdout.print("cli4bofs exec udpScanner 192.168.2.2-10:427 file:/path/to/file/with/udpPayloads\n", .{});
 }
 
 pub fn main() !u8 {
@@ -206,6 +209,9 @@ pub fn main() !u8 {
 
     if (mem.eql(u8, "-h", command_name) or mem.eql(u8, "--help", command_name)) {
         try usage(prog_name);
+        return 0;
+    } else if (mem.eql(u8, "-v", command_name) or mem.eql(u8, "--version", command_name)) {
+        try stdout.print("{any}\n", .{version});
         return 0;
     } else if (mem.eql(u8, "list", command_name)) {
         cmd = .list;
@@ -299,13 +305,19 @@ pub fn main() !u8 {
 
                     // verify if argument's type is correct:
                     if (!checkArgType(a, doc_arg.type)) {
-                        try stdout.print("Wrong argument type provided. BOF argument: '{s}' should be of type: '{s}'. Aborting.\n", .{ doc_arg.name, doc_arg.type });
+                        try stdout.print(
+                            "Wrong argument type provided. BOF argument: '{s}' should be of type: '{s}'. Aborting.\n",
+                            .{ doc_arg.name, doc_arg.type },
+                        );
                         return 1;
                     }
 
                     // complain if the argument wasn't provided but it is required:
                 } else if (std.mem.eql(u8, doc_arg.required, "true")) {
-                    try stdout.print("BOF user argument: '{s}' is required! Aborting.\n", .{doc_arg.name});
+                    try stdout.print(
+                        "BOF user argument: '{s}' is required! Aborting.\n",
+                        .{doc_arg.name},
+                    );
                     return 1;
                 }
             };
@@ -372,8 +384,16 @@ pub fn main() !u8 {
                             if (arg.api == null) {
                                 var column1: []u8 = undefined;
                                 if (std.mem.eql(u8, arg.required, "false")) {
-                                    column1 = try std.fmt.allocPrint(allocator, "[ {s}:{s} ]", .{ arg.type, arg.name });
-                                } else column1 = try std.fmt.allocPrint(allocator, "{s}:{s}", .{ arg.type, arg.name });
+                                    column1 = try std.fmt.allocPrint(
+                                        allocator,
+                                        "[ {s}:{s} ]",
+                                        .{ arg.type, arg.name },
+                                    );
+                                } else column1 = try std.fmt.allocPrint(
+                                    allocator,
+                                    "{s}:{s}",
+                                    .{ arg.type, arg.name },
+                                );
                                 defer allocator.free(column1);
                                 try stdout.print("{s:<32}", .{column1});
                                 try stdout.print("{s}\n", .{arg.desc});
