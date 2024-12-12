@@ -379,8 +379,7 @@ pub fn main() !u8 {
                     if (bof.entrypoint) |entryp| {
                         try stdout.print("{s}()\n", .{entryp});
                         try stdout.print("\nARGUMENTS:\n\n", .{});
-                        for (bof.arguments.?, 0..) |arg, i| {
-                            _ = i;
+                        for (bof.arguments.?) |arg| {
                             if (arg.api == null) {
                                 var column1: []u8 = undefined;
                                 if (std.mem.eql(u8, arg.required, "false")) {
@@ -413,8 +412,7 @@ pub fn main() !u8 {
                             const funcName = iter.next() orelse return error.BadData;
 
                             try stdout.print("\nARGUMENTS: {s}()\n\n", .{funcName});
-                            for (bof.arguments.?, 0..) |arg, i| {
-                                _ = i;
+                            for (bof.arguments.?) |arg| {
                                 if (std.mem.eql(u8, arg.api.?, funcName)) {
                                     if (std.mem.eql(u8, arg.required, "false")) try stdout.print("[ ", .{});
                                     try stdout.print("{s:<32}", .{arg.name});
