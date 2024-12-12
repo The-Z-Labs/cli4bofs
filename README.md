@@ -1,6 +1,6 @@
 # cli4bofs 
 
-Standalone command line interface for launching [BOF files](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/beacon-object-files_main.htm) outside of [Cobalt Strike Beacon](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/welcome_main.htm) environment. Under the hood it uses [bof-launcher library](https://github.com/The-Z-Labs/bof-launcher) to runn BOFs files on Windows (x86, x64) and Linux/UNIX (x86, x64, ARM, AARCH64) platforms directly from a filesystem. You can download binaries for all supported platforms [here](https://github.com/The-Z-Labs/cli4bofs/releases).
+Standalone command line interface for launching [BOF files](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/beacon-object-files_main.htm) outside of [Cobalt Strike Beacon](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/welcome_main.htm) environment. Under the hood it uses [bof-launcher library](https://github.com/The-Z-Labs/bof-launcher) to run BOFs files on `Windows (x86, x64)` and `Linux (x86, x64, ARM, AARCH64)` platforms directly from a filesystem. You can download binaries for all supported platforms [here](https://github.com/The-Z-Labs/cli4bofs/releases).
 
 ## Description
 
@@ -24,7 +24,6 @@ list     	[TAG]		List BOFs (all or based on provided TAG) from current collectio
 
 General Options:
 
--c, --collection		Provide custom BOF yaml collection
 -h, --help			Print this help
 -v, --version			Print version number
 ```

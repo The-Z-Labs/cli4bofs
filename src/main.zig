@@ -108,7 +108,6 @@ fn usage(name: [:0]const u8) !void {
     try stdout.print("examples \t<BOF>\t\tSee the BOF usage examples\n", .{});
     try stdout.print("list     \t[TAG]\t\tList BOFs (all or based on provided TAG) from current collection\n", .{});
     try stdout.print("\nGeneral Options:\n\n", .{});
-    try stdout.print("-c, --collection\t\tProvide custom BOF yaml collection\n", .{});
     try stdout.print("-h, --help\t\t\tPrint this help\n", .{});
     try stdout.print("-v, --version\t\t\tPrint version number\n", .{});
 }
@@ -178,7 +177,6 @@ pub fn main() !u8 {
     // usage <BOF>: dispalying BOF usage
     // general options:
     // -h / --help
-    // -c / --collection - user-provided BOF-collection.yaml path
     ///////////////////////////////////////////////////////////
     const Cmd = enum {
         exec,
