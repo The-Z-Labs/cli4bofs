@@ -15,12 +15,9 @@ const BofRecord = struct {
     author: []const u8,
     tags: []const []const u8,
     OS: []const u8,
-    header: ?[]const []const u8,
-    execution_hint: ?[]const u8,
     entrypoint: ?[]const u8,
     api: ?[]const []const u8,
     sources: []const []const u8,
-    usage: ?[]const u8,
     examples: []const u8,
     arguments: ?[]const struct {
         name: []const u8,
@@ -348,7 +345,6 @@ pub fn main() !u8 {
                     try stdout.print("Name: {s}\n", .{bof.name});
                     try stdout.print("Description: {s}\n", .{bof.description});
                     try stdout.print("BOF authors(s): {s}\n", .{bof.author});
-                    try stdout.print("\n\nUSAGE INFORMATION: {?s}\n", .{bof.usage});
                     try stdout.print("\n\nEXAMPLES: {s}\n", .{bof.examples});
                 }
             }
