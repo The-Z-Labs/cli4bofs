@@ -13,6 +13,7 @@ const version = std.SemanticVersion{ .major = 0, .minor = 4, .patch = 0 };
 
 const BofRecord = struct {
     name: []const u8,
+    srcfile: ?[]const u8,
     description: []const u8,
     author: []const u8,
     tags: []const []const u8,

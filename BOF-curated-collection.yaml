@@ -239,6 +239,7 @@ examples: '
 
 ---
 name: listmods
+srcfile: "entry"
 description: "List process modules (DLL). Target current process if PID is empty"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec']
@@ -246,6 +247,8 @@ OS: windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/listmods/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
 examples: '
  listmods 3461
 '
@@ -254,3 +257,27 @@ arguments:
     desc: "Process PID"
     type: integer
     required: false
+---
+name: adcs_enum
+srcfile: "entry"
+description: "Enumerate CAs and templates in the AD using Win32 functions"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum/adcs_enum.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum/adcs_enum.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum/certca.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum/certenroll.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ adcs_enum <domain>
+'
+arguments:
+  - name: domain
+    desc: "Active directory domain name"
+    type: wchar
+    required: true
