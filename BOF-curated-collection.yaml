@@ -1,6 +1,6 @@
 ---
 name: "udpScanner"
-description: "Universal UDP port sweeper."
+description: "Universal UDP port sweeper"
 author: "Z-Labs"
 tags: ['windows', 'linux','net-recon','z-labs']
 OS: "cross"
@@ -48,7 +48,7 @@ arguments:
 name: "tcpScanner"
 description: "TCP connect() port scanner"
 author: "Z-Labs"
-tags: ['windows', 'linux','net-recon','z-labs']
+tags: ['windows', 'linux','net-recon','z-labs', 'api']
 OS: "cross"
 entrypoint: "go"
 sources:

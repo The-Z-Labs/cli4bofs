@@ -61,6 +61,8 @@ cli4bofs exec udpScanner 192.168.2.2-10:427 file:/tmp/udpProbes
 
 In addition to `BOF` execution capability, `cli4bofs` tool can be used to store and present BOF's documentation, like: BOF description, parameters specification, example BOF usage, etc. During the startup the tool looks for `BOF-collection.yaml` file in the current directory and looks for the record regarding chosen `BOF`.
 
+This repository already contains the yaml collection ([BOF-curated-collection.yaml](BOF-curated-collection.yaml)) of various BOFs that we found useful. To take advantage of it just drop the file in the directory with your `cli4bofs` binary and rename it to `BOF-collection.yaml`.
+
 For documenting BOFs, a simple `yaml` schema can be used. Example of an yaml BOF specification for our [udpScanner BOF](https://github.com/The-Z-Labs/bof-launcher/blob/main/bofs/src/udpScanner.zig) is shown below:
 
 ```
