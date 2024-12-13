@@ -1,5 +1,5 @@
 ---
-name: "udpScanner1"
+name: "udpScanner"
 description: "Universal UDP port sweeper."
 author: "Z-Labs"
 tags: ['windows', 'linux','net-recon','z-labs']
@@ -67,15 +67,15 @@ arguments:
     required: true
 ---
 name: uname
-description: "Print certain system information. With no FLAGS, same as -s"
+description: "Print system information. With no flag, same as -s"
 author: Z-Labs
-tags: ['host-recon']
+tags: ['linux','host-recon','z-labs']
 OS: linux
-header: ['inline', '']
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/uname.zig'
-usage: '
- uname [str:FLAGS]
+examples: '
+ uname
+ uname -a
 
  Flags:
  -a    print all information
@@ -85,61 +85,47 @@ usage: '
  -v    print the kernel version
  -m    print the machine hardware name
 '
-examples: '
- uname
- uname -a
-'
-
+arguments:
+- name: option
+  desc: "Print only chosen system information. Supported options: -asnrvm"
+  type: string
+  required: false
 ---
 name: hostid
 description: "Print the numeric identifier for the current host"
 author: Z-Labs
-tags: ['host-recon']
+tags: ['linux','host-recon','z-labs']
 OS: linux
-header: ['inline', '']
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/hostid.zig'
-usage: '
- hostid
-'
 examples: '
  hostid
 '
-
 ---
 name: hostname
 description: "Show system host name"
 author: Z-Labs
-tags: ['host-recon']
+tags: ['linux','host-recon','z-labs']
 OS: linux
-header: ['inline', '']
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/hostname.zig'
-usage: '
- hostname
-'
 examples: '
  hostname
 '
-
 ---
 name: id
 description: "Print user and group information for each specified USER, or (when USER omitted) for the current process"
 author: Z-Labs
-tags: ['host-recon']
+tags: ['linux','host-recon','z-labs']
 OS: linux
-header: ['inline', 'z']
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/id.zig'
-usage: '
- id [str:USER]
-'
 examples: '
  id
  id root
 '
 arguments:
-- name: User
+- name: user
   desc: "Prints user and group information for this user"
   type: string
   required: false
@@ -166,7 +152,7 @@ arguments:
 name: kmodLoader
 description: "Loads and unloads Linux kernel modules images directly from memory"
 author: Z-Labs
-tags: ['post-exploitation']
+tags: ['linux','post-exploitation','z-labs']
 OS: linux
 api:
   - 'kmodLoad(module_image: [*]const u8, len: usize, param_values: [*:0]const u8) callconv(.C) u8'
