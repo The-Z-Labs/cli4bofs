@@ -227,10 +227,6 @@ pub fn main() !u8 {
         }
         bof_name = cmd_args[2];
 
-        // strip off .elf.x64.o suffix from bof_name
-        var it = mem.tokenize(u8, bof_name, ".");
-        bof_name = @as(?[:0]const u8, @ptrCast(it.next())) orelse return error.BadData;
-
         const absolute_bof_path = std.fs.cwd().realpathZ(bof_name, bof_path_buffer[0..]) catch {
             try stderr.writeAll("BOF not found. Aborting.\n");
             return 1;
@@ -298,28 +294,29 @@ pub fn main() !u8 {
                 }
             } else null;
 
-            if (bof_doc.?.arguments) |arguments| for (arguments) |doc_arg| {
-                const cmd_arg = argv_iter.next();
-                if (cmd_arg) |a| {
+            if (bof_doc != null) {
+                if (bof_doc.?.arguments) |arguments| for (arguments) |doc_arg| {
+                    const cmd_arg = argv_iter.next();
+                    if (cmd_arg) |a| {
+                        // verify if argument's type is correct:
+                        if (!checkArgType(a, doc_arg.type)) {
+                            try stdout.print(
+                                "Wrong argument type provided. BOF argument: '{s}' should be of type: '{s}'. Aborting.\n",
+                                .{ doc_arg.name, doc_arg.type },
+                            );
+                            return 1;
+                        }
 
-                    // verify if argument's type is correct:
-                    if (!checkArgType(a, doc_arg.type)) {
+                        // complain if the argument wasn't provided but it is required:
+                    } else if (std.mem.eql(u8, doc_arg.required, "true")) {
                         try stdout.print(
-                            "Wrong argument type provided. BOF argument: '{s}' should be of type: '{s}'. Aborting.\n",
-                            .{ doc_arg.name, doc_arg.type },
+                            "BOF user argument: '{s}' is required! Aborting.\n",
+                            .{doc_arg.name},
                         );
                         return 1;
                     }
-
-                    // complain if the argument wasn't provided but it is required:
-                } else if (std.mem.eql(u8, doc_arg.required, "true")) {
-                    try stdout.print(
-                        "BOF user argument: '{s}' is required! Aborting.\n",
-                        .{doc_arg.name},
-                    );
-                    return 1;
-                }
-            };
+                };
+            }
 
             bof_args.begin();
             // start from BOF arguments
@@ -438,28 +435,27 @@ pub fn main() !u8 {
             }
         },
         .list => {
-                var platform: []u8 = undefined;
+            var platform: []u8 = undefined;
 
-                if (list_by_tag)
-                    try stdout.print("BOFs with '{s}' tag:\n", .{list_tag});
+            if (list_by_tag)
+                try stdout.print("BOFs with '{s}' tag:\n", .{list_tag});
 
-                for (bofs_collection) |bof| {
-                    if (std.mem.eql(u8, bof.OS, "windows")) {
-                        platform = try std.fmt.allocPrint(allocator, "windows", .{});
-                    } else if (std.mem.eql(u8, bof.OS, "linux")) {
-                        platform = try std.fmt.allocPrint(allocator, "linux", .{});
-                    } else
-                        platform = try std.fmt.allocPrint(allocator, "windows,linux", .{});
+            for (bofs_collection) |bof| {
+                if (std.mem.eql(u8, bof.OS, "windows")) {
+                    platform = try std.fmt.allocPrint(allocator, "windows", .{});
+                } else if (std.mem.eql(u8, bof.OS, "linux")) {
+                    platform = try std.fmt.allocPrint(allocator, "linux", .{});
+                } else platform = try std.fmt.allocPrint(allocator, "windows,linux", .{});
 
-                    if (list_by_tag) {
-                        for (bof.tags) |tag| {
-                            if (std.mem.eql(u8, tag, list_tag))
-                                try stdout.print("{s:<16} | {s:<13} | {s}\n", .{bof.name, platform, bof.description});
-                        }
-                    } else try stdout.print("{s:<16} | {s:<13} | {s}\n", .{bof.name, platform, bof.description});
+                if (list_by_tag) {
+                    for (bof.tags) |tag| {
+                        if (std.mem.eql(u8, tag, list_tag))
+                            try stdout.print("{s:<16} | {s:<13} | {s}\n", .{ bof.name, platform, bof.description });
+                    }
+                } else try stdout.print("{s:<16} | {s:<13} | {s}\n", .{ bof.name, platform, bof.description });
 
-                    defer allocator.free(platform);
-                }
+                defer allocator.free(platform);
+            }
         },
         .help => {
             const cmd_help = cmd_args[2];
