@@ -279,5 +279,130 @@ examples: '
 arguments:
   - name: domain
     desc: "Active directory domain name"
-    type: wchar
+    type: wstring
+    required: true
+---
+name: arp
+srcfile: "entry"
+description: "List ARP table"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/arp/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ arp
+'
+---
+name: Domaininfo
+description: "Enumerate CAs and templates in the AD using Win32 functions"
+author: Outflank
+tags: ['windows', 'host-recon', 'outflank']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Domaininfo/SOURCE/Domaininfo.c'
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Domaininfo/SOURCE/Domaininfo.h'
+examples: '
+ domaininfo
+'
+---
+name: Smbinfo
+description: "Gather remote system version info using the NetWkstaGetInfo API"
+author: Outflank
+tags: ['windows', 'host-recon', 'outflank']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Smbinfo/SOURCE/Smbinfo.c'
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Smbinfo/SOURCE/Smbinfo.h'
+examples: '
+ smbinfo <computername>
+'
+arguments:
+  - name: computername
+    desc: "Active directory computer name"
+    type: wstring
+    required: true
+---
+name: ReconAD
+description: "Query Active Directory objects and attributes using ADSI API"
+author: Outflank
+tags: ['windows', 'host-recon', 'outflank']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/ReconAD/SOURCE/ReconAD.c'
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/ReconAD/SOURCE/ReconAD.h'
+examples: '
+ ReconAD (&(objectClass=user)(objectCategory=person)(sAMAccountName=*admin*)) displayName,sAMAccountName 10
+ ReconAD users *admin* displayName,sAMAccountName 10 -usegc
+ ReconAD groups "Domain Admins" -all -max -usegc 192.168.1.10
+ ReconAD computers *srv* name,operatingSystemVersion 20 -ldap 192.168.1.10
+'
+arguments:
+  - name: objects
+    desc: "custom|users|groups|computers"
+    type: wstring
+    required: true
+  - name: ldap_filter
+    desc: "custom_ldap_filter|username|groupname|computername"
+    type: wstring
+    required: true
+  - name: ldap_attr
+    desc: "comma separated ldap attributes"
+    type: wstring
+    required: false
+  - name: max_results
+    desc: "max results"
+    type: integer
+    required: false
+  - name: usegc
+    desc: "search within the Global Catalogue (set to 1); use LDAP (default)"
+    type: integer
+    required: false
+  - name: server
+    desc: "IP of custom server; or '-noserver' for serverless binding (default)"
+    type: wstring
+    required: false
+---
+name: KillDefender
+description: "make Windows Defender useless by removing its token privileges and lowering the token integrity"
+author: Cerbersec
+tags: ['windows', 'host-recon', 'cerbersec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/KillDefender.c'
+    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/KillDefender.h'
+    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/syscalls-asm.h'
+    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/syscalls.c'
+    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/syscalls.h'
+examples: '
+ KillDefender
+'
+---
+name: ScreenshotBOF
+srcfile: "Source"
+description: "Make screenshot using WinAPI"
+author: CodeXTF2
+tags: ['windows', 'host-recon']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/CodeXTF2/ScreenshotBOF/refs/heads/master/ScreenshotBOF/Source.cpp'
+    - 'https://raw.githubusercontent.com/CodeXTF2/ScreenshotBOF/refs/heads/master/ScreenshotBOF/bofdefs.h'
+examples: '
+'
+arguments:
+  - name: filename
+    desc: "name of a file"
+    type: string
+    required: true
+  - name: savemethod
+    desc: "Saving method: 0 - drop file to disk; 1 - download file over beacon"
+    type: integer
     required: true
