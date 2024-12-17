@@ -385,24 +385,31 @@ examples: '
  KillDefender
 '
 ---
-name: ScreenshotBOF
-srcfile: "Source"
-description: "Make screenshot using WinAPI"
-author: CodeXTF2
+name: ppenum
+description: "Read the protection level of a process"
+author: rasta-mouse
 tags: ['windows', 'host-recon']
 OS: windows
 entrypoint: "go"
 sources:
-    - 'https://raw.githubusercontent.com/CodeXTF2/ScreenshotBOF/refs/heads/master/ScreenshotBOF/Source.cpp'
-    - 'https://raw.githubusercontent.com/CodeXTF2/ScreenshotBOF/refs/heads/master/ScreenshotBOF/bofdefs.h'
+    - 'https://raw.githubusercontent.com/rasta-mouse/PPEnum/refs/heads/main/ppenum.c'
 examples: '
 '
 arguments:
-  - name: filename
-    desc: "name of a file"
-    type: string
-    required: true
-  - name: savemethod
-    desc: "Saving method: 0 - drop file to disk; 1 - download file over beacon"
+  - name: pid
+    desc: "process PID"
     type: integer
     required: true
+---
+name: detect-hooks
+description: "Attempts to detect userland API hooks in place by AV/EDR"
+author: X-Force-Red
+tags: ['windows', 'host-recon', 'xforcered']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/xforcered/Detect-Hooks/refs/heads/main/src/detect-hooks.c'
+    - 'https://raw.githubusercontent.com/xforcered/Detect-Hooks/refs/heads/main/src/detect-hooks.h'
+examples: '
+  detect-hooks
+'
