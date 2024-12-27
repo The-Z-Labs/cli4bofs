@@ -400,7 +400,7 @@ pub fn main() !u8 {
                         try stdout.print("{s} ({x}) : {s}\n", .{ err.name, err.code, err.message });
                     };
  
-                    try stdout.print("\n\nEXAMPLES: {s}\n", .{bof.examples});
+                    try stdout.print("\nEXAMPLES: {s}\n", .{bof.examples});
                 }
             }
         },

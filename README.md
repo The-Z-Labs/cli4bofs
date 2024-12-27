@@ -18,8 +18,6 @@ Commands:
 help     	<COMMAND>	Display help about given command
 exec     	<BOF>		Execute given BOF from a filesystem
 info     	<BOF>		Display BOF description and usage examples
-usage    	<BOF>		See BOF usage details and parameter types
-examples 	<BOF>		See the BOF usage examples
 list     	[TAG]		List BOFs (all or based on provided TAG) from current collection
 
 General Options:
@@ -129,13 +127,17 @@ tasklist         | linux         | Report a snapshot of the current processes
 pwd              | linux         | Print name of current/working directory
 ```
 
-Displaying parameter specification and usage explanation for selected `BOF`:
+Displaying description and parameter specification for selected `BOF`:
 
-    $ cli4bofs usage udpScanner
+    $ cli4bofs info udpScanner
 
 Gives:
 
 ```
+Name: udpScanner
+Description: Universal UDP port sweeper.
+BOF authors(s): Z-Labs
+
 ENTRYPOINT:
 
 go()
@@ -145,4 +147,31 @@ ARGUMENTS:
 string:IPSpec                   IP addresses specification, ex: 192.168.0.1; 10.0.0-255.1-254; 192.168.0.1:161,427,10-15
 [ integer:BufLen ]              length of UDP probes buffer
 [ string:BufMemoryAddress ]     memory address of UDP probes buffer
+
+POSSIBLE ERRORS:
+
+
+EXAMPLES: 
+ Scanning provided IP range on most common UDP ports with builtin UDP probes:
+
+   udpScanner str:192.168.0.1-32
+
+ Scanning only cherry-picked ports (if no builtin UDP probe for the chosen port is available then length and content of the packet payload will be randomly generated:
+
+   udpScanner str:192.168.0.1:123,161
+   udpScanner str:102.168.1.1-128:53,427,137
+   udpScanner str:192.168.0.1:100-200
+
+ Example of running with provided UDP probes:
+
+   udpScanner str:192.168.0.1-32 int:BUF_LEN str:BUF_MEMORY_ADDRESS
+
+ UDP probe syntax (with example):
+
+   <portSpec> <probeName> <hexadecimal encoded probe data>\n
+   53,69,135,1761 dnsReq 000010000000000000000000
+
+ Example of running udpScanner using cli4bofs tool and with UDP probes provided from the file:
+
+   cli4bofs exec udpScanner 102.168.1.1-4:161,427 file:/tmp/udpPayloads
 ```
