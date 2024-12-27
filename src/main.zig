@@ -105,8 +105,6 @@ fn usage(name: [:0]const u8) !void {
     try stdout.print("help     \t<COMMAND>\tDisplay help about given command\n", .{});
     try stdout.print("exec     \t<BOF>\t\tExecute given BOF from a filesystem\n", .{});
     try stdout.print("info     \t<BOF>\t\tDisplay BOF description and usage examples\n", .{});
-    try stdout.print("usage    \t<BOF>\t\tSee BOF usage details and parameter types\n", .{});
-    try stdout.print("examples \t<BOF>\t\tSee the BOF usage examples\n", .{});
     try stdout.print("list     \t[TAG]\t\tList BOFs (all or based on provided TAG) from current collection\n", .{});
     try stdout.print("\nGeneral Options:\n\n", .{});
     try stdout.print("-h, --help\t\t\tPrint this help\n", .{});
@@ -174,16 +172,13 @@ pub fn main() !u8 {
     ///////////////////////////////////////////////////////////
     // commands processing:
     // exec <BOF>: opening and launching BOF file
-    // info <BOF>: dispalying BOF facts
-    // usage <BOF>: dispalying BOF usage
+    // info <BOF>: dispalying BOF description, usage and example invocations
     // general options:
     // -h / --help
     ///////////////////////////////////////////////////////////
     const Cmd = enum {
         exec,
         info,
-        usage,
-        examples,
         list,
         help,
     };
@@ -234,20 +229,6 @@ pub fn main() !u8 {
         bof_path_buffer[absolute_bof_path.len] = 0;
     } else if (mem.eql(u8, "info", command_name)) {
         cmd = .info;
-        if (cmd_args.len < 3) {
-            try stderr.writeAll("No BOF name provided. Aborting.\n");
-            return 1;
-        }
-        bof_name = cmd_args[2];
-    } else if (mem.eql(u8, "usage", command_name)) {
-        cmd = .usage;
-        if (cmd_args.len < 3) {
-            try stderr.writeAll("No BOF name provided. Aborting.\n");
-            return 1;
-        }
-        bof_name = cmd_args[2];
-    } else if (mem.eql(u8, "examples", command_name)) {
-        cmd = .examples;
         if (cmd_args.len < 3) {
             try stderr.writeAll("No BOF name provided. Aborting.\n");
             return 1;
@@ -359,16 +340,10 @@ pub fn main() !u8 {
         .info => {
             for (bofs_collection) |bof| {
                 if (std.mem.eql(u8, bof_name, bof.name)) {
+
                     try stdout.print("Name: {s}\n", .{bof.name});
                     try stdout.print("Description: {s}\n", .{bof.description});
                     try stdout.print("BOF authors(s): {s}\n", .{bof.author});
-                    try stdout.print("\n\nEXAMPLES: {s}\n", .{bof.examples});
-                }
-            }
-        },
-        .usage => {
-            for (bofs_collection) |bof| {
-                if (std.mem.eql(u8, bof_name, bof.name)) {
 
                     // display BOF entrypoint function ( go() ) if it exists
                     try stdout.print("\nENTRYPOINT:\n\n", .{});
@@ -424,13 +399,8 @@ pub fn main() !u8 {
                     if (bof.errors) |errors| for (errors) |err| {
                         try stdout.print("{s} ({x}) : {s}\n", .{ err.name, err.code, err.message });
                     };
-                }
-            }
-        },
-        .examples => {
-            for (bofs_collection) |bof| {
-                if (std.mem.eql(u8, bof_name, bof.name)) {
-                    try stdout.print("Usage examples:\n{s}\n", .{bof.examples});
+ 
+                    try stdout.print("\n\nEXAMPLES: {s}\n", .{bof.examples});
                 }
             }
         },
@@ -462,6 +432,12 @@ pub fn main() !u8 {
 
             if (std.mem.eql(u8, cmd_help, "exec")) {
                 try usageExec();
+            } else if (std.mem.eql(u8, cmd_help, "info")) {
+                try stdout.print("info <BOF>  - Display BOF description and usage examples\n", .{});
+            } else if (std.mem.eql(u8, cmd_help, "list")) {
+                try stdout.print("list [TAG]  - List BOFs (all or based on TAG) from BOF-collection.yaml file\n", .{});
+            } else if (std.mem.eql(u8, cmd_help, "help")) { 
+                try stdout.print("help <COMMAND>  - Display help about given command\n", .{});
             } else {
                 try stderr.writeAll("Fatal: unrecognized command provided. Aborting.\n");
             }
