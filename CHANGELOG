@@ -1,4 +1,28 @@
 
+cli4bofs v0.9.0 [2024-12-27]
+
+o Merged 'usage' and 'examples' commands with 'info' command.
+
+o Added fetch-3rdparty-BOFs.py script.
+
+o Added BOF-curated-collection.yaml file.
+
+o Added CHANGELOG file.
+
+o 'list' command allows now filtering displayed BOFs based on provided tag.
+
+o Added -v, --version option.
+
+o Added support for either BOFs that have go() entrypoint and for BOFs that expose API functions.
+
+o Reworked how the arguments are displayed.
+
+o Checking argument number and types against yaml documentation.
+
+o Fixed various errors.
+
+o Updated to the latest bof-launcher library version.
+
 cli4bofs v0.3.0 [2024-05-29]
 
 o Updated to the latest bof-launcher library version.
