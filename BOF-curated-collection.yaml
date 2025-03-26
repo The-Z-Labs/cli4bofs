@@ -413,3 +413,18 @@ sources:
 examples: '
   detect-hooks
 '
+---
+name: Psk
+description: "Shows detailed information from the windows kernel and loaded driver modules and provides a summary of installed security products (AV/EDR drivers)"
+author: Outflank
+tags: ['windows', 'host-recon', 'outflank']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Psk/SOURCE/Psk.c'
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Psk/SOURCE/Psk.h'
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Psk/SOURCE/Syscalls-WoW64.h'
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Psk/SOURCE/Syscalls.h'
+examples: '
+ psk
+'
