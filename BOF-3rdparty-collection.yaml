@@ -54,6 +54,7 @@ sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
 examples: '
+ listmods
  listmods 3461
 '
 arguments:
@@ -100,6 +101,50 @@ sources:
 examples: '
  arp
 '
+---
+name: ldapsearch
+srcfile: "entry"
+description: "Execute LDAP searches"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/ldapsearch/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ ldapsearch (objectclass=*)" "" 0 0 1
+'
+arguments:
+  - name: ldap_filter
+    desc: "LDAP filter"
+    type: string
+    required: true
+  - name: ldap_attributes
+    desc: "LDAP attribute(s) or empty string (\"\")"
+    type: string
+    required: true
+  - name: results_count 
+    desc: "Count of results or 0 for all results"
+    type: integer
+    required: true
+  - name: scope_of_search 
+    desc: "LDAP attributes"
+    type: integer
+    required: true
+  - name: hostname
+    desc: "Domain Controller name or IP address"
+    type: string
+    required: false
+  - name: domain
+    desc: "Distinguished Name"
+    type: string
+    required: false
+  - name: ldaps
+    desc: "LDAPS support; set to 0 (false) by default"
+    type: integer
+    required: false
 ---
 name: Domaininfo
 description: "Enumerate CAs and templates in the AD using Win32 functions"
@@ -231,4 +276,17 @@ sources:
     - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Psk/SOURCE/Syscalls.h'
 examples: '
  psk
+'
+---
+name: Klist
+description: "Displays a list of currently cached Kerberos tickets"
+author: Outflank
+tags: ['windows', 'host-recon', 'outflank']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Klist/SOURCE/Klist.c'
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Klist/SOURCE/Klist.h'
+examples: '
+  TODO
 '
