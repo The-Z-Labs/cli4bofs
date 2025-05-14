@@ -4,7 +4,7 @@ Standalone command line interface for launching [BOF files](https://hstechdocs.h
 
 ## Description
 
-A swiss army knife tool for running and mainataining collection of BOFs files. Allows for running any BOF from a filesystem and for conveniently passing arguments to it. Defines simple `yaml` schema for essential information about BOF files, like: description, URL(s) of the source code, supported arguments, usage examples, etc. Handy also for testing, prototyping and developing your own BOFs.
+A swiss army knife tool for running and mainataining collection of BOFs files. Allows for running any BOF from a filesystem and for conveniently passing arguments to it. Defines simple YAML schema for essential information about BOF files, like: description, URL(s) of the source code, supported arguments, usage examples, etc. Handy also for testing, prototyping and developing your own BOFs.
 
 ## Program usage
 
@@ -59,9 +59,9 @@ cli4bofs exec udpScanner 192.168.2.2-10:427 file:/tmp/udpProbes
 
 In addition to `BOF` execution capability, `cli4bofs` tool can be used to store and present BOF's documentation, like: BOF description, parameters specification, example BOF usage, etc. During the startup the tool looks for `BOF-collection.yaml` file in the current directory and looks for the record regarding chosen `BOF`.
 
-This repository already contains the yaml collection ([BOF-curated-collection.yaml](BOF-curated-collection.yaml)) of various BOFs that we found useful. To take advantage of it just drop the file in the directory with your `cli4bofs` binary and rename it to `BOF-collection.yaml`.
+This repository also contains the YAML collection ([BOF-3rdparty-collection.yaml](BOF-3rdparty-collection.yaml)) for various BOFs that we found useful. To take advantage of it just drop the file in the directory with your `cli4bofs` binary and rename it to `BOF-collection.yaml`. You're encouraged to additional valuable BOFs to the collection!
 
-For documenting BOFs, a simple `yaml` schema can be used. Example of an yaml BOF specification for our [udpScanner BOF](https://github.com/The-Z-Labs/bof-launcher/blob/main/bofs/src/udpScanner.zig) is shown below:
+Documenting BOFs is very easy and is a matter of creating simple YAML file entry. An example of YAML doc entry for our [udpScanner BOF](https://github.com/The-Z-Labs/bof-launcher/blob/main/bofs/src/udpScanner.zig) is shown below:
 
 ```
 name: "udpScanner"
