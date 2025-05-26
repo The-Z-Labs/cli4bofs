@@ -42,6 +42,19 @@ examples: '
 '
 
 ---
+name: chmod
+description: "Change file mode bits"
+author: Trustedsec
+tags: ['linux', 'host-recon', 'trustedsec']
+OS: linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/ELFLoader/main/SA/src/chmod.c'
+examples: '
+ chmod 777 file.txt
+'
+
+---
 name: listmods
 srcfile: "entry"
 description: "List process modules (DLL). Target current process if PID is empty"
