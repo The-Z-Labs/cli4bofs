@@ -1,6 +1,7 @@
 .{
-    .name = "cli4bofs",
-    .version = "0.1.0",
+    .name = .cli4bofs,
+    .version = "0.9.1",
+    .fingerprint = 0x24054146b73f1bd0,
     .paths = .{
         "build.zig",
         "build.zig.zon",
@@ -11,12 +12,12 @@
     },
     .dependencies = .{
         .bof_launcher = .{
-            .url = "https://github.com/The-Z-Labs/bof-launcher/archive/4f9e9d50237b7e63079c9708a671a0d18ea1ee8f.tar.gz",
-            .hash = "122067dfd5fdbea0d8522d60aa57003a2a63499ece9e611caca917ae0fd51f931de2",
+            .url = "https://github.com/The-Z-Labs/bof-launcher/archive/943a456a2c9b1d4ddf5c667e2d57588275954cf5.tar.gz",
+            .hash = "bof_launcher-1.0.0-u0w4iMtmCACvVnH0kfCHWinLLQdGUmdVdWjYa_XNo2EK",
         },
         .zig_yaml = .{
-            .url = "https://github.com/kubkon/zig-yaml/archive/325dbdd276604dccf184c32fef9600b0ac48343d.tar.gz",
-            .hash = "1220e8870ca83e47b98807e89b5b636072413f6c09f9b26037e4c98c55e4960ac55a",
+            .url = "https://github.com/kubkon/zig-yaml/archive/2d42183a7b49742e74f4b1eca8a245e73cb34113.tar.gz",
+            .hash = "zig_yaml-0.1.0-C1161uaCAgBeGM34gK6grYHDxDEq92BCDbSleBDEqd-s",
         },
     },
 }

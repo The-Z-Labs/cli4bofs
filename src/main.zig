@@ -2,7 +2,7 @@ const std = @import("std");
 const bofs = @import("bof-launcher");
 const yaml = @import("yaml");
 
-pub const std_options = .{
+pub const std_options = std.Options{
     .log_level = .info,
 };
 
@@ -147,6 +147,10 @@ pub fn main() !u8 {
     defer _ = gpa.deinit();
     const allocator = gpa.allocator();
 
+    var arena = std.heap.ArenaAllocator.init(allocator);
+    defer arena.deinit();
+    const arena_allocator = arena.allocator();
+
     ///////////////////////////////////////////////////////////
     // 1. look for BOF-collection.yaml file in cwd
     // 2. parse it if available and store results in the ArrayList
@@ -160,14 +164,15 @@ pub fn main() !u8 {
         const source = try file.readToEndAlloc(allocator, std.math.maxInt(u32));
         defer allocator.free(source);
 
-        var yaml_file = try yaml.Yaml.load(allocator, source);
-        errdefer yaml_file.deinit();
+        var yaml_file: yaml.Yaml = .{ .source = source };
+        errdefer yaml_file.deinit(allocator);
+        try yaml_file.load(allocator);
 
-        const bofs_collection = try yaml_file.parse([]BofRecord);
+        const bofs_collection = try yaml_file.parse(arena_allocator, []BofRecord);
 
         break :blk .{ bofs_collection, yaml_file };
     };
-    defer if (yaml_file) |yf| @constCast(&yf).*.deinit();
+    defer if (yaml_file) |yf| @constCast(&yf).*.deinit(allocator);
 
     ///////////////////////////////////////////////////////////
     // commands processing:
@@ -196,7 +201,7 @@ pub fn main() !u8 {
 
     var cmd: Cmd = undefined;
     var bof_name: [:0]const u8 = undefined;
-    var bof_path_buffer: [std.fs.MAX_PATH_BYTES:0]u8 = undefined;
+    var bof_path_buffer: [std.fs.max_path_bytes:0]u8 = undefined;
 
     var list_tag: []u8 = undefined;
     var list_by_tag: bool = false;
@@ -304,7 +309,7 @@ pub fn main() !u8 {
             for (cmd_args[3..]) |arg| {
                 // handle case when file:<filepath> argument is provided
                 if (mem.indexOf(u8, arg, "file:") != null) {
-                    var iter = mem.tokenize(u8, arg, ":");
+                    var iter = mem.tokenizeScalar(u8, arg, ':');
 
                     _ = iter.next() orelse return error.BadData;
                     const file_path = iter.next() orelse return error.BadData;
@@ -340,7 +345,6 @@ pub fn main() !u8 {
         .info => {
             for (bofs_collection) |bof| {
                 if (std.mem.eql(u8, bof_name, bof.name)) {
-
                     try stdout.print("Name: {s}\n", .{bof.name});
                     try stdout.print("Description: {s}\n", .{bof.description});
                     try stdout.print("BOF authors(s): {s}\n", .{bof.author});
@@ -399,7 +403,7 @@ pub fn main() !u8 {
                     if (bof.errors) |errors| for (errors) |err| {
                         try stdout.print("{s} ({x}) : {s}\n", .{ err.name, err.code, err.message });
                     };
- 
+
                     try stdout.print("\nEXAMPLES: {s}\n", .{bof.examples});
                 }
             }
@@ -436,7 +440,7 @@ pub fn main() !u8 {
                 try stdout.print("info <BOF>  - Display BOF description and usage examples\n", .{});
             } else if (std.mem.eql(u8, cmd_help, "list")) {
                 try stdout.print("list [TAG]  - List BOFs (all or based on TAG) from BOF-collection.yaml file\n", .{});
-            } else if (std.mem.eql(u8, cmd_help, "help")) { 
+            } else if (std.mem.eql(u8, cmd_help, "help")) {
                 try stdout.print("help <COMMAND>  - Display help about given command\n", .{});
             } else {
                 try stderr.writeAll("Fatal: unrecognized command provided. Aborting.\n");

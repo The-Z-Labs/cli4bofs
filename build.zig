@@ -1,24 +1,10 @@
 const std = @import("std");
 
-fn osTagStr(os_tag: std.Target.Os.Tag) []const u8 {
-    return switch (os_tag) {
-        .windows => "win",
-        .linux => "lin",
-        else => unreachable,
-    };
-}
-
-fn cpuArchStr(arch: std.Target.Cpu.Arch) []const u8 {
-    return switch (arch) {
-        .x86_64 => "x64",
-        .x86 => "x86",
-        .aarch64 => "aarch64",
-        .arm => "arm",
-        else => unreachable,
-    };
-}
+pub const min_zig_version = std.SemanticVersion{ .major = 0, .minor = 14, .patch = 1 };
 
 pub fn build(b: *std.Build) void {
+    ensureZigVersion() catch return;
+
     const supported_targets: []const std.Target.Query = &.{
         .{ .cpu_arch = .x86, .os_tag = .windows, .abi = .gnu },
         .{ .cpu_arch = .x86, .os_tag = .linux, .abi = .gnu },
@@ -53,22 +39,20 @@ pub fn build(b: *std.Build) void {
             .optimize = optimize,
         }).module("yaml");
 
-        const bof_launcher_dep = b.dependency("bof_launcher", .{ .optimize = optimize });
+        const bof_launcher_dep = b.dependency(
+            "bof_launcher",
+            .{ .optimize = optimize },
+        ).builder.dependency(
+            "bof_launcher_lib",
+            .{ .optimize = optimize, .target = target },
+        );
         const bof_launcher_lib = bof_launcher_dep.artifact(
-            std.mem.join(
-                b.allocator,
-                "_",
-                &.{ "bof_launcher", osTagStr(target.result.os.tag), cpuArchStr(target.result.cpu.arch) },
-            ) catch unreachable,
+            b.fmt("bof_launcher_{s}_{s}", .{ osTagStr(target), cpuArchStr(target) }),
         );
         const bof_launcher_api_module = bof_launcher_dep.module("bof_launcher_api");
 
         const exe = b.addExecutable(.{
-            .name = std.mem.join(
-                b.allocator,
-                "_",
-                &.{ "cli4bofs", osTagStr(target.result.os.tag), cpuArchStr(target.result.cpu.arch) },
-            ) catch unreachable,
+            .name = b.fmt("cli4bofs_{s}_{s}", .{ osTagStr(target), cpuArchStr(target) }),
             .root_source_file = b.path("src/main.zig"),
             .target = target,
             .optimize = optimize,
@@ -79,5 +63,45 @@ pub fn build(b: *std.Build) void {
         exe.root_module.addImport("yaml", zig_yaml_module);
 
         b.installArtifact(exe);
+    }
+}
+
+fn osTagStr(target: std.Build.ResolvedTarget) []const u8 {
+    return switch (target.result.os.tag) {
+        .windows => "win",
+        .linux => "lin",
+        else => unreachable,
+    };
+}
+
+fn cpuArchStr(target: std.Build.ResolvedTarget) []const u8 {
+    return switch (target.result.cpu.arch) {
+        .x86_64 => "x64",
+        .x86 => "x86",
+        .aarch64 => "aarch64",
+        .arm => "arm",
+        else => unreachable,
+    };
+}
+
+fn ensureZigVersion() !void {
+    var installed_ver = @import("builtin").zig_version;
+    installed_ver.build = null;
+
+    if (installed_ver.order(min_zig_version) != .eq) {
+        std.log.err("\n" ++
+            \\---------------------------------------------------------------------------
+            \\
+            \\Installed Zig compiler version is not supported.
+            \\
+            \\Required version is: {any}
+            \\Installed version: {any}
+            \\
+            \\Please install supported version and try again.
+            \\
+            \\---------------------------------------------------------------------------
+            \\
+        , .{ min_zig_version, installed_ver });
+        return error.ZigIsTooOld;
     }
 }
