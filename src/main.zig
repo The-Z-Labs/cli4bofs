@@ -203,6 +203,7 @@ pub fn main() !u8 {
     // -h / --help
     ///////////////////////////////////////////////////////////
     const Cmd = enum {
+        inject,
         exec,
         info,
         list,
@@ -239,6 +240,21 @@ pub fn main() !u8 {
         if (cmd_args.len > 2) {
             list_by_tag = true;
             list_tag = cmd_args[2];
+        }
+    } else if (mem.eql(u8, "inject", command_name)) {
+        cmd = .inject;
+
+        if (!has_injection_bof) {
+            try stderr.writeAll("Command is not implemented for this platform. Aborting.\n");
+            return 1;
+        }
+        if (cmd_args.len < 4) {
+            try stderr.writeAll("Not enough arguments provided ('file:bof_to_inject.o i:<pid>' required). Aborting.\n");
+            return 1;
+        }
+        if (mem.indexOf(u8, cmd_args[2], "file:") == null) {
+            try stderr.writeAll("First argument must be: 'file:bof_to_inject.o'. Aborting.\n");
+            return 1;
         }
     } else if (mem.eql(u8, "exec", command_name)) {
         cmd = .exec;
@@ -278,6 +294,50 @@ pub fn main() !u8 {
     defer bofs.releaseLauncher();
 
     switch (cmd) {
+        .inject => {
+            if (!has_injection_bof) unreachable;
+
+            const bof_args = try bofs.Args.init();
+            defer bof_args.release();
+
+            var file_data: ?[]const u8 = null;
+            defer if (file_data) |fd| allocator.free(fd);
+
+            bof_args.begin();
+            // start from BOF arguments
+            for (cmd_args[2..]) |arg| {
+                // handle case when file:<filepath> argument is provided
+                if (mem.indexOf(u8, arg, "file:") != null) {
+                    var iter = mem.tokenizeScalar(u8, arg, ':');
+
+                    _ = iter.next() orelse return error.BadData;
+                    const file_path = iter.next() orelse return error.BadData;
+
+                    file_data = try loadFileContent(allocator, @ptrCast(file_path));
+
+                    const len_str = try std.fmt.allocPrint(allocator, "i:{d}", .{file_data.?.len});
+                    defer allocator.free(len_str);
+
+                    try bof_args.add(len_str);
+                    try bof_args.add(mem.asBytes(&file_data.?.ptr));
+
+                    continue;
+                }
+                try bof_args.add(arg);
+            }
+            bof_args.end();
+
+            const object = try bofs.Object.initFromMemory(@embedFile("injection_bof_embed"));
+            defer object.release();
+
+            const context = try object.run(bof_args.getBuffer());
+            defer context.release();
+
+            if (context.getOutput()) |output| {
+                try std.io.getStdOut().writer().print("{s}", .{output});
+            }
+            return context.getExitCode();
+        },
         .exec => {
             ///////////////////////////////////////////////////////////
             // command line arguments processing: handling BOF arguments
