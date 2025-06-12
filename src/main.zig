@@ -9,7 +9,7 @@ pub const std_options = std.Options{
 const io = std.io;
 const mem = std.mem;
 
-const version = std.SemanticVersion{ .major = 0, .minor = 4, .patch = 0 };
+const version = std.SemanticVersion{ .major = 0, .minor = 9, .patch = 1 };
 
 const BofRecord = struct {
     name: []const u8,
