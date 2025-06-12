@@ -9,7 +9,7 @@ pub const std_options = std.Options{
 const io = std.io;
 const mem = std.mem;
 
-const version = std.SemanticVersion{ .major = 0, .minor = 9, .patch = 1 };
+const version = std.SemanticVersion{ .major = 0, .minor = 10, .patch = 0 };
 
 const BofRecord = struct {
     name: []const u8,
@@ -85,7 +85,7 @@ fn runBofFromFile(
 fn loadFileContent(
     allocator: std.mem.Allocator,
     file_path: [:0]const u8,
-) ![]u8 {
+) ![]const u8 {
     const file = try std.fs.openFileAbsoluteZ(file_path, .{});
     defer file.close();
 
@@ -136,9 +136,30 @@ fn usageExec() !void {
     try stdout.print("cli4bofs exec udpScanner 192.168.2.2-10:427 file:/path/to/file/with/udpPayloads\n", .{});
 }
 
+const has_injection_bof = switch (@import("builtin").os.tag) {
+    .windows => switch (@import("builtin").cpu.arch) {
+        .x86 => false,
+        .x86_64 => true,
+        else => unreachable,
+    },
+    .linux => switch (@import("builtin").cpu.arch) {
+        .x86 => false,
+        .x86_64 => false,
+        .arm => false,
+        .aarch64 => false,
+        else => unreachable,
+    },
+    else => unreachable,
+};
+
 pub fn main() !u8 {
     const stderr = io.getStdErr().writer();
     const stdout = io.getStdOut().writer();
+
+    if (has_injection_bof) {
+        const injection_bof = @embedFile("injection_bof_embed");
+        _ = injection_bof;
+    }
 
     ///////////////////////////////////////////////////////////
     // heap preparation
@@ -264,9 +285,6 @@ pub fn main() !u8 {
             const bof_args = try bofs.Args.init();
             defer bof_args.release();
 
-            var file_data: ?[]u8 = null;
-            defer if (file_data) |fd| allocator.free(fd);
-
             var argv_iter = try std.process.argsWithAllocator(allocator);
             defer argv_iter.deinit();
             _ = argv_iter.skip(); // skip prog name
@@ -304,6 +322,9 @@ pub fn main() !u8 {
                 };
             }
 
+            var file_data: ?[]const u8 = null;
+            defer if (file_data) |fd| allocator.free(fd);
+
             bof_args.begin();
             // start from BOF arguments
             for (cmd_args[3..]) |arg| {
@@ -314,16 +335,13 @@ pub fn main() !u8 {
                     _ = iter.next() orelse return error.BadData;
                     const file_path = iter.next() orelse return error.BadData;
 
-                    // load file content and remove final '\n' character (if present)
-
                     file_data = try loadFileContent(allocator, @ptrCast(file_path));
-                    const trimmed_file_data = mem.trimRight(u8, file_data.?, "\n");
 
-                    const len_str = try std.fmt.allocPrint(allocator, "i:{d}", .{trimmed_file_data.len});
+                    const len_str = try std.fmt.allocPrint(allocator, "i:{d}", .{file_data.?.len});
                     defer allocator.free(len_str);
 
                     try bof_args.add(len_str);
-                    try bof_args.add(mem.asBytes(&trimmed_file_data.ptr));
+                    try bof_args.add(mem.asBytes(&file_data.?.ptr));
 
                     continue;
                 }

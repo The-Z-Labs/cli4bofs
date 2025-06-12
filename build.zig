@@ -39,17 +39,16 @@ pub fn build(b: *std.Build) void {
             .optimize = optimize,
         }).module("yaml");
 
-        const bof_launcher_dep = b.dependency(
-            "bof_launcher",
-            .{ .optimize = optimize },
-        ).builder.dependency(
+        const bof_launcher_dep = b.dependency("bof_launcher", .{ .optimize = optimize });
+
+        const bof_launcher_lib_dep = bof_launcher_dep.builder.dependency(
             "bof_launcher_lib",
             .{ .optimize = optimize, .target = target },
         );
-        const bof_launcher_lib = bof_launcher_dep.artifact(
+        const bof_launcher_lib = bof_launcher_lib_dep.artifact(
             b.fmt("bof_launcher_{s}_{s}", .{ osTagStr(target), cpuArchStr(target) }),
         );
-        const bof_launcher_api_module = bof_launcher_dep.module("bof_launcher_api");
+        const bof_launcher_api_module = bof_launcher_lib_dep.module("bof_launcher_api");
 
         const exe = b.addExecutable(.{
             .name = b.fmt("cli4bofs_{s}_{s}", .{ osTagStr(target), cpuArchStr(target) }),
@@ -61,6 +60,17 @@ pub fn build(b: *std.Build) void {
         exe.linkLibrary(bof_launcher_lib);
         exe.root_module.addImport("bof-launcher", bof_launcher_api_module);
         exe.root_module.addImport("yaml", zig_yaml_module);
+
+        if (target.result.os.tag == .windows and target.result.cpu.arch == .x86_64) {
+            const injection_bof = bof_launcher_dep.builder.dependency(
+                "bof_launcher_bofs",
+                .{ .optimize = optimize },
+            ).artifact("wProcessInjectionSrdi.coff.x64");
+
+            exe.root_module.addAnonymousImport("injection_bof_embed", .{
+                .root_source_file = injection_bof.getEmittedBin(),
+            });
+        }
 
         b.installArtifact(exe);
     }
