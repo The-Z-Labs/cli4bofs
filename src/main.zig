@@ -328,10 +328,17 @@ pub fn main() !u8 {
             const context = try object.run(bof_args.getBuffer());
             defer context.release();
 
+            const exit_code = context.getExitCode();
+            if (exit_code == 0) {
+                try std.io.getStdOut().writer().print("Successfully injected BOF.\n", .{});
+            } else {
+                try std.io.getStdOut().writer().print("Failed to inject BOF. Invalid PID?\n", .{});
+            }
+
             if (context.getOutput()) |output| {
                 try std.io.getStdOut().writer().print("{s}", .{output});
             }
-            return context.getExitCode();
+            return exit_code;
         },
         .exec => {
             ///////////////////////////////////////////////////////////
