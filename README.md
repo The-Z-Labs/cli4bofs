@@ -17,17 +17,17 @@ Commands:
 
 help     	<COMMAND>		    Display help about given command
 exec     	<BOF>			    Execute given BOF from a filesystem
-inject   	file:<BOF> i:<PID>	Inject given BOF to a process with given pid
+inject   	file:<BOF> i:<PID>	    Inject given BOF to a process with given pid
 info     	<BOF>			    Display BOF description and usage examples
 list     	[TAG]			    List BOFs (all or based on provided TAG) from current collection
 
 General Options:
 
--h, --help			    Print this help
+-h, --help			Print this help
 -v, --version			Print version number
 ```
 
-### Usage of 'exec' subcommand
+### Usage of `exec` subcommand
 
 `exec` subcommand allows for executing `BOF` directly from a filesystem. One can also conveniently pass arguments to `BOF` using one of `sizZb` (followed by `:`) characters as a prefix to indicate argument's type, as explained below:
 
@@ -55,7 +55,7 @@ cli4bofs exec udpScanner z:192.168.2.2-10:427
 cli4bofs exec udpScanner 192.168.2.2-10:427 file:/tmp/udpProbes
 ```
 
-### BOFs injection to remote proccess with 'inject' subcommand
+### BOFs injection to remote process with `inject` subcommand
 
 With an `inject` subcommand it is possible (currently on `Windows x64` platforms only) to inject a `bof-launcher` and a chosen `BOF` to a remote process. An example of injecting BOF that displays MessageBox to the opened `notepad.exe` process is shown below:
 
@@ -63,7 +63,7 @@ With an `inject` subcommand it is possible (currently on `Windows x64` platforms
   <img src="https://github.com/user-attachments/assets/b32a4ad6-ac53-440c-88f7-5982c72a8485" width="768" />
 </p>
 
-### Yaml BOF collection and 'info' subcommand
+### Yaml BOF collection and `info` subcommand
 
 In addition to `BOF` execution capability, `cli4bofs` tool can be used to store and present BOF's documentation, like: BOF description, parameters specification, example BOF usage, etc. During the startup the tool looks for `BOF-collection.yaml` file in the current directory and looks for the record regarding chosen `BOF`.
 
