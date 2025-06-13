@@ -156,11 +156,6 @@ pub fn main() !u8 {
     const stderr = io.getStdErr().writer();
     const stdout = io.getStdOut().writer();
 
-    if (has_injection_bof) {
-        const injection_bof = @embedFile("injection_bof_embed");
-        _ = injection_bof;
-    }
-
     ///////////////////////////////////////////////////////////
     // heap preparation
     ///////////////////////////////////////////////////////////
@@ -249,11 +244,11 @@ pub fn main() !u8 {
             return 1;
         }
         if (cmd_args.len < 4) {
-            try stderr.writeAll("Not enough arguments provided ('file:bof_to_inject.o i:<pid>' required). Aborting.\n");
+            try stderr.writeAll("Not enough arguments provided ('file:absolute_path_to_bof i:<pid>' required). Aborting.\n");
             return 1;
         }
         if (mem.indexOf(u8, cmd_args[2], "file:") == null) {
-            try stderr.writeAll("First argument must be: 'file:bof_to_inject.o'. Aborting.\n");
+            try stderr.writeAll("First argument must be: 'file:absolute_path_to_bof'. Aborting.\n");
             return 1;
         }
     } else if (mem.eql(u8, "exec", command_name)) {
