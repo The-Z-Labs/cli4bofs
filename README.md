@@ -15,14 +15,15 @@ Usage: cli4bofs command [options]
 
 Commands:
 
-help     	<COMMAND>	Display help about given command
-exec     	<BOF>		Execute given BOF from a filesystem
-info     	<BOF>		Display BOF description and usage examples
-list     	[TAG]		List BOFs (all or based on provided TAG) from current collection
+help     	<COMMAND>		    Display help about given command
+exec     	<BOF>			    Execute given BOF from a filesystem
+inject   	file:<BOF> i:<PID>	Inject given BOF to a process with given pid
+info     	<BOF>			    Display BOF description and usage examples
+list     	[TAG]			    List BOFs (all or based on provided TAG) from current collection
 
 General Options:
 
--h, --help			Print this help
+-h, --help			    Print this help
 -v, --version			Print version number
 ```
 
@@ -54,78 +55,15 @@ cli4bofs exec udpScanner z:192.168.2.2-10:427
 cli4bofs exec udpScanner 192.168.2.2-10:427 file:/tmp/udpProbes
 ```
 
+### BOFs injection to remote proccess with 'inject' subcommand
 
-## Yaml BOF collections
+### Yaml BOF collection and 'info' subcommand
 
 In addition to `BOF` execution capability, `cli4bofs` tool can be used to store and present BOF's documentation, like: BOF description, parameters specification, example BOF usage, etc. During the startup the tool looks for `BOF-collection.yaml` file in the current directory and looks for the record regarding chosen `BOF`.
 
 This repository also contains the YAML collection ([BOF-3rdparty-collection.yaml](BOF-3rdparty-collection.yaml)) for various BOFs that we found useful. To take advantage of it just drop the file in the directory with your `cli4bofs` binary and rename it to `BOF-collection.yaml`. You're encouraged to contribute YAML doc entries for additional BOFs to the collection!
 
-Documenting BOFs is very easy and is a matter of creating simple YAML file entry. An example of YAML doc entry for our [udpScanner BOF](https://github.com/The-Z-Labs/bof-launcher/blob/main/bofs/src/udpScanner.zig) is shown below:
-
-```
-name: "udpScanner"
-description: "Universal UDP port sweeper."
-author: "Z-Labs"
-tags: ['windows', 'linux','net-recon','z-labs']
-OS: "cross"
-entrypoint: "go"
-sources:
-    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/udpScanner.zig'
-examples: '
- Scanning provided IP range on most common UDP ports with builtin UDP probes:
-
-   udpScanner str:192.168.0.1-32
-
- Scanning only cherry-picked ports (if no builtin UDP probe for the chosen port is available then length and content of the packet payload will be randomly generated:
-
-   udpScanner str:192.168.0.1:123,161
-   udpScanner str:102.168.1.1-128:53,427,137
-   udpScanner str:192.168.0.1:100-200
-
- Example of running with provided UDP probes:
-
-   udpScanner str:192.168.0.1-32 int:BUF_LEN str:BUF_MEMORY_ADDRESS
-
- UDP probe syntax (with example):
-
-   <portSpec> <probeName> <hexadecimal encoded probe data>\n
-   53,69,135,1761 dnsReq 000010000000000000000000
-
- Example of running udpScanner using cli4bofs tool and with UDP probes provided from the file:
-
-   cli4bofs exec udpScanner 102.168.1.1-4:161,427 file:/tmp/udpPayloads
-'
-arguments:
-  - name: IPSpec
-    desc: "IP addresses specification, ex: 192.168.0.1; 10.0.0-255.1-254; 192.168.0.1:161,427,10-15"
-    type: string
-    required: true
-  - name: BufLen
-    desc: "length of UDP probes buffer"
-    type: integer
-    required: false
-  - name: BufMemoryAddress
-    desc: "memory address of UDP probes buffer"
-    type: string
-    required: false
-```
-
-As an example, listing available `BOFs` in the collection with `linux` tag:
-
-    $ cli4bofs list linux
-
-Gives:
-
-```
-BOFs with 'linux' tag:
-udpScanner       | windows,linux | Universal UDP port sweeper.
-tcpScanner       | windows,linux | TCP connect() port scanner
-ifconfig         | linux         | Displays the status of the currently active network interfaces; Manipulates current state of the device (euid = 0 or CAP_NET_ADMIN is required for that)
-cat              | linux         | Concatenate FILE to stdout
-tasklist         | linux         | Report a snapshot of the current processes
-pwd              | linux         | Print name of current/working directory
-```
+Documenting BOFs is very easy and is a matter of creating simple YAML file entry. For an example of YAML doc entry see [udpScanner BOF](https://github.com/The-Z-Labs/bof-launcher/blob/main/bofs/src/udpScanner.zig) source file.
 
 Displaying description and parameter specification for selected `BOF`:
 

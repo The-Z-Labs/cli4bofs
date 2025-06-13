@@ -102,10 +102,11 @@ fn usage(name: [:0]const u8) !void {
     const stdout = io.getStdOut().writer();
     try stdout.print("Usage: {s} command [options]\n\n", .{name});
     try stdout.print("Commands:\n\n", .{});
-    try stdout.print("help     \t<COMMAND>\tDisplay help about given command\n", .{});
-    try stdout.print("exec     \t<BOF>\t\tExecute given BOF from a filesystem\n", .{});
-    try stdout.print("info     \t<BOF>\t\tDisplay BOF description and usage examples\n", .{});
-    try stdout.print("list     \t[TAG]\t\tList BOFs (all or based on provided TAG) from current collection\n", .{});
+    try stdout.print("help     \t<COMMAND>\t\tDisplay help about given command\n", .{});
+    try stdout.print("exec     \t<BOF>\t\t\tExecute given BOF from a filesystem\n", .{});
+    try stdout.print("inject   \tfile:<BOF> i:<PID>\tInject given BOF to a process with a given pid\n", .{});
+    try stdout.print("info     \t<BOF>\t\t\tDisplay BOF description and usage examples\n", .{});
+    try stdout.print("list     \t[TAG]\t\t\tList BOFs (all or based on provided TAG) from current collection\n", .{});
     try stdout.print("\nGeneral Options:\n\n", .{});
     try stdout.print("-h, --help\t\t\tPrint this help\n", .{});
     try stdout.print("-v, --version\t\t\tPrint version number\n", .{});
