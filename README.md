@@ -57,7 +57,7 @@ cli4bofs exec udpScanner 192.168.2.2-10:427 file:/tmp/udpProbes
 
 ### BOFs injection to remote process with `inject` subcommand
 
-With an `inject` subcommand it is possible (currently on `Windows x64` platforms only) to inject a `bof-launcher` and a chosen `BOF` to a remote process. An example of injecting BOF that displays MessageBox to the opened `notepad.exe` process is shown below:
+With an `inject` subcommand it is possible (currently on `Windows x64` platforms only) to inject `bof-launcher` dynamic library and arbitrary `BOF` to a remote process. Example of injecting BOF that displays MessageBox to a running `notepad.exe` process is shown below:
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/b32a4ad6-ac53-440c-88f7-5982c72a8485" width="768" />
