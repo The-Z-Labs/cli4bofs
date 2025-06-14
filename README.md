@@ -55,7 +55,7 @@ cli4bofs exec udpScanner z:192.168.2.2-10:427
 cli4bofs exec udpScanner 192.168.2.2-10:427 file:/tmp/udpProbes
 ```
 
-### BOFs injection to remote process with `inject` subcommand
+### BOFs injection to remote process with `inject` subcommand (Windows only)
 
 With an `inject` subcommand it is possible to inject `bof-launcher` dynamic library and arbitrary `BOF` to any process running on a local machine. Example of injecting [BOF that displays message box](https://github.com/The-Z-Labs/bof-launcher/blob/main/bofs/src/wProcessInfoMessageBox.zig) to `notepad.exe` process is shown below.
 
