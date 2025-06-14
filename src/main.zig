@@ -138,7 +138,7 @@ fn usageExec() !void {
 
 const has_injection_bof = switch (@import("builtin").os.tag) {
     .windows => switch (@import("builtin").cpu.arch) {
-        .x86 => false,
+        .x86 => true,
         .x86_64 => true,
         else => unreachable,
     },

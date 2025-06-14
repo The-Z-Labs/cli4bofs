@@ -61,11 +61,11 @@ pub fn build(b: *std.Build) void {
         exe.root_module.addImport("bof-launcher", bof_launcher_api_module);
         exe.root_module.addImport("yaml", zig_yaml_module);
 
-        if (target.result.os.tag == .windows and target.result.cpu.arch == .x86_64) {
+        if (target.result.os.tag == .windows) {
             const injection_bof = bof_launcher_dep.builder.dependency(
                 "bof_launcher_bofs",
                 .{ .optimize = optimize },
-            ).artifact("wProcessInjectionSrdi.coff.x64");
+            ).artifact(b.fmt("wProcessInjectionSrdi.coff.{s}", .{cpuArchStr(target)}));
 
             exe.root_module.addAnonymousImport("injection_bof_embed", .{
                 .root_source_file = injection_bof.getEmittedBin(),
