@@ -9,7 +9,7 @@ pub const std_options = std.Options{
 const io = std.io;
 const mem = std.mem;
 
-const version = std.SemanticVersion{ .major = 0, .minor = 10, .patch = 0 };
+const version = std.SemanticVersion{ .major = 0, .minor = 10, .patch = 1 };
 
 const BofRecord = struct {
     name: []const u8,
@@ -100,32 +100,29 @@ fn loadFileContent(
 
 fn usage(name: [:0]const u8) !void {
     const stdout = io.getStdOut().writer();
-    try stdout.print("Usage: {s} command [options]\n\n", .{name});
+    try stdout.print("\nUsage: {s} command [options]\n\n", .{name});
     try stdout.print("Commands:\n\n", .{});
-    try stdout.print("help     \t<COMMAND>\t\tDisplay help about given command\n", .{});
-    try stdout.print("exec     \t<BOF>\t\t\tExecute given BOF from a filesystem\n", .{});
-    try stdout.print("inject   \tfile:<BOF> i:<PID>\tInject given BOF to a process with a given pid\n", .{});
-    try stdout.print("info     \t<BOF>\t\t\tDisplay BOF description and usage examples\n", .{});
-    try stdout.print("list     \t[TAG]\t\t\tList BOFs (all or based on provided TAG) from current collection\n", .{});
+    try stdout.print("help    <COMMAND>                   Display help about given command\n", .{});
+    try stdout.print("exec    <BOF>                       Execute given BOF from a filesystem\n", .{});
+    try stdout.print("inject  file:<abs_bof_path> i:<PID> Inject given BOF to a process with a given pid\n", .{});
+    try stdout.print("info    <BOF>                       Display BOF description and usage examples\n", .{});
+    try stdout.print("list    [TAG]                       List BOFs (all or based on provided TAG) from current collection\n", .{});
     try stdout.print("\nGeneral Options:\n\n", .{});
-    try stdout.print("-h, --help\t\t\tPrint this help\n", .{});
-    try stdout.print("-v, --version\t\t\tPrint version number\n", .{});
+    try stdout.print("-h, --help      Print this help\n", .{});
+    try stdout.print("-v, --version   Print version number\n\n", .{});
 }
 
 fn usageExec() !void {
     const stdout = io.getStdOut().writer();
-    try stdout.print("Execute given BOF from filesystem with provided ARGUMENTs.\n\n", .{});
+    try stdout.print("\nExecute given BOF from filesystem with provided ARGUMENTs.\n\n", .{});
     try stdout.print("ARGUMENTS:\n\n", .{});
     try stdout.print("ARGUMENT's data type can be specified using one of following prefix:\n", .{});
-    try stdout.print("\tshort OR s\t - 16-bit signed integer.\n", .{});
-    try stdout.print("\tint OR i\t - 32-bit signed integer.\n", .{});
-    try stdout.print("\tstr OR z\t - zero-terminated characters string.\n", .{});
-    try stdout.print("\twstr OR Z\t - zero-terminated wide characters string.\n", .{});
-    try stdout.print(
-        "\tfile OR b\t - special type followed by file path indicating that a pointer to a buffer " ++
-            "filled with content of the file will be passed to BOF.\n",
-        .{},
-    );
+    try stdout.print("  s:     - 16-bit signed integer.\n", .{});
+    try stdout.print("  i:     - 32-bit signed integer.\n", .{});
+    try stdout.print("  z:     - zero-terminated characters string.\n", .{});
+    try stdout.print("  Z:     - zero-terminated wide characters string.\n", .{});
+    try stdout.print("  file:  - special type followed by absolute file path indicating that a pointer to a buffer\n" ++
+        "           filled with content of the file will be passed to BOF.\n", .{});
     try stdout.print(
         "\nIf prefix is ommited then ARGUMENT is treated as a zero-terminated characters string (str / z).\n",
         .{},
@@ -134,7 +131,7 @@ fn usageExec() !void {
     try stdout.print("cli4bofs exec uname -a\n", .{});
     try stdout.print("cli4bofs exec udpScanner 192.168.2.2-10:427\n", .{});
     try stdout.print("cli4bofs exec udpScanner z:192.168.2.2-10:427\n", .{});
-    try stdout.print("cli4bofs exec udpScanner 192.168.2.2-10:427 file:/path/to/file/with/udpPayloads\n", .{});
+    try stdout.print("cli4bofs exec udpScanner 192.168.2.2-10:427 file:/path/to/file/with/udpPayloads\n\n", .{});
 }
 
 const has_injection_bof = switch (@import("builtin").os.tag) {

@@ -15,16 +15,16 @@ Usage: cli4bofs command [options]
 
 Commands:
 
-help     	<COMMAND>		    	Display help about given command
-exec     	<BOF>			    	Execute given BOF from a filesystem
-inject   	file:<abs_path_to_bof> i:<PID>	Inject given BOF to a process with given pid
-info     	<BOF>			    	Display BOF description and usage examples
-list     	[TAG]			    	List BOFs (all or based on provided TAG) from current collection
+help    <COMMAND>                   Display help about given command
+exec    <BOF>                       Execute given BOF from a filesystem
+inject  file:<abs_bof_path> i:<PID> Inject given BOF to a process with a given pid
+info    <BOF>                       Display BOF description and usage examples
+list    [TAG]                       List BOFs (all or based on provided TAG) from current collection
 
 General Options:
 
--h, --help			Print this help
--v, --version			Print version number
+-h, --help      Print this help
+-v, --version   Print version number
 ```
 
 ### Usage of `exec` subcommand
