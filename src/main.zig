@@ -417,6 +417,7 @@ pub fn main() !u8 {
                 &bof_path_buffer,
                 bof_args.getBuffer(),
             );
+            try stdout.print("\nBOF exit code: {d}\n", .{result});
 
             return result;
         },
