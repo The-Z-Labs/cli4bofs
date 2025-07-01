@@ -242,11 +242,11 @@ pub fn main() !u8 {
             return 1;
         }
         if (cmd_args.len < 4) {
-            try stderr.writeAll("Not enough arguments provided ('file:absolute_path_to_bof i:<pid>' required). Aborting.\n");
+            try stderr.writeAll("Not enough arguments provided ('file:absolute_bof_path i:<PID>' required). Aborting.\n");
             return 1;
         }
         if (mem.indexOf(u8, cmd_args[2], "file:") == null) {
-            try stderr.writeAll("First argument must be: 'file:absolute_path_to_bof'. Aborting.\n");
+            try stderr.writeAll("First argument must be: 'file:absolute_bof_path'. Aborting.\n");
             return 1;
         }
     } else if (mem.eql(u8, "exec", command_name)) {
@@ -514,6 +514,8 @@ pub fn main() !u8 {
 
             if (std.mem.eql(u8, cmd_help, "exec")) {
                 try usageExec();
+            } else if (std.mem.eql(u8, cmd_help, "inject")) {
+                try stdout.print("inject file:<absolute_bof_path_to_inject> i:<PID> [--dump-shellcode]\n", .{});
             } else if (std.mem.eql(u8, cmd_help, "info")) {
                 try stdout.print("info <BOF>  - Display BOF description and usage examples\n", .{});
             } else if (std.mem.eql(u8, cmd_help, "list")) {
