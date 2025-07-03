@@ -127,7 +127,8 @@ sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
 examples: '
- ldapsearch (objectclass=*)" "" 0 0 1
+ ldapsearch z:"(objectclass=*)" z:"" i:0 i:0 z:"" z:"" i:0
+ ldapsearch z:"(objectclass=*)" "objectSID,name" i:0 i:0
 '
 arguments:
   - name: ldap_filter
