@@ -1,0 +1,46 @@
+---
+name: KillDefender
+description: "Make Windows Defender useless by removing its token privileges and lowering the token integrity"
+author: Cerbersec
+tags: ['windows', 'host-recon', 'cerbersec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/KillDefender.c'
+    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/KillDefender.h'
+    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/syscalls-asm.h'
+    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/syscalls.c'
+    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/syscalls.h'
+examples: '
+ KillDefender
+'
+---
+name: ppenum
+description: "Read the protection level of a process"
+author: rasta-mouse
+tags: ['windows', 'host-recon']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/rasta-mouse/PPEnum/refs/heads/main/ppenum.c'
+examples: '
+'
+arguments:
+  - name: pid
+    desc: "process PID"
+    type: integer
+    required: true
+---
+name: detect-hooks
+description: "Attempts to detect userland API hooks in place by AV/EDR"
+author: X-Force-Red
+tags: ['windows', 'host-recon', 'xforcered']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/xforcered/Detect-Hooks/refs/heads/main/src/detect-hooks.c'
+    - 'https://raw.githubusercontent.com/xforcered/Detect-Hooks/refs/heads/main/src/detect-hooks.h'
+examples: '
+  detect-hooks
+'
+

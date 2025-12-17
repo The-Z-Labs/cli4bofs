@@ -1,0 +1,99 @@
+name: Domaininfo
+description: "Enumerate CAs and templates in the AD using Win32 functions"
+author: Outflank
+tags: ['windows', 'host-recon', 'outflank']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Domaininfo/SOURCE/Domaininfo.c'
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Domaininfo/SOURCE/Domaininfo.h'
+examples: '
+ domaininfo
+'
+---
+name: Smbinfo
+description: "Gather remote system version info using the NetWkstaGetInfo API"
+author: Outflank
+tags: ['windows', 'host-recon', 'outflank']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Smbinfo/SOURCE/Smbinfo.c'
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Smbinfo/SOURCE/Smbinfo.h'
+examples: '
+ smbinfo <computername>
+'
+arguments:
+  - name: computername
+    desc: "Active directory computer name"
+    type: wstring
+    required: true
+---
+name: ReconAD
+description: "Query Active Directory objects and attributes using ADSI API"
+author: Outflank
+tags: ['windows', 'host-recon', 'outflank']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/ReconAD/SOURCE/ReconAD.c'
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/ReconAD/SOURCE/ReconAD.h'
+examples: '
+ ReconAD (&(objectClass=user)(objectCategory=person)(sAMAccountName=*admin*)) displayName,sAMAccountName 10
+ ReconAD users *admin* displayName,sAMAccountName 10 -usegc
+ ReconAD groups "Domain Admins" -all -max -usegc 192.168.1.10
+ ReconAD computers *srv* name,operatingSystemVersion 20 -ldap 192.168.1.10
+'
+arguments:
+  - name: objects
+    desc: "custom|users|groups|computers"
+    type: wstring
+    required: true
+  - name: ldap_filter
+    desc: "custom_ldap_filter|username|groupname|computername"
+    type: wstring
+    required: true
+  - name: ldap_attr
+    desc: "comma separated ldap attributes"
+    type: wstring
+    required: false
+  - name: max_results
+    desc: "max results"
+    type: integer
+    required: false
+  - name: usegc
+    desc: "search within the Global Catalogue (set to 1); use LDAP (default)"
+    type: integer
+    required: false
+  - name: server
+    desc: "IP of custom server; or '-noserver' for serverless binding (default)"
+    type: wstring
+    required: false
+---
+name: Psk
+description: "Shows detailed information from the windows kernel and loaded driver modules and provides a summary of installed security products (AV/EDR drivers)"
+author: Outflank
+tags: ['windows', 'host-recon', 'outflank']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Psk/SOURCE/Psk.c'
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Psk/SOURCE/Psk.h'
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Psk/SOURCE/Syscalls-WoW64.h'
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Psk/SOURCE/Syscalls.h'
+examples: '
+ psk
+'
+---
+name: Klist
+description: "Displays a list of currently cached Kerberos tickets"
+author: Outflank
+tags: ['windows', 'host-recon', 'outflank']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Klist/SOURCE/Klist.c'
+    - 'https://raw.githubusercontent.com/outflanknl/C2-Tool-Collection/refs/heads/main/BOF/Klist/SOURCE/Klist.h'
+examples: '
+  TODO
+'

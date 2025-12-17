@@ -67,7 +67,14 @@ With an `inject` subcommand it is possible to inject `bof-launcher` dynamic libr
 
 In addition to `BOF` execution capability, `cli4bofs` tool can be used to store and present BOF's documentation, like: BOF description, parameters specification, example BOF usage, etc. During the startup the tool looks for `BOF-collection.yaml` file in the current directory and looks for the record regarding chosen `BOF`.
 
-This repository also contains the YAML collection ([BOF-3rdparty-collection.yaml](BOF-3rdparty-collection.yaml)) for various BOFs that we found useful. To take advantage of it just drop the file in the directory with your `cli4bofs` binary and rename it to `BOF-collection.yaml`. You're encouraged to contribute YAML doc entries for additional BOFs to the collection!
+This repository also contains the YAML collections for various third party BOFs implemented by other members of security community:
+
+- [BOF-Trustedsec.yaml](BOF-Trustedsec.yaml) - BOFs from [CS-Situational-Awareness-BOF](https://github.com/trustedsec/CS-Situational-Awareness-BOF) and [CS-Remote-OPs-BOF](https://github.com/trustedsec/CS-Remote-OPs-BOF) repos.
+- [BOF-Outflank.yaml](BOF-Outflank.yaml) - BOFs from [C2-Tool-Collection](https://github.com/outflanknl/C2-Tool-Collection) repository.
+- [BOF-Z-Labs.yaml](BOF-Z-Labs.yaml) - our BOFs available in [bof-launcher](https://github.com/The-Z-Labs/bof-launcher/tree/main/bofs) repo.
+- [BOF-misc.yaml](BOF-misc.yaml) - other noteable BOFs from various places.
+
+To take advantage of it just drop the chosen file in the directory with your `cli4bofs` binary and rename it to `BOF-collection.yaml`.
 
 Documenting BOFs is very easy and is a matter of creating simple YAML file entry. For an example of YAML doc entry see [udpScanner BOF](https://github.com/The-Z-Labs/bof-launcher/blob/main/bofs/src/udpScanner.zig) source file.
 
