@@ -108,8 +108,9 @@ fn usage(name: [:0]const u8) !void {
     try stdout.print("info    <BOF>                       Display BOF description and usage examples\n", .{});
     try stdout.print("list    [TAG]                       List BOFs (all or based on provided TAG) from current collection\n", .{});
     try stdout.print("\nGeneral Options:\n\n", .{});
-    try stdout.print("-h, --help      Print this help\n", .{});
-    try stdout.print("-v, --version   Print version number\n\n", .{});
+    try stdout.print("-c, --collection    Provide file path to alternative BOF YAML collection file", .{});
+    try stdout.print("-h, --help          Print this help\n", .{});
+    try stdout.print("-v, --version       Print version number\n\n", .{});
 }
 
 fn usageExec() !void {
@@ -166,29 +167,6 @@ pub fn main() !u8 {
     const arena_allocator = arena.allocator();
 
     ///////////////////////////////////////////////////////////
-    // 1. look for BOF-collection.yaml file in cwd
-    // 2. parse it if available and store results in the ArrayList
-    ///////////////////////////////////////////////////////////
-    const bofs_collection, const yaml_file = blk: {
-        const file = std.fs.cwd().openFile("BOF-collection.yaml", .{}) catch {
-            break :blk .{ @as([*]BofRecord, undefined)[0..0], null };
-        };
-        defer file.close();
-
-        const source = try file.readToEndAlloc(allocator, std.math.maxInt(u32));
-        defer allocator.free(source);
-
-        var yaml_file: yaml.Yaml = .{ .source = source };
-        errdefer yaml_file.deinit(allocator);
-        try yaml_file.load(allocator);
-
-        const bofs_collection = try yaml_file.parse(arena_allocator, []BofRecord);
-
-        break :blk .{ bofs_collection, yaml_file };
-    };
-    defer if (yaml_file) |yf| @constCast(&yf).*.deinit(allocator);
-
-    ///////////////////////////////////////////////////////////
     // commands processing:
     // exec <BOF>: opening and launching BOF file
     // info <BOF>: dispalying BOF description, usage and example invocations
@@ -207,12 +185,63 @@ pub fn main() !u8 {
     defer std.process.argsFree(allocator, cmd_args);
 
     const prog_name = cmd_args[0];
-
     if (cmd_args.len < 2) {
         try usage(prog_name);
         return 0;
     }
-    const command_name = cmd_args[1];
+
+    // points to first parameter
+    var cur_index: u8 = 1;
+    var command_name: []u8 = undefined;
+
+    var explicit_yaml_file: bool = false;
+    var yaml_file_name: []u8 = undefined;
+
+    // special case: external BOF YAML was provided
+    if(mem.eql(u8, "-c", cmd_args[cur_index]) or mem.eql(u8, "--collection", cmd_args[cur_index])) {
+
+        cur_index = cur_index + 1;
+
+        yaml_file_name = cmd_args[cur_index];
+        cur_index = cur_index + 1;
+
+        try stdout.print("INFO: YAML file in use: {s}\n", .{yaml_file_name});
+        explicit_yaml_file = true;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // 1. look for BOF-collection.yaml file in cwd
+    // 2. parse it if available and store results in the ArrayList
+    ///////////////////////////////////////////////////////////
+    const bofs_collection, const yaml_file = blk: {
+
+        var file: std.fs.File = undefined;
+        file = std.fs.openFileAbsolute(yaml_file_name, .{}) catch {
+             break :blk .{ @as([*]BofRecord, undefined)[0..0], null };
+        };
+        defer file.close();
+
+        //file = std.fs.cwd().openFile("BOF-collection.yaml", .{}) catch {
+        //    break :blk .{ @as([*]BofRecord, undefined)[0..0], null };
+        //};
+
+        const source = try file.readToEndAlloc(allocator, std.math.maxInt(u32));
+        defer allocator.free(source);
+
+        var yaml_file: yaml.Yaml = .{ .source = source };
+        errdefer yaml_file.deinit(allocator);
+        try yaml_file.load(allocator);
+
+        const bofs_collection = try yaml_file.parse(arena_allocator, []BofRecord);
+
+        break :blk .{ bofs_collection, yaml_file };
+    };
+    defer if (yaml_file) |yf| @constCast(&yf).*.deinit(allocator);
+
+    command_name = cmd_args[cur_index];
+    cur_index = cur_index + 1;
+
+    try stdout.print("command name {s}\n", .{command_name});
 
     var cmd: Cmd = undefined;
     var bof_name: [:0]const u8 = undefined;
@@ -230,9 +259,9 @@ pub fn main() !u8 {
     } else if (mem.eql(u8, "list", command_name)) {
         cmd = .list;
 
-        if (cmd_args.len > 2) {
+        if (cmd_args.len > cur_index) {
             list_by_tag = true;
-            list_tag = cmd_args[2];
+            list_tag = cmd_args[cur_index];
         }
     } else if (mem.eql(u8, "inject", command_name)) {
         cmd = .inject;
@@ -241,21 +270,21 @@ pub fn main() !u8 {
             try stderr.writeAll("Command is not implemented for this platform. Aborting.\n");
             return 1;
         }
-        if (cmd_args.len < 4) {
+        if (cmd_args.len < cur_index + 2) {
             try stderr.writeAll("Not enough arguments provided ('file:absolute_bof_path i:<PID>' required). Aborting.\n");
             return 1;
         }
-        if (mem.indexOf(u8, cmd_args[2], "file:") == null) {
+        if (mem.indexOf(u8, cmd_args[cur_index], "file:") == null) {
             try stderr.writeAll("First argument must be: 'file:absolute_bof_path'. Aborting.\n");
             return 1;
         }
     } else if (mem.eql(u8, "exec", command_name)) {
         cmd = .exec;
-        if (cmd_args.len < 3) {
+        if (cmd_args.len < cur_index + 1) {
             try stderr.writeAll("No BOF provided. Aborting.\n");
             return 1;
         }
-        bof_name = cmd_args[2];
+        bof_name = cmd_args[cur_index];
 
         const absolute_bof_path = std.fs.cwd().realpathZ(bof_name, bof_path_buffer[0..]) catch {
             try stderr.writeAll("BOF not found. Aborting.\n");
@@ -264,14 +293,14 @@ pub fn main() !u8 {
         bof_path_buffer[absolute_bof_path.len] = 0;
     } else if (mem.eql(u8, "info", command_name)) {
         cmd = .info;
-        if (cmd_args.len < 3) {
+        if (cmd_args.len < cur_index + 1) {
             try stderr.writeAll("No BOF name provided. Aborting.\n");
             return 1;
         }
-        bof_name = cmd_args[2];
+        bof_name = cmd_args[cur_index];
     } else if (mem.eql(u8, "help", command_name)) {
         cmd = .help;
-        if (cmd_args.len < 3) {
+        if (cmd_args.len < cur_index + 1) {
             try stderr.writeAll("No command name provided. Aborting.\n");
             return 1;
         }
@@ -298,7 +327,8 @@ pub fn main() !u8 {
 
             bof_args.begin();
             // start from BOF arguments
-            for (cmd_args[2..]) |arg| {
+            cur_index = cur_index + 1;
+            for (cmd_args[cur_index..]) |arg| {
                 // handle case when file:<filepath> argument is provided
                 if (mem.indexOf(u8, arg, "file:") != null) {
                     var iter = mem.tokenizeScalar(u8, arg, ':');
@@ -347,6 +377,10 @@ pub fn main() !u8 {
 
             var argv_iter = try std.process.argsWithAllocator(allocator);
             defer argv_iter.deinit();
+            if(explicit_yaml_file) {
+                _ = argv_iter.skip(); // skip '-c|--collection' flag
+                _ = argv_iter.skip(); // skip YAML file path
+            }
             _ = argv_iter.skip(); // skip prog name
             _ = argv_iter.skip(); // skip command name
             _ = argv_iter.skip(); // skip BOF name
@@ -387,7 +421,8 @@ pub fn main() !u8 {
 
             bof_args.begin();
             // start from BOF arguments
-            for (cmd_args[3..]) |arg| {
+            cur_index = cur_index + 1;
+            for (cmd_args[cur_index..]) |arg| {
                 // handle case when file:<filepath> argument is provided
                 if (mem.indexOf(u8, arg, "file:") != null) {
                     var iter = mem.tokenizeScalar(u8, arg, ':');
@@ -511,7 +546,7 @@ pub fn main() !u8 {
             }
         },
         .help => {
-            const cmd_help = cmd_args[2];
+            const cmd_help = cmd_args[cur_index];
 
             if (std.mem.eql(u8, cmd_help, "exec")) {
                 try usageExec();

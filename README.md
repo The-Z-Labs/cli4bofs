@@ -23,8 +23,9 @@ list    [TAG]                       List BOFs (all or based on provided TAG) fro
 
 General Options:
 
--h, --help      Print this help
--v, --version   Print version number
+-c, --collection    Provide file path to alternative BOFs YAML collection file
+-h, --help          Print this help
+-v, --version       Print version number
 ```
 
 ### Usage of `exec` subcommand

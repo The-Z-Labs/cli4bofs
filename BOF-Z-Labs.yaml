@@ -5,6 +5,8 @@ author: "Z-Labs"
 tags: ['windows', 'linux','net-recon','z-labs']
 OS: "cross"
 entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/tcpScanner.zig'
 examples: '
  Scanning provided IP range on most common UDP ports with builtin UDP probes:
 

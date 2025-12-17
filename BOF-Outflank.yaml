@@ -1,3 +1,4 @@
+---
 name: Domaininfo
 description: "Enumerate CAs and templates in the AD using Win32 functions"
 author: Outflank
