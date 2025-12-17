@@ -9,7 +9,7 @@ import yaml
 SCRIPT_VERSION = "1.0"
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Usage: python fetch-3rdparty-BOFs.py <FILE> <BOFs src dir>\n")
+    parser = argparse.ArgumentParser(description="Usage: python fetch-3rdparty-BOFs.py <BOF collection yaml file> <BOFs src dir>\n")
     menu_group = parser.add_argument_group('Menu Options')
 
     # on/off flag argument type:
@@ -61,11 +61,16 @@ if __name__ == "__main__":
 
             # get BOF sources as defined in metadata:
             print("Fetching sources for " + author + "'s '" + name + "' BOF:")
-            for src in bofMetadata['sources']:
-                with urllib.request.urlopen(src) as f:
-                    with open(destDir / Path(src).name, 'wb') as output:
-                        print("  URL: " + src + " -> " + args.bofsSrcDir + "/" + author + "/" + name + "/")
-                        output.write(f.read())
+            if 'sources' in bofMetadata:
+                for src in bofMetadata['sources']:
+                    with urllib.request.urlopen(src) as f:
+                        with open(destDir / Path(src).name, 'wb') as output:
+                            print("  URL: " + src + " -> " + args.bofsSrcDir + "/" + author + "/" + name + "/")
+                            output.write(f.read())
+            else:
+                print("WARNING. No URL(s) to source code for " + name + " BOF in YAML collection file. Sources for " + name + " BOF won't be fetched.")
+                print("")
+                continue
 
             # craft entry for BOFs table for build.zig
             if srcfile == "":
