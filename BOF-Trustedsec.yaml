@@ -1,25 +1,4 @@
 ---
-name: listmods
-srcfile: "entry"
-description: "List process modules (DLL). Target current process if PID is empty"
-author: Trustedsec
-tags: ['windows', 'host-recon', 'trustedsec']
-OS: windows
-entrypoint: "go"
-sources:
-    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/listmods/entry.c'
-    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
-    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
-examples: '
- listmods
- listmods 3461
-'
-arguments:
-  - name: pid
-    desc: "Process PID"
-    type: integer
-    required: false
----
 name: adcs_enum
 srcfile: "entry"
 description: "Enumerate CAs and templates in the AD using Win32 functions"
@@ -44,6 +23,64 @@ arguments:
     type: wstring
     required: true
 ---
+name: adcs_enum_com
+srcfile: "entry"
+description: "Enumerate CAs and templates in the AD using ICertConfig COM object"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum_com/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum_com/adcs_enum_com.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum_com/adcs_enum_com.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum_com/certca.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum_com/certenroll.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ adcs_enum_com
+'
+---
+name: adcs_enum_com2
+srcfile: "entry"
+description: "Enumerate CAs and templates in the AD using IX509PolicyServerListManager COM object"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum_com2/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum_com2/adcs_enum_com2.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum_com2/adcs_enum_com2.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum_com2/certenroll.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ adcs_enum_com2
+'
+---
+name: adv_audit_policies
+srcfile: "entry"
+description: "Retrieve advanced security audit policies"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adv_audit_policies/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ adv_audit_policies
+ adv_audit_policies 1
+'
+arguments:
+  - name: iswow64
+    desc: "If set to non zero (e.g. 1) it retrieves policy for WoW64 subsystem. Default: 0"
+    type: integer
+    required: false
+---
 name: arp
 srcfile: "entry"
 description: "List ARP table"
@@ -58,6 +95,51 @@ sources:
 examples: '
  arp
 '
+---
+name: cacls
+srcfile: "entry"
+description: "List user permissions for the specified file, wildcards supported"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/cacls/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/cacls/defines.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ cacls *
+ cacls .
+ cacls "C:\\windows\\system32"
+ cacls "C:\\windows\\system32\\notepad.exe"
+'
+arguments:
+  - name: filepath
+    desc: "Path to the filesystem entry"
+    type: wstring
+    required: true
+---
+name: listmods
+srcfile: "entry"
+description: "List process modules (DLL). Target current process if PID is empty"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/listmods/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ listmods
+ listmods 3461
+'
+arguments:
+  - name: pid
+    desc: "Process PID"
+    type: integer
+    required: false
 ---
 name: ldapsearch
 srcfile: "entry"
