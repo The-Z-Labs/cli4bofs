@@ -120,6 +120,30 @@ arguments:
     type: wstring
     required: true
 ---
+name: dir
+srcfile: "entry"
+description: "List files in a directory. Supports wildcards (e.g. C:\Windows\S*)"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/dir/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ dir "C:\\windows\\system32" 1
+'
+arguments:
+  - name: path
+    desc: "Path to the directory"
+    type: string
+    required: true
+- name: subdirs
+    desc: "If set to non zero (e.g. 1) it will list subdirectories"
+    type: short
+    required: true
+---
 name: listmods
 srcfile: "entry"
 description: "List process modules (DLL). Target current process if PID is empty"
