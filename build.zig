@@ -1,6 +1,6 @@
 const std = @import("std");
 
-pub const min_zig_version = std.SemanticVersion{ .major = 0, .minor = 14, .patch = 1 };
+pub const min_zig_version = std.SemanticVersion{ .major = 0, .minor = 15, .patch = 2 };
 
 pub fn build(b: *std.Build) void {
     ensureZigVersion() catch return;
@@ -21,7 +21,7 @@ pub fn build(b: *std.Build) void {
 
     const std_target = b.standardTargetOptions(.{ .whitelist = supported_targets });
     const optimize = b.option(
-        std.builtin.Mode,
+        std.builtin.OptimizeMode,
         "optimize",
         "Prioritize performance, safety, or binary size (-O flag)",
     ) orelse .ReleaseSmall;
@@ -52,9 +52,11 @@ pub fn build(b: *std.Build) void {
 
         const exe = b.addExecutable(.{
             .name = b.fmt("cli4bofs_{s}_{s}", .{ osTagStr(target), cpuArchStr(target) }),
-            .root_source_file = b.path("src/main.zig"),
-            .target = target,
-            .optimize = optimize,
+            .root_module = b.createModule(.{
+                .root_source_file = b.path("src/main.zig"),
+                .target = target,
+                .optimize = optimize,
+            }),
         });
 
         exe.linkLibrary(bof_launcher_lib);

@@ -12,12 +12,12 @@
     },
     .dependencies = .{
         .bof_launcher = .{
-            .url = "https://github.com/The-Z-Labs/bof-launcher/archive/82fccfd5c6d5818a460dfaa804d51525157996d9.tar.gz",
-            .hash = "bof_launcher-1.0.0-u0w4iMZbCQCBG6412ofm8G6TNNo5OvHbF-sqsTTY3buM",
+            .url = "https://github.com/The-Z-Labs/bof-launcher/archive/a6b89dc77195dbd28c94c6cf94b7ba32b57ec680.tar.gz",
+            .hash = "bof_launcher-1.0.0-u0w4iD9vCwCPbK_4y4m4KaFx2sAQYRcb-nSQQw16YdyB",
         },
         .zig_yaml = .{
-            .url = "https://github.com/kubkon/zig-yaml/archive/2d42183a7b49742e74f4b1eca8a245e73cb34113.tar.gz",
-            .hash = "zig_yaml-0.1.0-C1161uaCAgBeGM34gK6grYHDxDEq92BCDbSleBDEqd-s",
+            .url = "https://github.com/kubkon/zig-yaml/archive/a6c2cd8760bf45c49b17a3f6259c4dfe3ded528e.tar.gz",
+            .hash = "zig_yaml-0.2.0-C1161pmrAgDnipDTh_4v4RQD27XN5GNaVlzzvlXf1jfW",
         },
     },
 }

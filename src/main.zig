@@ -9,7 +9,7 @@ pub const std_options = std.Options{
 const io = std.io;
 const mem = std.mem;
 
-const version = std.SemanticVersion{ .major = 0, .minor = 10, .patch = 1 };
+const version = std.SemanticVersion{ .major = 0, .minor = 10, .patch = 2 };
 
 const BofRecord = struct {
     name: []const u8,
@@ -64,10 +64,7 @@ fn runBofFromFile(
     bof_path: [:0]const u8,
     arg_data: ?[]u8,
 ) !u8 {
-    const file = try std.fs.openFileAbsoluteZ(bof_path, .{});
-    defer file.close();
-
-    const file_data = try file.reader().readAllAlloc(allocator, 16 * 1024 * 1024);
+    const file_data = try loadFileContent(allocator, bof_path);
     defer allocator.free(file_data);
 
     const object = try bofs.Object.initFromMemory(file_data);
@@ -77,7 +74,7 @@ fn runBofFromFile(
     defer context.release();
 
     if (context.getOutput()) |output| {
-        try std.io.getStdOut().writer().print("{s}", .{output});
+        try stdout.print("{s}", .{output});
     }
     return context.getExitCode();
 }
@@ -89,17 +86,17 @@ fn loadFileContent(
     const file = try std.fs.openFileAbsoluteZ(file_path, .{});
     defer file.close();
 
-    var file_data = std.ArrayList(u8).init(allocator);
-    defer file_data.deinit();
+    const file_stat = try file.stat();
+    const file_data = try allocator.alloc(u8, @intCast(file_stat.size));
+    errdefer allocator.free(file_data);
 
-    try file.reader().readAllArrayList(&file_data, 16 * 1024 * 1024);
-    //try file_data.append(0);
+    var file_reader = file.reader(&.{});
+    try file_reader.interface.readSliceAll(file_data);
 
-    return file_data.toOwnedSlice();
+    return file_data;
 }
 
 fn usage(name: [:0]const u8) !void {
-    const stdout = io.getStdOut().writer();
     try stdout.print("\nUsage: {s} command [options]\n\n", .{name});
     try stdout.print("Commands:\n\n", .{});
     try stdout.print("help    <COMMAND>                   Display help about given command\n", .{});
@@ -108,13 +105,12 @@ fn usage(name: [:0]const u8) !void {
     try stdout.print("info    <BOF>                       Display BOF description and usage examples\n", .{});
     try stdout.print("list    [TAG]                       List BOFs (all or based on provided TAG) from current collection\n", .{});
     try stdout.print("\nGeneral Options:\n\n", .{});
-    try stdout.print("-c, --collection    Provide file path to alternative BOF YAML collection file", .{});
+    try stdout.print("-c, --collection    Provide relative file path to alternative BOF YAML collection file (BOF-Z-Labs.yaml by default)\n", .{});
     try stdout.print("-h, --help          Print this help\n", .{});
     try stdout.print("-v, --version       Print version number\n\n", .{});
 }
 
 fn usageExec() !void {
-    const stdout = io.getStdOut().writer();
     try stdout.print("\nExecute given BOF from filesystem with provided ARGUMENTs.\n\n", .{});
     try stdout.print("ARGUMENTS:\n\n", .{});
     try stdout.print("ARGUMENT's data type can be specified using one of following prefix:\n", .{});
@@ -151,9 +147,18 @@ const has_injection_bof = switch (@import("builtin").os.tag) {
     else => unreachable,
 };
 
+var stderr_writer: std.fs.File.Writer = undefined;
+var stdout_writer: std.fs.File.Writer = undefined;
+
+var stderr: *std.Io.Writer = undefined;
+var stdout: *std.Io.Writer = undefined;
+
 pub fn main() !u8 {
-    const stderr = io.getStdErr().writer();
-    const stdout = io.getStdOut().writer();
+    stderr_writer = std.fs.File.stderr().writer(&.{});
+    stderr = &stderr_writer.interface;
+
+    stdout_writer = std.fs.File.stdout().writer(&.{});
+    stdout = &stdout_writer.interface;
 
     ///////////////////////////////////////////////////////////
     // heap preparation
@@ -194,36 +199,29 @@ pub fn main() !u8 {
     var cur_index: u8 = 1;
     var command_name: []u8 = undefined;
 
-    var explicit_yaml_file: bool = false;
-    var yaml_file_name: []u8 = undefined;
+    const explicit_yaml_file, const yaml_file_name = blk: {
+        // special case: external BOF YAML was provided
+        if (mem.eql(u8, "-c", cmd_args[cur_index]) or mem.eql(u8, "--collection", cmd_args[cur_index])) {
+            cur_index += 1;
 
-    // special case: external BOF YAML was provided
-    if(mem.eql(u8, "-c", cmd_args[cur_index]) or mem.eql(u8, "--collection", cmd_args[cur_index])) {
+            const file_name = cmd_args[cur_index];
+            cur_index += 1;
 
-        cur_index = cur_index + 1;
-
-        yaml_file_name = cmd_args[cur_index];
-        cur_index = cur_index + 1;
-
-        try stdout.print("INFO: YAML file in use: {s}\n", .{yaml_file_name});
-        explicit_yaml_file = true;
-    }
+            break :blk .{ true, file_name };
+        } else {
+            break :blk .{ false, "BOF-Z-Labs.yaml" };
+        }
+    };
 
     ///////////////////////////////////////////////////////////
     // 1. look for BOF-collection.yaml file in cwd
     // 2. parse it if available and store results in the ArrayList
     ///////////////////////////////////////////////////////////
     const bofs_collection, const yaml_file = blk: {
-
-        var file: std.fs.File = undefined;
-        file = std.fs.openFileAbsolute(yaml_file_name, .{}) catch {
-             break :blk .{ @as([*]BofRecord, undefined)[0..0], null };
+        var file: std.fs.File = std.fs.cwd().openFile(yaml_file_name, .{}) catch {
+            break :blk .{ @as([*]BofRecord, undefined)[0..0], null };
         };
         defer file.close();
-
-        //file = std.fs.cwd().openFile("BOF-collection.yaml", .{}) catch {
-        //    break :blk .{ @as([*]BofRecord, undefined)[0..0], null };
-        //};
 
         const source = try file.readToEndAlloc(allocator, std.math.maxInt(u32));
         defer allocator.free(source);
@@ -234,6 +232,8 @@ pub fn main() !u8 {
 
         const bofs_collection = try yaml_file.parse(arena_allocator, []BofRecord);
 
+        try stdout.print("INFO: YAML file in use: {s}\n\n", .{yaml_file_name});
+
         break :blk .{ bofs_collection, yaml_file };
     };
     defer if (yaml_file) |yf| @constCast(&yf).*.deinit(allocator);
@@ -241,7 +241,7 @@ pub fn main() !u8 {
     command_name = cmd_args[cur_index];
     cur_index = cur_index + 1;
 
-    try stdout.print("command name {s}\n", .{command_name});
+    //try stdout.print("command name {s}\n", .{command_name});
 
     var cmd: Cmd = undefined;
     var bof_name: [:0]const u8 = undefined;
@@ -254,7 +254,7 @@ pub fn main() !u8 {
         try usage(prog_name);
         return 0;
     } else if (mem.eql(u8, "-v", command_name) or mem.eql(u8, "--version", command_name)) {
-        try stdout.print("{any}\n", .{version});
+        try stdout.print("{d}.{d}.{d}\n", .{ version.major, version.minor, version.patch });
         return 0;
     } else if (mem.eql(u8, "list", command_name)) {
         cmd = .list;
@@ -358,13 +358,13 @@ pub fn main() !u8 {
 
             const exit_code = context.getExitCode();
             if (exit_code == 0) {
-                try std.io.getStdOut().writer().print("Successfully injected BOF.\n", .{});
+                try stdout.print("Successfully injected BOF.\n", .{});
             } else {
-                try std.io.getStdOut().writer().print("Failed to inject BOF. Invalid PID?\n", .{});
+                try stdout.print("Failed to inject BOF. Invalid PID?\n", .{});
             }
 
             if (context.getOutput()) |output| {
-                try std.io.getStdOut().writer().print("{s}", .{output});
+                try stdout.print("{s}", .{output});
             }
             return exit_code;
         },
@@ -377,7 +377,7 @@ pub fn main() !u8 {
 
             var argv_iter = try std.process.argsWithAllocator(allocator);
             defer argv_iter.deinit();
-            if(explicit_yaml_file) {
+            if (explicit_yaml_file) {
                 _ = argv_iter.skip(); // skip '-c|--collection' flag
                 _ = argv_iter.skip(); // skip YAML file path
             }
