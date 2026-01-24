@@ -105,7 +105,7 @@ fn usage(name: [:0]const u8) !void {
     try stdout.print("info    <BOF>                       Display BOF description and usage examples\n", .{});
     try stdout.print("list    [TAG]                       List BOFs (all or based on provided TAG) from current collection\n", .{});
     try stdout.print("\nGeneral Options:\n\n", .{});
-    try stdout.print("-c, --collection    Provide relative file path to alternative BOF YAML collection file (BOF-Z-Labs.yaml by default)\n", .{});
+    try stdout.print("-c, --collection    Provide relative file path to alternative BOF YAML collection file (BOF-collection.yaml by default)\n", .{});
     try stdout.print("-h, --help          Print this help\n", .{});
     try stdout.print("-v, --version       Print version number\n\n", .{});
 }
@@ -209,7 +209,7 @@ pub fn main() !u8 {
 
             break :blk .{ true, file_name };
         } else {
-            break :blk .{ false, "BOF-Z-Labs.yaml" };
+            break :blk .{ false, "BOF-collection.yaml" };
         }
     };
 
@@ -219,6 +219,7 @@ pub fn main() !u8 {
     ///////////////////////////////////////////////////////////
     const bofs_collection, const yaml_file = blk: {
         var file: std.fs.File = std.fs.cwd().openFile(yaml_file_name, .{}) catch {
+            try stdout.print("WARNING: no BOFs collection provided. Create 'BOF-collection.yaml' in the current directory or use '-c' option.\n\n", .{});
             break :blk .{ @as([*]BofRecord, undefined)[0..0], null };
         };
         defer file.close();
@@ -538,9 +539,9 @@ pub fn main() !u8 {
                 if (list_by_tag) {
                     for (bof.tags) |tag| {
                         if (std.mem.eql(u8, tag, list_tag))
-                            try stdout.print("{s:<16} | {s:<13} | {s}\n", .{ bof.name, platform, bof.description });
+                            try stdout.print("{s:<20} | {s:<13} | {s}\n", .{ bof.name, platform, bof.description });
                     }
-                } else try stdout.print("{s:<16} | {s:<13} | {s}\n", .{ bof.name, platform, bof.description });
+                } else try stdout.print("{s:<20} | {s:<13} | {s}\n", .{ bof.name, platform, bof.description });
 
                 defer allocator.free(platform);
             }

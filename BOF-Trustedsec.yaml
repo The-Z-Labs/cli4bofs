@@ -122,7 +122,7 @@ arguments:
 ---
 name: dir
 srcfile: "entry"
-description: "List files in a directory. Supports wildcards (e.g. C:\Windows\S*)"
+description: "List files in a directory. Supports wildcards"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec']
 OS: windows
@@ -139,7 +139,7 @@ arguments:
     desc: "Path to the directory"
     type: string
     required: true
-- name: subdirs
+  - name: subdirs
     desc: "If set to non zero (e.g. 1) it will list subdirectories"
     type: short
     required: true
@@ -186,28 +186,26 @@ arguments:
     type: string
     required: true
   - name: ldap_attributes
-    desc: "LDAP attribute(s) or empty string (z:"")
+    desc: "LDAP attribute(s) or empty string (z:\"\")"
     type: string
     required: true
-  - name: results_count 
+  - name: results_count
     desc: "Count of results or 0 for all results"
     type: integer
     required: true
-  - name: scope_of_search 
+  - name: scope_of_search
     desc: "LDAP attributes"
     type: integer
     required: true
   - name: hostname
-    desc: "Domain Controller name or IP address or empty string (z:"")"
+    desc: "Domain Controller name or IP address or empty string (z:\"\")"
     type: string
     required: true
   - name: domain
-    desc: "Distinguished Name or empty string (z:"")"
+    desc: "Distinguished Name or empty string (z:\"\")"
     type: string
     required: true
   - name: ldaps
     desc: "LDAPS support; set to 0 (false) by default"
     type: integer
     required: false
----
-
