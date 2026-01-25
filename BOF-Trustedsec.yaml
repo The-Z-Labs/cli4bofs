@@ -209,3 +209,130 @@ arguments:
     desc: "LDAPS support; set to 0 (false) by default"
     type: integer
     required: false
+---
+name: driversigs
+srcfile: "entry"
+description: "Enumerate installed services Imagepaths to check the signing cert against known AV/EDR vendors"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/driversigs/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ driversigs
+'
+---
+name: enum_filter_driver
+srcfile: "entry"
+description: "Enumerate filter drivers"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/enum_filter_driver/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ enum_filter_driver
+'
+arguments:
+  - name: hostName
+    desc: 'The name of the remote computer in form: \\computername. If not provided the local machine name is used'
+    type: string
+    required: false
+---
+name: enumLocalSessions
+srcfile: "entry"
+description: "Enumerate currently attached user sessions both local and over RDP"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/enumLocalSessions/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ enumLocalSessions
+'
+---
+name: env
+srcfile: "entry"
+description: "List process environment variables"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/env/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ env
+'
+---
+name: findLoadedModule
+srcfile: "entry"
+description: "Find what processes *modulepart* are loaded into, optionally searching just *procnamepart*"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/findLoadedModule/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ findLoadedModule ntdll explorer
+ findLoadedModule ntdll
+ findLoadedModule amsi.dll
+'
+arguments:
+  - name: modulepart
+    desc: 'Part of dll module name used by the process(es)'
+    type: string
+    required: true
+  - name: procnamepart
+    desc: 'Part of process name to search in. If not provided search in every process'
+    type: string
+    required: false
+---
+name: get_dpapi_system
+srcfile: "entry"
+description: "Get the DPAPI_SYSTEM key and bootkey"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/get_dpapi_system/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ get_dpapi_system
+'
+---
+name: get_password_policy
+srcfile: "entry"
+description: "Get target server or domain's configured password policy and lockouts"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/get_password_policy/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ get_password_policy
+ get_password_policy 127.0.0.1
+'
+arguments:
+  - name: hostname
+    desc: 'If not set check password policy for the domain'
+    type: wstring
+    required: false
