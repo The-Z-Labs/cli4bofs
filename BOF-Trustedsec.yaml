@@ -417,3 +417,66 @@ sources:
 examples: '
  list_firewall_rules
 '
+---
+name: windowlist
+srcfile: "entry"
+description: "List visible windows in the current user session"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/windowlist/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ windowlist
+ windowlist 0
+'
+arguments:
+  - name: display_all
+    desc: 'By defualt displays all windows (also hidden ones), set to 0 to change it'
+    type: integer
+    required: false
+---
+name: whoami
+srcfile: "entry"
+description: "List whoami /all"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/whoami/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ whoami
+'
+---
+name: wmi_query
+srcfile: "entry"
+description: "Run a wmi query and display results in CSV format"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/wmi_query/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/wmi.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/wmi.h'
+examples: '
+ windowlist
+ windowlist 0
+'
+arguments:
+  - name: query
+    desc: 'WMI query to run'
+    type: wstring
+    required: true
+  - name: resource
+    desc: 'WMI resource to connnect to'
+    type: wstring
+    required: true
