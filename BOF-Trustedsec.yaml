@@ -468,8 +468,7 @@ sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/wmi.c'
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/wmi.h'
 examples: '
- windowlist
- windowlist 0
+ wmi_query "root\\cimv2", "select * from win32_process"
 '
 arguments:
   - name: query
@@ -478,5 +477,121 @@ arguments:
     required: true
   - name: resource
     desc: 'WMI resource to connnect to'
+    type: wstring
+    required: true
+---
+name: vssenum
+srcfile: "entry"
+description: "Enumerate Shadow Copies on some Server 2012+ servers"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/vssenum/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ vssenum "localhost" "share"
+'
+arguments:
+  - name: hostname
+    desc: "hostname to check"
+    type: wstring
+    required: true
+  - name: sharename
+    desc: "sharename to check"
+    type: wstring
+    required: false
+---
+name: useridletime
+srcfile: "entry"
+description: "Shows how long the user as been idle, displayed in seconds, minutes, hours and days"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/useridletime/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ useridletime
+'
+---
+name: uptime
+srcfile: "entry"
+description: "List system boot time and how long it has been running"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/uptime/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ uptime
+'
+---
+name: tasklist
+srcfile: "entry"
+description: "List running processes including PID, PPID, and ComandLine (uses wmi)"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/tasklist/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/wmi.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/wmi.h'
+examples: '
+ tasklist localhost
+'
+arguments:
+  - name: server
+    desc: "hostname to connect to via WMI"
+    type: wstring
+    required: true
+---
+name: sha1
+srcfile: "entry"
+description: "Hash filename using sha1"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sha1/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ sha1 filename
+'
+arguments:
+  - name: file
+    desc: "file for which calculate sha1 sum"
+    type: wstring
+    required: true
+---
+name: sha256
+srcfile: "entry"
+description: "Hash filename using sha256"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sha256/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ sha256 filename
+'
+arguments:
+  - name: file
+    desc: "file for which calculate sha1 sum"
     type: wstring
     required: true
