@@ -595,3 +595,29 @@ arguments:
     desc: "file for which calculate sha1 sum"
     type: wstring
     required: true
+---
+name: schtasksquery
+srcfile: "entry"
+description: "Query the given task on the local or remote computer"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/schtasksquery/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/queue.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/anticrash.c'
+examples: '
+ schtasksquery "" "\\Microsoft\\Windows\\Autochk\\Proxy"
+'
+arguments:
+  - name: hostname
+    desc: "Hostname or empty wstring for localhost"
+    type: wstring
+    required: true
+  - name: taskname
+    desc: "Taskname to query"
+    type: wstring
+    required: true
