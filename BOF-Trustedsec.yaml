@@ -621,3 +621,46 @@ arguments:
     desc: "Taskname to query"
     type: wstring
     required: true
+---
+name: schtasksenum
+srcfile: "entry"
+description: "Enumerate scheduled tasks on the local or remote computer"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/schtasksenum/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/queue.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/anticrash.c'
+examples: '
+ schtasksenum ""
+'
+arguments:
+  - name: hostname
+    desc: "Hostname or empty wstring for localhost"
+    type: wstring
+    required: true
+---
+name: sc_enum
+srcfile: "entry"
+description: "Enumerate services for qc, query, qfailure, and qtriggers info"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sc_enum/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/anticrash.c'
+examples: '
+ sc_enum ""
+'
+arguments:
+  - name: hostname
+    desc: "Hostname or empty wstring for localhost"
+    type: wstring
+    required: true
