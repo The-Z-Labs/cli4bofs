@@ -917,3 +917,47 @@ arguments:
     desc: "Value to query"
     type: string
     required: flase
+---
+name: nslookup
+srcfile: "entry"
+description: "Make a DNS query"
+author: Trustedsec
+tags: ['windows', 'net-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/nslookup/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ nslookup "no.such.host.com" "1.1.1.1" 1
+'
+arguments:
+  - name: hostname
+    desc: "name to resolve"
+    type: string
+    required: true
+  - name: dnsServer
+    desc: "DNS server to query"
+    type: integer
+    required: true
+  - name: recordType
+    desc: "DNS record type: A = 1, NS = 2, CNAME = 5, AAAA = 28, ANY = 255"
+    type: short
+    required: true
+---
+name: locale
+srcfile: "entry"
+description: "List system locale language, locale ID, date, time, and country"
+author: Trustedsec
+tags: ['windows', 'net-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/locale/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/anticrash.c'
+examples: '
+ locale
+'
