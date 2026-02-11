@@ -664,3 +664,142 @@ arguments:
     desc: "Hostname or empty wstring for localhost"
     type: wstring
     required: true
+---
+name: sc_qc
+srcfile: "entry"
+description: "sc qc impelmentation in BOF"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sc_qc/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/anticrash.c'
+examples: '
+ sc_qc "192.168.1.1" SvcName
+'
+arguments:
+  - name: hostname
+    desc: "Hostname or empty string for localhost"
+    type: wstring
+    required: true
+  - name: servicename
+    desc: "Servicename to check"
+    type: string
+    required: true
+---
+name: sc_qdescription
+srcfile: "entry"
+description: "sc qdescription implementation in BOF"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sc_qdescription/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ sc_qdescription "192.168.1.1" SvcName
+'
+arguments:
+  - name: hostname
+    desc: "Hostname or empty string for localhost"
+    type: wstring
+    required: true
+  - name: servicename
+    desc: "Servicename to check"
+    type: string
+    required: true
+---
+name: sc_qfailure
+srcfile: "entry"
+description: "Query a service for failure conditions"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sc_qfailure/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/anticrash.c'
+examples: '
+ sc_qfailure "192.168.1.1" SvcName
+'
+arguments:
+  - name: hostname
+    desc: "Hostname or empty string for localhost"
+    type: wstring
+    required: true
+  - name: servicename
+    desc: "Servicename to check"
+    type: string
+    required: true
+---
+name: sc_qtriggerinfo
+srcfile: "entry"
+description: "Query a service for trigger conditions"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sc_qtriggerinfo/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/anticrash.c'
+examples: '
+ sc_qtriggerinfo "192.168.1.1" SvcName
+'
+arguments:
+  - name: hostname
+    desc: "Hostname or empty string for localhost"
+    type: wstring
+    required: true
+  - name: servicename
+    desc: "Servicename to check"
+    type: string
+    required: true
+---
+name: sc_query
+srcfile: "entry"
+description: "sc query implementation in BOF"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sc_query/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/anticrash.c'
+examples: '
+ sc_query "192.168.1.1" SvcName
+'
+arguments:
+  - name: hostname
+    desc: "Hostname or empty string for localhost"
+    type: wstring
+    required: true
+  - name: servicename
+    desc: "Servicename to check"
+    type: string
+    required: true
+---
+name: routeprint
+srcfile: "entry"
+description: "List IPv4 routes"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/routeprint/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ routeprint
+'
