@@ -803,3 +803,117 @@ sources:
 examples: '
  routeprint
 '
+---
+name: resources
+srcfile: "entry"
+description: "List memory usage and available disk space on the primary hard drive"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/resources/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ resources
+'
+---
+name: md5
+srcfile: "entry"
+description: "Hash filename using md5"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/md5/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ md5 filename
+'
+arguments:
+  - name: filename
+    desc: "creating md5 hash for this file"
+    type: string
+    required: true
+---
+name: probe
+srcfile: "entry"
+description: "Check if a specific port is open"
+author: Trustedsec
+tags: ['windows', 'net-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/probe/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ probe "192.168.1.1" 22
+'
+arguments:
+  - name: host
+    desc: "IP address of target host"
+    type: string
+    required: true
+  - name: port
+    desc: "port number to probe"
+    type: integer
+    required: true
+---
+name: regsession
+srcfile: "entry"
+description: "Return logged on user SIDs by enumerating HKEY_USERS. BOFHound compatible"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/regsession/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+examples: '
+ regsession "192.168.1.1"
+'
+arguments:
+  - name: hostname
+    desc: "Hostname or empty string for localhost"
+    type: string
+    required: true
+---
+name: reg_query
+srcfile: "entry"
+description: "Query a registry value or enumerate a single key"
+author: Trustedsec
+tags: ['windows', 'host-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/reg_query/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/anticrash.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/stack.c'
+examples: '
+ reg_query "" 2 "system\\currentcontrolset\\services\\webclient" ImagePath
+ reg_query "192.168.1.1" 2 "system\\currentcontrolset\\services\\webclient" ImagePath
+'
+arguments:
+  - name: hostname
+    desc: "Hostname or empty string for localhost"
+    type: string
+    required: true
+  - name: hive
+    desc: "Registry hive to query"
+    type: integer
+    required: true
+  - name: path
+    desc: "Key path"
+    type: string
+    required: true
+  - name: queryValue
+    desc: "Value to query"
+    type: string
+    required: flase
