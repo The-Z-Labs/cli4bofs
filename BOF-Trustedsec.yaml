@@ -961,3 +961,34 @@ sources:
 examples: '
  locale
 '
+---
+name: netgroup
+srcfile: "entry"
+description: "List groups or grup members from the default or specified domain"
+author: Trustedsec
+tags: ['windows', 'net-recon', 'trustedsec']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/netgroup/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/lm.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/lmaccess.h'
+examples: '
+ netgroup 0 "corp.local"
+ netgroup 1 "" "Domain Admins"
+'
+arguments:
+  - name: type
+    desc: "listing type: 0 - list groups; 1 - list group members"
+    type: short
+    required: true
+  - name: domain
+    desc: "domain name"
+    type: wstring
+    required: true
+  - name: group
+    desc: "group name"
+    type: wstring
+    required: true
