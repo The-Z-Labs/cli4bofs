@@ -43,4 +43,28 @@ sources:
 examples: '
   detect-hooks
 '
-
+---
+name: CredMan
+description: "Dumps the credential manager by abusing the SeTrustedCredmanAccess Privilege"
+author: jsecu
+tags: ['windows', 'lateral-movement']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/jsecu/CredManBOF/refs/heads/main/CredMan.c'
+examples: '
+  credman "filepath1" "filepath2" pid
+'
+arguments:
+  - name: pid
+    desc: "encrypted backup file location"
+    type: wstring
+    required: true
+  - name: pid
+    desc: "decrypted backup file location"
+    type: wstring
+    required: true
+  - name: pid
+    desc: "user process PID"
+    type: integer
+    required: true

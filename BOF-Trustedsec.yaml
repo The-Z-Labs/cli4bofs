@@ -131,6 +131,7 @@ sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/dir/entry.c'
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/base.c'
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/bofdefs.h'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/common/queue.c'
 examples: '
  dir "C:\\windows\\system32" 1
 '
@@ -1318,3 +1319,31 @@ sources:
 examples: '
  netview
 '
+---
+name: adduser
+srcfile: "entry"
+description: "Add specified user to a machine"
+author: Trustedsec
+tags: ['windows', 'lateral-movement', 'trustedsec', 'CS-Remote-OPs-BOF']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Remote-OPs-BOF/refs/heads/main/src/Remote/adduser/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Remote-OPs-BOF/refs/heads/main/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Remote-OPs-BOF/refs/heads/main/src/common/bofdefs.h'
+examples: '
+ adduser alice "passw0rd" "192.168.1.1"
+'
+arguments:
+  - name: username
+    desc: "User name"
+    type: wstring
+    required: true
+  - name: password
+    desc: "User passwrod"
+    type: wstring
+    required: true
+  - name: machine
+    desc: "Machine name"
+    type: wstring
+    required: true

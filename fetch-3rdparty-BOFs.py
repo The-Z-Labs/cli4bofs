@@ -79,7 +79,7 @@ if __name__ == "__main__":
                 buildEntries.append("    .{ .name = \"" + name + "\", .srcfile = \"" + srcfile + "\", .dir = \"" + author + "/" + name + "/\", .formats = &.{ " + formats + " }, .archs = &.{ " + arch + " } },")
             print("")
 
-    print("const bofs_my_custom = [_]Bof{")
+    print("const bofs_my_custom = [_]BofTableItem{")
 
     for entry in buildEntries:
         print(entry)
