@@ -6,6 +6,8 @@ pub const std_options = std.Options{
     .log_level = .info,
 };
 
+const yaml_file_embed_gz = @embedFile("BOF-collection.yaml.gz");
+
 const io = std.io;
 const mem = std.mem;
 
@@ -103,9 +105,9 @@ fn usage(name: [:0]const u8) !void {
     try stdout.print("exec    <BOF>                       Execute given BOF from a filesystem\n", .{});
     try stdout.print("inject  file:<abs_bof_path> i:<PID> Inject given BOF to a process with a given pid\n", .{});
     try stdout.print("info    <BOF>                       Display BOF description and usage examples\n", .{});
-    try stdout.print("list    [TAG]                       List BOFs (all or based on provided TAG) from current collection\n", .{});
+    try stdout.print("list    [TAG]                       List BOFs (all or based on provided TAG) from the BOF collection\n", .{});
     try stdout.print("\nGeneral Options:\n\n", .{});
-    try stdout.print("-c, --collection    Provide relative file path to alternative BOF YAML collection file (BOF-collection.yaml by default)\n", .{});
+    try stdout.print("-c, --collection    Provide relative file path to alternative BOF YAML collection file\n", .{});
     try stdout.print("-h, --help          Print this help\n", .{});
     try stdout.print("-v, --version       Print version number\n\n", .{});
 }
@@ -209,23 +211,38 @@ pub fn main() !u8 {
 
             break :blk .{ true, file_name };
         } else {
-            break :blk .{ false, "BOF-collection.yaml" };
+            break :blk .{ false, "Builtin" };
         }
     };
 
     ///////////////////////////////////////////////////////////
-    // 1. look for BOF-collection.yaml file in cwd
-    // 2. parse it if available and store results in the ArrayList
+    // 1. if alternative BOF collection was provided (-c|--collection switch) open it
+    // 2. otherwise use builtin, compressed BOF collection
     ///////////////////////////////////////////////////////////
     const bofs_collection, const yaml_file = blk: {
-        var file: std.fs.File = std.fs.cwd().openFile(yaml_file_name, .{}) catch {
-            try stdout.print("WARNING: no BOFs collection provided. Create 'BOF-collection.yaml' in the current directory or use '-c' option.\n\n", .{});
-            break :blk .{ @as([*]BofRecord, undefined)[0..0], null };
-        };
-        defer file.close();
+        var source: []u8 = undefined;
 
-        const source = try file.readToEndAlloc(allocator, std.math.maxInt(u32));
-        defer allocator.free(source);
+        if (explicit_yaml_file) {
+            var file: std.fs.File = std.fs.cwd().openFile(yaml_file_name, .{}) catch {
+                try stdout.print("WARNING: Provided BOF collection file not found. Using builtin BOF collection.\n\n", .{});
+                break :blk .{ @as([*]BofRecord, undefined)[0..0], null };
+            };
+            defer file.close();
+
+            source = try file.readToEndAlloc(allocator, std.math.maxInt(u32));
+        }
+        else {
+            const file_data = @constCast(yaml_file_embed_gz[0..yaml_file_embed_gz.len]);
+
+            var reader: std.Io.Reader = .fixed(file_data);
+            var aw: std.Io.Writer.Allocating = .init(allocator);
+            defer aw.deinit();
+
+            var decompress: std.compress.flate.Decompress = .init(&reader, .gzip, &.{});
+            _ = try decompress.reader.streamRemaining(&aw.writer);
+
+            source = try std.mem.Allocator.dupeZ(allocator, u8, aw.written());
+        }
 
         var yaml_file: yaml.Yaml = .{ .source = source };
         errdefer yaml_file.deinit(allocator);
@@ -233,7 +250,7 @@ pub fn main() !u8 {
 
         const bofs_collection = try yaml_file.parse(arena_allocator, []BofRecord);
 
-        try stdout.print("INFO: YAML file in use: {s}\n\n", .{yaml_file_name});
+        allocator.free(source);
 
         break :blk .{ bofs_collection, yaml_file };
     };
@@ -241,8 +258,6 @@ pub fn main() !u8 {
 
     command_name = cmd_args[cur_index];
     cur_index = cur_index + 1;
-
-    //try stdout.print("command name {s}\n", .{command_name});
 
     var cmd: Cmd = undefined;
     var bof_name: [:0]const u8 = undefined;

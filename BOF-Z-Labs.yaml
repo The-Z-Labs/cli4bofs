@@ -131,7 +131,7 @@ arguments:
   required: false
 ---
 name: "ifconfig"
-description: "Displays the status of the currently active network interfaces; Manipulates current state of the device (euid = 0 or CAP_NET_ADMIN is required for that)"
+description: "Displays the status of network interfaces; Manipulates current state of the device (euid = 0 or CAP_NET_ADMIN is required for that)"
 author: "Z-Labs"
 tags: ['linux','host-recon','z-labs']
 OS: 'linux'
