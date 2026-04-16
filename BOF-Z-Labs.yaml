@@ -306,7 +306,7 @@ sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/grep.zig'
 examples: '
  grep root /etc/passwd
- grep '^[^#\n]' /etc/hosts
+ grep ^[^#\n] /etc/hosts
 '
 arguments:
 - name: pattern
