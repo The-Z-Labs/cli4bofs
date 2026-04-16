@@ -1,5 +1,4 @@
 const std = @import("std");
-const deflate = @import("src/deflate.zig");
 
 pub const min_zig_version = std.SemanticVersion{ .major = 0, .minor = 15, .patch = 2 };
 
@@ -65,8 +64,8 @@ pub fn build(b: *std.Build) void {
             }),
         });
 
-        exe.root_module.addAnonymousImport("BOF-collection.yaml.gz", .{
-            .root_source_file = b.path(b.fmt("BOF-collection.yaml.gz", .{})),
+        exe.root_module.addAnonymousImport("BOF-all.yaml", .{
+            .root_source_file = b.path(b.fmt("BOF-all.yaml", .{})),
         });
 
         exe.linkLibrary(bof_launcher_lib);
@@ -115,19 +114,11 @@ fn genDocYaml(b: *std.Build) !void {
     const source = try std.mem.Allocator.dupeZ(b.allocator, u8, doc_file.written());
     defer b.allocator.free(source);
 
-    var reader: std.Io.Reader = .fixed(source);
-    var aw: std.Io.Writer.Allocating = .init(b.allocator);
-    defer aw.deinit();
-
-    try deflate.compress(&reader, &aw.writer, .{ .level = .best });
-
-    try aw.writer.flush();
-
     const wf = b.addWriteFiles();
-    const doc_file_path = wf.add("BOF-collection.yaml.gz", aw.written());
+    const doc_file_path = wf.add("BOF-all.yaml", doc_file.written());
 
 
-    b.getInstallStep().dependOn(&b.addInstallFile(doc_file_path, "BOF-collection.yaml.gz").step);
+    b.getInstallStep().dependOn(&b.addInstallFile(doc_file_path, "../BOF-all.yaml").step);
 }
 
 fn osTagStr(target: std.Build.ResolvedTarget) []const u8 {

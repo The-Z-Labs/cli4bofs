@@ -6,7 +6,7 @@ pub const std_options = std.Options{
     .log_level = .info,
 };
 
-const yaml_file_embed_gz = @embedFile("BOF-collection.yaml.gz");
+const yaml_file_embed = @embedFile("BOF-all.yaml");
 
 const io = std.io;
 const mem = std.mem;
@@ -217,7 +217,7 @@ pub fn main() !u8 {
 
     ///////////////////////////////////////////////////////////
     // 1. if alternative BOF collection was provided (-c|--collection switch) open it
-    // 2. otherwise use builtin, compressed BOF collection
+    // 2. otherwise use builtin, BOF collection
     ///////////////////////////////////////////////////////////
     const bofs_collection, const yaml_file = blk: {
         var source: []u8 = undefined;
@@ -232,16 +232,7 @@ pub fn main() !u8 {
             source = try file.readToEndAlloc(allocator, std.math.maxInt(u32));
         }
         else {
-            const file_data = @constCast(yaml_file_embed_gz[0..yaml_file_embed_gz.len]);
-
-            var reader: std.Io.Reader = .fixed(file_data);
-            var aw: std.Io.Writer.Allocating = .init(allocator);
-            defer aw.deinit();
-
-            var decompress: std.compress.flate.Decompress = .init(&reader, .gzip, &.{});
-            _ = try decompress.reader.streamRemaining(&aw.writer);
-
-            source = try std.mem.Allocator.dupeZ(allocator, u8, aw.written());
+            source = @constCast(yaml_file_embed[0..yaml_file_embed.len]);
         }
 
         var yaml_file: yaml.Yaml = .{ .source = source };
