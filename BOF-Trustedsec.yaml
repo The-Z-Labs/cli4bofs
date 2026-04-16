@@ -1347,3 +1347,28 @@ arguments:
     desc: "Machine name"
     type: wstring
     required: true
+---
+name: unexpireuser
+srcfile: "entry"
+description: "Set a user account to never expire"
+author: Trustedsec
+tags: ['windows', 'lateral-movement', 'trustedsec', 'CS-Remote-OPs-BOF']
+OS: windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Remote-OPs-BOF/refs/heads/main/src/Remote/unexpireuser/entry.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Remote-OPs-BOF/refs/heads/main/src/common/base.c'
+    - 'https://raw.githubusercontent.com/trustedsec/CS-Remote-OPs-BOF/refs/heads/main/src/common/bofdefs.h'
+examples: '
+ unexpireuser alice ""
+ unexpireuser bob "abc.local.corp"
+'
+arguments:
+  - name: hostname
+    desc: "Machine name"
+    type: wstring
+    required: true
+  - name: username
+    desc: "User name"
+    type: wstring
+    required: true
