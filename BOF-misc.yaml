@@ -3,7 +3,7 @@ name: KillDefender
 description: "Make Windows Defender useless by removing its token privileges and lowering the token integrity"
 author: Cerbersec
 tags: ['windows', 'host-recon', 'cerbersec']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/KillDefender.c'
@@ -19,7 +19,7 @@ name: ppenum
 description: "Read the protection level of a process"
 author: rasta-mouse
 tags: ['windows', 'host-recon']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/rasta-mouse/PPEnum/refs/heads/main/ppenum.c'
@@ -35,7 +35,7 @@ name: detect-hooks
 description: "Attempts to detect userland API hooks in place by AV/EDR"
 author: X-Force-Red
 tags: ['windows', 'host-recon', 'xforcered']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/xforcered/Detect-Hooks/refs/heads/main/src/detect-hooks.c'
@@ -48,7 +48,7 @@ name: CredMan
 description: "Dumps the credential manager by abusing the SeTrustedCredmanAccess Privilege"
 author: jsecu
 tags: ['windows', 'lateral-movement']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/jsecu/CredManBOF/refs/heads/main/CredMan.c'

@@ -19,6 +19,7 @@ const BofRecord = struct {
     description: []const u8,
     author: []const u8,
     tags: []const []const u8,
+    category: ?[]const u8,
     OS: []const u8,
     entrypoint: ?[]const u8,
     api: ?[]const []const u8,

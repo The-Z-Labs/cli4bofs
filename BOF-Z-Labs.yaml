@@ -3,7 +3,7 @@ name: wProcessInjectionSrdi
 description: "Injects any BOF to any process"
 author: Z-Labs
 tags: ['windows','srdi','z-labs','process','injection']
-OS: windows
+OS: Windows
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/wProcessInjectionSrdi.zig'
 examples: '
@@ -35,11 +35,11 @@ name: "udpScanner"
 description: "Universal UDP port sweeper."
 author: "Z-Labs"
 tags: ['windows', 'linux','net-recon','z-labs']
-OS: "cross"
+OS: cross-platform
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/udpScanner.zig'
-examples: '
+examples: |
  Scanning provided IP range on most common UDP ports with builtin UDP probes:
 
    udpScanner str:192.168.0.1-32
@@ -62,7 +62,6 @@ examples: '
  Example of running udpScanner using cli4bofs tool and with UDP probes provided from the file:
 
    cli4bofs exec udpScanner 102.168.1.1-4:161,427 file:/tmp/udpPayloads
-'
 arguments:
   - name: IPSpec
     desc: "IP addresses specification, ex: 192.168.0.1; 10.0.0-255.1-254; 192.168.0.1:161,427,10-15"
@@ -81,7 +80,7 @@ name: "tcpScanner"
 description: "TCP connect() port scanner"
 author: "Z-Labs"
 tags: ['windows', 'linux','net-recon','z-labs']
-OS: "cross"
+OS: cross-platform
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/tcpScanner.zig'
@@ -102,7 +101,7 @@ name: uname
 description: "Print system information. With no flag, same as -s"
 author: Z-Labs
 tags: ['linux','host-recon','z-labs']
-OS: linux
+OS: Linux
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/uname.zig'
 examples: '
@@ -127,7 +126,7 @@ name: hostid
 description: "Print the numeric identifier for the current host"
 author: Z-Labs
 tags: ['linux','host-recon','z-labs']
-OS: linux
+OS: Linux
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/hostid.zig'
 examples: '
@@ -138,7 +137,7 @@ name: hostname
 description: "Show system host name"
 author: Z-Labs
 tags: ['linux','host-recon','z-labs']
-OS: linux
+OS: Linux
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/hostname.zig'
 examples: '
@@ -149,7 +148,7 @@ name: id
 description: "Print user and group information for each specified USER, or (when USER omitted) for the current process"
 author: Z-Labs
 tags: ['linux','host-recon','z-labs']
-OS: linux
+OS: Linux
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/id.zig'
 examples: '
@@ -166,7 +165,7 @@ name: cat
 description: "Print content of a file"
 author: Z-Labs
 tags: ['windows', 'linux','host-recon','z-labs']
-OS: cross
+OS: cross-platform
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/cat.zig'
 examples: '
@@ -202,7 +201,7 @@ name: pwd
 description: "Print name of current/working directory"
 author: Z-Labs
 tags: ['windows', 'linux','host-recon','z-labs']
-OS: cross
+OS: cross-platform
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/pwd.zig'
 examples: '
@@ -226,7 +225,7 @@ name: cd
 description: "Change current working directory"
 author: Z-Labs
 tags: ['windows', 'linux','host-recon','z-labs']
-OS: cross
+OS: cross-platform
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/cd.zig'
 examples: '
@@ -268,7 +267,7 @@ name: ls
 description: "List given directory content"
 author: Z-Labs
 tags: ['windows', 'linux','host-recon','z-labs']
-OS: cross
+OS: cross-platform
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/ls.zig'
 examples: '
@@ -301,7 +300,7 @@ name: grep
 description: "Print lines that match patterns"
 author: Z-Labs
 tags: ['windows', 'linux','host-recon','z-labs']
-OS: cross
+OS: cross-platform
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/grep.zig'
 examples: '
@@ -341,7 +340,7 @@ name: find
 description: "Search for files in a directory hierarchy. Simple version of find(1) utility."
 author: Z-Labs
 tags: ['windows', 'linux','host-recon','z-labs']
-OS: cross
+OS: cross-platform
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/find.zig'
 examples: '
@@ -428,7 +427,7 @@ name: kmodLoader
 description: "Loads and unloads Linux kernel modules images directly from memory"
 author: Z-Labs
 tags: ['linux','post-exploitation','z-labs']
-OS: linux
+OS: Linux
 api:
   - 'kmodLoad(module_image: [*]const u8, len: usize, param_values: [*:0]const u8) callconv(.c) u8'
   - 'kmodRemove(module_name: [*:0]const u8, flags: u32) callconv(.c) u8'
@@ -472,7 +471,7 @@ name: lskmod
 description: "Print the currently loaded kernel modules"
 author: Z-Labs
 tags: ['linux','host-recon','z-labs']
-OS: linux
+OS: Linux
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/lskmod.zig'
 examples: '
@@ -490,7 +489,7 @@ name: whereami
 description: "Print hypervisor vendor signature from CPUID"
 author: Z-Labs
 tags: ['windows', 'linux','host-recon','z-labs']
-OS: cross
+OS: cross-platform
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/whereami.zig'
 examples: '
@@ -508,7 +507,7 @@ name: zcat
 description: "Print content of a gzip compressed file"
 author: Z-Labs
 tags: ['windows', 'linux','host-recon','z-labs']
-OS: cross
+OS: cross-platform
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/zcat.zig'
 examples: '
@@ -543,7 +542,7 @@ name: dirtypipe
 description: "Port of privilege escalation exploit for 'dirtypipe' vulnerability (CVE-2022-0847)"
 author: Z-Labs
 tags: ['linux','privilege-escalation','z-labs']
-OS: linux
+OS: Linux
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/dirtypipe.zig'
 examples: '

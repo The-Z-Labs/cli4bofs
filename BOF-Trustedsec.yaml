@@ -4,7 +4,8 @@ srcfile: "entry"
 description: "Enumerate CAs and templates in the AD using Win32 functions"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+category: "ADCS-BOF"
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum/entry.c'
@@ -28,7 +29,8 @@ srcfile: "entry"
 description: "Enumerate CAs and templates in the AD using ICertConfig COM object"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+category: "ADCS-BOF"
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum_com/entry.c'
@@ -47,7 +49,8 @@ srcfile: "entry"
 description: "Enumerate CAs and templates in the AD using IX509PolicyServerListManager COM object"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+category: "ADCS-BOF"
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adcs_enum_com2/entry.c'
@@ -65,7 +68,7 @@ srcfile: "entry"
 description: "Retrieve advanced security audit policies"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/adv_audit_policies/entry.c'
@@ -86,7 +89,8 @@ srcfile: "entry"
 description: "List ARP table"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+category: "SAL-BOF"
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/arp/entry.c'
@@ -101,7 +105,8 @@ srcfile: "entry"
 description: "List user permissions for the specified file, wildcards supported"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+category: "SAL-BOF"
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/cacls/entry.c'
@@ -125,7 +130,8 @@ srcfile: "entry"
 description: "List files in a directory. Supports wildcards"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+category: "SAL-BOF"
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/dir/entry.c'
@@ -150,7 +156,7 @@ srcfile: "entry"
 description: "List process modules (DLL). Target current process if PID is empty"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/listmods/entry.c'
@@ -171,7 +177,8 @@ srcfile: "entry"
 description: "Execute LDAP searches"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+category: "AD-BOF"
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/ldapsearch/entry.c'
@@ -216,7 +223,7 @@ srcfile: "entry"
 description: "Enumerate installed services Imagepaths to check the signing cert against known AV/EDR vendors"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/driversigs/entry.c'
@@ -231,7 +238,7 @@ srcfile: "entry"
 description: "Enumerate filter drivers"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/enum_filter_driver/entry.c'
@@ -251,7 +258,7 @@ srcfile: "entry"
 description: "Enumerate currently attached user sessions both local and over RDP"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/enumLocalSessions/entry.c'
@@ -266,7 +273,8 @@ srcfile: "entry"
 description: "List process environment variables"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+category: "SAL-BOF"
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/env/entry.c'
@@ -281,7 +289,7 @@ srcfile: "entry"
 description: "Find what processes *modulepart* are loaded into, optionally searching just *procnamepart*"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/findLoadedModule/entry.c'
@@ -307,7 +315,7 @@ srcfile: "entry"
 description: "Get the DPAPI_SYSTEM key and bootkey"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/get_dpapi_system/entry.c'
@@ -322,7 +330,7 @@ srcfile: "entry"
 description: "Get target server or domain's configured password policy and lockouts"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/get_password_policy/entry.c'
@@ -343,7 +351,7 @@ srcfile: "entry"
 description: "Prints out information related to the current users logon session"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/get_session_info/entry.c'
@@ -358,7 +366,8 @@ srcfile: "entry"
 description: "List IPv4 address, hostname, and DNS server"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+category: "SAL-BOF"
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/ipconfig/entry.c'
@@ -373,7 +382,7 @@ srcfile: "entry"
 description: "Check LDAP signing and LDAPS channel binding requirements on domain controllers. Performs authentication tests to detect security configurations"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/ldapsecuritycheck/entry.c'
@@ -394,7 +403,8 @@ srcfile: "entry"
 description: "List DNS cache entries. Attempt to query and resolve each"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+category: "SAL-BOF"
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/listdns/entry.c'
@@ -409,7 +419,7 @@ srcfile: "entry"
 description: "List Windows firewall rules"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/list_firewall_rules/entry.c'
@@ -424,7 +434,7 @@ srcfile: "entry"
 description: "List visible windows in the current user session"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/windowlist/entry.c'
@@ -445,7 +455,7 @@ srcfile: "entry"
 description: "List whoami /all"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/whoami/entry.c'
@@ -460,7 +470,7 @@ srcfile: "entry"
 description: "Run a wmi query and display results in CSV format"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/wmi_query/entry.c'
@@ -486,7 +496,7 @@ srcfile: "entry"
 description: "Enumerate Shadow Copies on some Server 2012+ servers"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/vssenum/entry.c'
@@ -510,7 +520,7 @@ srcfile: "entry"
 description: "Shows how long the user as been idle, displayed in seconds, minutes, hours and days"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/useridletime/entry.c'
@@ -525,7 +535,7 @@ srcfile: "entry"
 description: "List system boot time and how long it has been running"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/uptime/entry.c'
@@ -540,7 +550,7 @@ srcfile: "entry"
 description: "List running processes including PID, PPID, and ComandLine (uses wmi)"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/tasklist/entry.c'
@@ -562,7 +572,7 @@ srcfile: "entry"
 description: "Hash filename using sha1"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sha1/entry.c'
@@ -582,7 +592,7 @@ srcfile: "entry"
 description: "Hash filename using sha256"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sha256/entry.c'
@@ -602,7 +612,7 @@ srcfile: "entry"
 description: "Query the given task on the local or remote computer"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/schtasksquery/entry.c'
@@ -628,7 +638,7 @@ srcfile: "entry"
 description: "Enumerate scheduled tasks on the local or remote computer"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/schtasksenum/entry.c'
@@ -650,7 +660,7 @@ srcfile: "entry"
 description: "Enumerate services for qc, query, qfailure, and qtriggers info"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sc_enum/entry.c'
@@ -671,7 +681,7 @@ srcfile: "entry"
 description: "sc qc impelmentation in BOF"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sc_qc/entry.c'
@@ -696,7 +706,7 @@ srcfile: "entry"
 description: "sc qdescription implementation in BOF"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sc_qdescription/entry.c'
@@ -720,7 +730,7 @@ srcfile: "entry"
 description: "Query a service for failure conditions"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sc_qfailure/entry.c'
@@ -745,7 +755,7 @@ srcfile: "entry"
 description: "Query a service for trigger conditions"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sc_qtriggerinfo/entry.c'
@@ -770,7 +780,7 @@ srcfile: "entry"
 description: "sc query implementation in BOF"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/sc_query/entry.c'
@@ -795,7 +805,7 @@ srcfile: "entry"
 description: "List IPv4 routes"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/routeprint/entry.c'
@@ -810,7 +820,7 @@ srcfile: "entry"
 description: "List memory usage and available disk space on the primary hard drive"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/resources/entry.c'
@@ -825,7 +835,7 @@ srcfile: "entry"
 description: "Hash filename using md5"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/md5/entry.c'
@@ -845,7 +855,7 @@ srcfile: "entry"
 description: "Check if a specific port is open"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/probe/entry.c'
@@ -869,7 +879,7 @@ srcfile: "entry"
 description: "Return logged on user SIDs by enumerating HKEY_USERS. BOFHound compatible"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/regsession/entry.c'
@@ -889,7 +899,7 @@ srcfile: "entry"
 description: "Query a registry value or enumerate a single key"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/reg_query/entry.c'
@@ -924,7 +934,8 @@ srcfile: "entry"
 description: "Make a DNS query"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+category: "SAL-BOF"
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/nslookup/entry.c'
@@ -952,7 +963,7 @@ srcfile: "entry"
 description: "List system locale language, locale ID, date, time, and country"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/locale/entry.c'
@@ -968,7 +979,7 @@ srcfile: "entry"
 description: "List groups or grup members from the default or specified domain"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/netgroup/entry.c'
@@ -997,7 +1008,7 @@ srcfile: "entry"
 description: "List local groups or local grup members from the local or specified computer"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/netlocalgroup/entry.c'
@@ -1026,7 +1037,7 @@ srcfile: "entry"
 description: "List local grup members from the local or specified computer (supports BOFHound)"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/netlocalgroup2/entry.c'
@@ -1051,7 +1062,7 @@ srcfile: "entry"
 description: "Return users logged on the local or remote computer"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/netloggedon/entry.c'
@@ -1072,7 +1083,7 @@ srcfile: "entry"
 description: "Return users logged on the local or remote computer (supports BOFHound)"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/netloggedon2/entry.c'
@@ -1093,7 +1104,7 @@ srcfile: "entry"
 description: "Enumerate sessions on the local or specified computer"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/get-netsession/entry.c'
@@ -1114,7 +1125,7 @@ srcfile: "entry"
 description: "Enumerate sessions on the local or specified computer (supports BOFHound)"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/get-netsession2/entry.c'
@@ -1142,7 +1153,7 @@ srcfile: "entry"
 description: "List shares on the local or remote computer"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/netshares/entry.c'
@@ -1163,7 +1174,8 @@ srcfile: "entry"
 description: "TCP and UDP IPv4 listing ports"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+category: "SAL-BOF"
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/netstat/entry.c'
@@ -1178,7 +1190,7 @@ srcfile: "entry"
 description: "Display time on remote computer"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/nettime/entry.c'
@@ -1199,7 +1211,7 @@ srcfile: "entry"
 description: "Return information about the boot time on the local or remote computer"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/netuptime/entry.c'
@@ -1220,7 +1232,7 @@ srcfile: "entry"
 description: "Get info about specific user. Pull from domain if a domainname is specified"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/netuser/entry.c'
@@ -1245,7 +1257,7 @@ srcfile: "entry"
 description: "Connect/disconnect a computer to/from a shared resource. List locally bound connections"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/netuse/entry.c'
@@ -1310,7 +1322,7 @@ srcfile: "entry"
 description: "List reachable computers in the current domain"
 author: Trustedsec
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Situational-Awareness-BOF/refs/heads/master/src/SA/netview/entry.c'
@@ -1325,7 +1337,7 @@ srcfile: "entry"
 description: "Add specified user to a machine"
 author: Trustedsec
 tags: ['windows', 'lateral-movement', 'trustedsec', 'CS-Remote-OPs-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Remote-OPs-BOF/refs/heads/main/src/Remote/adduser/entry.c'
@@ -1353,7 +1365,7 @@ srcfile: "entry"
 description: "Set a user account to never expire"
 author: Trustedsec
 tags: ['windows', 'lateral-movement', 'trustedsec', 'CS-Remote-OPs-BOF']
-OS: windows
+OS: Windows
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/trustedsec/CS-Remote-OPs-BOF/refs/heads/main/src/Remote/unexpireuser/entry.c'
