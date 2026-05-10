@@ -68,3 +68,47 @@ arguments:
     desc: "user process PID"
     type: integer
     required: true
+---
+name: No-consolation
+srcfile: "entry"
+description: "Attempts to detect userland API hooks in place by AV/EDR"
+author: Fortra
+tags: ['windows', 'execution', 'fortra']
+category: "Execution-BOF"
+OS: Windows
+entrypoint: "go"
+sources:
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/source/apisetlookup.c'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/source/console.c'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/source/entry.c'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/source/hwbp.c'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/source/loader.c'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/source/peb.c'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/source/runner.c'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/source/utils.c'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/include/apisetlookup.h'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/include/bofdefs.h'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/include/console.h'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/include/entry.h'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/include/hwbp.h'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/include/loader.h'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/include/output.h'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/include/peb.h'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/include/runner.h'
+  - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/include/utils.h'
+examples: '
+  detect-hooks
+'
+---
+name: bf-ps
+description: "Attempts to detect userland API hooks in place by AV/EDR"
+author: X-Force-Red
+tags: ['windows', 'host-recon', 'xforcered']
+OS: Windows
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-ps/ps.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+  detect-hooks
+'

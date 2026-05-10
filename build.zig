@@ -96,6 +96,7 @@ fn genDocYaml(b: *std.Build) !void {
         "BOF-misc.yaml",
         "BOF-Outflank.yaml",
         "BOF-Trustedsec.yaml",
+        "BOF-BusyBOF.yaml",
     };
 
     for (yaml_files) |file_name| {

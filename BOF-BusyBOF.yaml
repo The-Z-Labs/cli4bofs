@@ -1,0 +1,53 @@
+---
+name: ping
+description: "Reimplementation of common Unix utilities as BOF: ping utility"
+author: Sebastian.Haas
+tags: ['linux', 'BusyBOF', 'cmprmsd']
+category: "SAR-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-ping/ping.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+ ping 192.168.99.99
+'
+---
+name: traceroute
+description: "Reimplementation as common Unix utilities as BOF: traceroute utility"
+author: Sebastian.Haas
+tags: ['linux', 'BusyBOF', 'cmprmsd']
+category: "SAR-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-traceroute/traceroute.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+'
+---
+name: nslookup
+description: "Reimplementation as common Unix utilities as BOF: nslookup utility"
+author: Sebastian.Haas
+tags: ['linux', 'BusyBOF', 'cmprmsd']
+category: "SAR-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-nslookup/nslookup.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+'
+---
+name: wget
+description: "Reimplementation as common Unix utilities as BOF: wget utility"
+author: Sebastian.Haas
+tags: ['linux', 'BusyBOF', 'cmprmsd']
+category: "SAR-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-wget/wget.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+'
