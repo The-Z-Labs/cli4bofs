@@ -97,18 +97,4 @@ sources:
   - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/include/runner.h'
   - 'https://raw.githubusercontent.com/fortra/No-Consolation/refs/heads/main/include/utils.h'
 examples: '
-  detect-hooks
-'
----
-name: bf-ps
-description: "Attempts to detect userland API hooks in place by AV/EDR"
-author: X-Force-Red
-tags: ['windows', 'host-recon', 'xforcered']
-OS: Windows
-entrypoint: "go"
-sources:
-    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-ps/ps.c'
-    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
-examples: '
-  detect-hooks
 '
