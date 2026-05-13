@@ -2,7 +2,8 @@
 name: wProcessInjectionSrdi
 description: "Injects any BOF to any process"
 author: Z-Labs
-tags: ['windows','srdi','z-labs','process','injection']
+Arch: ["x64", "x86"]
+tags: ['windows','srdi','z-labs','TA0005','TA0004','T1055.001']
 category: "Injection-BOF"
 OS: Windows
 sources:
@@ -33,15 +34,16 @@ errors:
   message: "Unknown error"
 ---
 name: "udpScanner"
-description: "Universal UDP port sweeper."
+description: "Universal UDP port sweeper"
 author: "Z-Labs"
-tags: ['windows', 'linux','net-recon','z-labs']
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['windows', 'linux','T0007','T0846.001', 'z-labs']
 category: "SAR-BOF"
-OS: cross-platform
+OS: "cross-platform"
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/udpScanner.zig'
-examples: |
+examples: '
  Scanning provided IP range on most common UDP ports with builtin UDP probes:
 
    udpScanner str:192.168.0.1-32
@@ -77,13 +79,15 @@ arguments:
     desc: "memory address of UDP probes buffer"
     type: string
     required: false
+'
 ---
 name: "tcpScanner"
 description: "TCP connect() port scanner"
 author: "Z-Labs"
-tags: ['windows', 'linux','net-recon','z-labs']
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['windows', 'linux','T0007','T0846.001', 'z-labs']
 category: "SAR-BOF"
-OS: cross-platform
+OS: "cross-platform"
 entrypoint: "go"
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/tcpScanner.zig'
@@ -100,11 +104,25 @@ arguments:
     type: string
     required: true
 ---
+name: whoami
+description: "Print current user"
+author: Z-Labs
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['windows', 'linux','TA0007','T1033', 'z-labs']
+category: "SAL-BOF"
+OS: cross-platform
+sources:
+    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/whoami.zig'
+examples: '
+ whoami
+'
+---
 name: uname
 description: "Print system information. With no flag, same as -s"
 author: Z-Labs
-tags: ['linux','host-recon','z-labs']
-category: "SAL-BOF"
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['linux','TA0007', 'T1082','z-labs']
+category: 'SAL-BOF'
 OS: Linux
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/uname.zig'
@@ -129,8 +147,9 @@ arguments:
 name: hostid
 description: "Print the numeric identifier for the current host"
 author: Z-Labs
-tags: ['linux','host-recon','z-labs']
-category: "SAL-BOF"
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['linux','TA0007', 'T1016','z-labs']
+category: 'SAL-BOF'
 OS: Linux
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/hostid.zig'
@@ -141,8 +160,9 @@ examples: '
 name: hostname
 description: "Show system host name"
 author: Z-Labs
-tags: ['linux','host-recon','z-labs']
-category: "SAL-BOF"
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['linux','TA0007', 'T1016','z-labs']
+category: 'SAL-BOF'
 OS: Linux
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/hostname.zig'
@@ -150,10 +170,24 @@ examples: '
  hostname
 '
 ---
+name: uptime
+description: "Tell how long the system has been running"
+author: Z-Labs
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['linux','TA0007', 'T1082','z-labs']
+category: 'SAL-BOF'
+OS: Linux
+sources:
+    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/uptime.zig'
+examples: '
+ uptime
+'
+---
 name: id
 description: "Print user and group information for each specified USER, or (when USER omitted) for the current process"
 author: Z-Labs
-tags: ['linux','host-recon','z-labs']
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['windows', 'linux','TA0007','T1033', 'z-labs']
 category: "SAL-BOF"
 OS: Linux
 sources:
@@ -168,10 +202,24 @@ arguments:
   type: string
   required: false
 ---
+name: who
+description: "Show who is logged on"
+author: Z-Labs
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['linux','TA0007', 'T1082','z-labs']
+category: 'SAL-BOF'
+OS: Linux
+sources:
+    - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/coreutils/who.zig'
+examples: '
+ who
+'
+---
 name: cat
 description: "Print content of a file"
 author: Z-Labs
-tags: ['windows', 'linux','host-recon','z-labs']
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['windows', 'linux','TA0007', 'T1083', 'z-labs']
 category: "FILES-BOF"
 OS: cross-platform
 sources:
@@ -208,9 +256,10 @@ errors:
 name: pwd
 description: "Print name of current/working directory"
 author: Z-Labs
-tags: ['windows', 'linux','host-recon','z-labs']
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['windows', 'linux','TA0007', 'T1083', 'z-labs']
 category: "FILES-BOF"
-OS: cross-platform
+OS: cross
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/pwd.zig'
 examples: '
@@ -233,9 +282,10 @@ errors:
 name: cd
 description: "Change current working directory"
 author: Z-Labs
-tags: ['windows', 'linux','host-recon','z-labs']
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['windows', 'linux','TA0007', 'T1083', 'z-labs']
 category: "FILES-BOF"
-OS: cross-platform
+OS: cross
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/cd.zig'
 examples: '
@@ -276,9 +326,10 @@ errors:
 name: ls
 description: "List given directory content"
 author: Z-Labs
-tags: ['windows', 'linux','host-recon','z-labs']
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['windows', 'linux','TA0007', 'T1083', 'z-labs']
 category: "FILES-BOF"
-OS: cross-platform
+OS: cross
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/ls.zig'
 examples: '
@@ -310,9 +361,10 @@ errors:
 name: grep
 description: "Print lines that match patterns"
 author: Z-Labs
-tags: ['windows', 'linux','host-recon','z-labs']
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['windows', 'linux','TA0007', 'T1083', 'z-labs']
 category: "TEXT-BOF"
-OS: cross-platform
+OS: cross
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/grep.zig'
 examples: '
@@ -351,9 +403,10 @@ errors:
 name: find
 description: "Search for files in a directory hierarchy. Simple version of find(1) utility."
 author: Z-Labs
-tags: ['windows', 'linux','host-recon','z-labs']
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['windows', 'linux','TA0007', 'T1083', 'z-labs']
 category: "FILES-BOF"
-OS: cross-platform
+OS: cross
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/find.zig'
 examples: '
@@ -418,31 +471,33 @@ errors:
   message: "Unknown error"
 ---
 name: "ifconfig"
-description: "Displays the status of network interfaces; Manipulates current state of the device (euid = 0 or CAP_NET_ADMIN is required for that)"
+description: "Displays the status of the currently active network interfaces; Manipulates current state of the device (euid = 0 or CAP_NET_ADMIN is required for that)"
 author: "Z-Labs"
-tags: ['linux','host-recon','z-labs']
-category: "SAL-BOF"
-OS: 'linux'
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['linux','TA0007', 'T1016','z-labs']
+category: 'SAL-BOF'
+OS: 'Linux'
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/net-tools/ifconfig.zig'
+arguments:
+- name: User
+  desc: "Prints user and group information for this user"
+  type: string
+  required: false
 examples: '
  ifconfig
  ifconfig eth0 down
  ifconfig eth0 promisc
  ifconfig eth0 -promisc
 '
-arguments:
-- name: User
-  desc: "Prints user and group information for this user"
-  type: string
-  required: false
 ---
 name: kmodLoader
 description: "Loads and unloads Linux kernel modules images directly from memory"
 author: Z-Labs
-tags: ['linux','post-exploitation','z-labs']
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['linux','TA0003', 'TA0004', 'T1547.006', 'DC0031', 'z-labs']
 category: "Postex-BOF"
-OS: Linux
+OS: linux
 api:
   - 'kmodLoad(module_image: [*]const u8, len: usize, param_values: [*:0]const u8) callconv(.c) u8'
   - 'kmodRemove(module_name: [*:0]const u8, flags: u32) callconv(.c) u8'
@@ -485,7 +540,8 @@ errors:
 name: lskmod
 description: "Print the currently loaded kernel modules"
 author: Z-Labs
-tags: ['linux','host-recon','z-labs']
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['linux','T0007','T1082', 'z-labs']
 category: "SAL-BOF"
 OS: Linux
 sources:
@@ -504,9 +560,10 @@ errors:
 name: whereami
 description: "Print hypervisor vendor signature from CPUID"
 author: Z-Labs
-tags: ['windows', 'linux','host-recon','z-labs']
+Arch: ["x64", "x86"]
+tags: ['windows', 'linux','T0007','T1082', 'z-labs']
 category: "SAL-BOF"
-OS: cross-platform
+OS: cross
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/whereami.zig'
 examples: '
@@ -523,9 +580,10 @@ errors:
 name: zcat
 description: "Print content of a gzip compressed file"
 author: Z-Labs
-tags: ['windows', 'linux','host-recon','z-labs']
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['windows', 'linux','T0007','T1083', 'z-labs']
 category: "FILES-BOF"
-OS: cross-platform
+OS: cross
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/zcat.zig'
 examples: '
@@ -557,11 +615,12 @@ errors:
   message: "Unknown error"
 ---
 name: dirtypipe
-description: "Port of privilege escalation exploit for 'dirtypipe' vulnerability (CVE-2022-0847)"
+description: "Privilege escalation exploit for 'dirtypipe' vulnerability (CVE-2022-0847) against Linux Kernel"
 author: Z-Labs
-tags: ['linux','privilege-escalation','z-labs']
+Arch: ["x64", "x86", "aarch64", "arm"]
+tags: ['linux','TA0004', 'T1068', 'z-labs']
 category: "Elevation-BOF"
-OS: Linux
+OS: linux
 sources:
     - 'https://raw.githubusercontent.com/The-Z-Labs/bof-launcher/main/bofs/src/dirtypipe.zig'
 examples: '

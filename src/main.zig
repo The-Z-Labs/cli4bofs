@@ -18,6 +18,7 @@ const BofRecord = struct {
     srcfile: ?[]const u8,
     description: []const u8,
     author: []const u8,
+    Arch: ?[]const []const u8,
     tags: []const []const u8,
     category: ?[]const u8,
     OS: []const u8,
@@ -537,18 +538,18 @@ pub fn main() !u8 {
                 try stdout.print("BOFs with '{s}' tag:\n", .{list_tag});
 
             for (bofs_collection) |bof| {
-                if (std.mem.eql(u8, bof.OS, "windows")) {
-                    platform = try std.fmt.allocPrint(allocator, "windows", .{});
-                } else if (std.mem.eql(u8, bof.OS, "linux")) {
-                    platform = try std.fmt.allocPrint(allocator, "linux", .{});
-                } else platform = try std.fmt.allocPrint(allocator, "windows,linux", .{});
+                if (std.mem.eql(u8, bof.OS, "windows") or std.mem.eql(u8, bof.OS, "Windows")) {
+                    platform = try std.fmt.allocPrint(allocator, "Windows", .{});
+                } else if (std.mem.eql(u8, bof.OS, "linux") or std.mem.eql(u8, bof.OS, "Linux")) {
+                    platform = try std.fmt.allocPrint(allocator, "Linux", .{});
+                } else platform = try std.fmt.allocPrint(allocator, "cross-platform", .{});
 
                 if (list_by_tag) {
                     for (bof.tags) |tag| {
                         if (std.mem.eql(u8, tag, list_tag))
-                            try stdout.print("{s:<20} | {s:<13} | {s}\n", .{ bof.name, platform, bof.description });
+                            try stdout.print("{s:<24} | {s:<14} | {s}\n", .{ bof.name, platform, bof.description });
                     }
-                } else try stdout.print("{s:<20} | {s:<13} | {s}\n", .{ bof.name, platform, bof.description });
+                } else try stdout.print("{s:<24} | {s:<14} | {s}\n", .{ bof.name, platform, bof.description });
 
                 defer allocator.free(platform);
             }
