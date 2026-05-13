@@ -2,6 +2,7 @@
 name: ping
 description: "Reimplementation of common Unix utilities as BOF: ping utility"
 author: Sebastian.Haas
+Arch: ["x64", "x86", "aarch64", "arm"]
 tags: ['linux', 'BusyBOF', 'cmprmsd']
 category: "SAR-BOF"
 OS: Linux
@@ -16,6 +17,7 @@ examples: '
 name: traceroute
 description: "Reimplementation of common Unix utilities as BOF: traceroute utility"
 author: Sebastian.Haas
+Arch: ["x64", "x86", "aarch64", "arm"]
 tags: ['linux', 'BusyBOF', 'cmprmsd']
 category: "SAR-BOF"
 OS: Linux
@@ -29,6 +31,7 @@ examples: '
 name: nslookup
 description: "Reimplementation of common Unix utilities as BOF: nslookup utility"
 author: Sebastian.Haas
+Arch: ["x64", "x86", "aarch64", "arm"]
 tags: ['linux', 'BusyBOF', 'cmprmsd']
 category: "SAR-BOF"
 OS: Linux
@@ -42,6 +45,7 @@ examples: '
 name: wget
 description: "Reimplementation of common Unix utilities as BOF: wget utility"
 author: Sebastian.Haas
+Arch: ["x64", "x86", "aarch64", "arm"]
 tags: ['linux', 'BusyBOF', 'cmprmsd']
 category: "SAR-BOF"
 OS: Linux
