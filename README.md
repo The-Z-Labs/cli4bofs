@@ -73,6 +73,7 @@ This repository also contains the YAML collections for various third party BOFs 
 - [BOF-Trustedsec.yaml](BOF-Trustedsec.yaml) - BOFs from [CS-Situational-Awareness-BOF](https://github.com/trustedsec/CS-Situational-Awareness-BOF) and [CS-Remote-OPs-BOF](https://github.com/trustedsec/CS-Remote-OPs-BOF) repos.
 - [BOF-Outflank.yaml](BOF-Outflank.yaml) - BOFs from [C2-Tool-Collection](https://github.com/outflanknl/C2-Tool-Collection) repository.
 - [BOF-Z-Labs.yaml](BOF-Z-Labs.yaml) - our BOFs available in [bof-launcher](https://github.com/The-Z-Labs/bof-launcher/tree/main/bofs) repo.
+- [BOF-BusyBOF.yaml](BOF-BusyBOF.yaml) - BOFs available in [BusyBOF](https://github.com/cmprmsd/BusyBOF) repo.
 - [BOF-misc.yaml](BOF-misc.yaml) - other noteable BOFs from various places.
 
 To take advantage of it just drop the chosen file in the directory with your `cli4bofs` binary and rename it to `BOF-collection.yaml`.
