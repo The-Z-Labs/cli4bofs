@@ -51,3 +51,271 @@ sources:
     - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
 examples: '
 '
+---
+name: cp
+description: copy files
+author: Sebastian.Haas
+Arch: ["x64","x86","aarch64","arm"]
+tags: ['linux', 'cmprmsd', 'TA0007', 'T1083']
+category: "FILES-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-cp/cp.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+  cp
+'
+arguments:
+- name: source
+  desc: "Source file"
+  type: string
+  required: true
+- name: dest
+  desc: "Destination"
+  type: string
+  required: true
+---
+name: diff
+description: compare two files
+author: Sebastian.Haas
+Arch: ["x64","x86","aarch64","arm"]
+tags: ['linux', 'cmprmsd', 'TA0007', 'T1083']
+category: "FILES-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-diff/diff.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+  diff
+'
+arguments:
+- name: file1
+  desc: "First file"
+  type: string
+  required: true
+- name: file2
+  desc: "Second file"
+  type: string
+  required: true
+---
+name: ln
+description: create links
+author: Sebastian.Haas
+Arch: ["x64","x86","aarch64","arm"]
+tags: ['linux', 'cmprmsd', 'TA0007', 'T1083']
+category: "FILES-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-ln/ln.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+  ln
+'
+arguments:
+- name: target
+  desc: "Link target"
+  type: string
+  required: true
+- name: linkname
+  desc: "Link name"
+  type: string
+  required: true
+- name: options
+  desc: "Flags: s (symbolic)"
+  type: string
+  required: false
+---
+name: mkdir
+description: create directories
+author: Sebastian.Haas
+Arch: ["x64","x86","aarch64","arm"]
+tags: ['linux', 'cmprmsd', 'TA0007', 'T1083']
+category: "FILES-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-mkdir/mkdir.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+  mkdir
+'
+arguments:
+- name: path
+  desc: "Directory to create"
+  type: string
+  required: true
+- name: options
+  desc: "Flags: p (create parents)"
+  type: string
+  required: false
+---
+name: mv
+description: move/rename files
+author: Sebastian.Haas
+Arch: ["x64","x86","aarch64","arm"]
+tags: ['linux', 'cmprmsd', 'TA0007', 'T1083']
+category: "FILES-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-mv/mv.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+  mv
+'
+arguments:
+- name: source
+  desc: "Source file"
+  type: string
+  required: true
+- name: dest
+  desc: "Destination"
+  type: string
+  required: true
+---
+name: rm
+description: remove files/directories
+author: Sebastian.Haas
+Arch: ["x64","x86","aarch64","arm"]
+tags: ['linux', 'cmprmsd', 'TA0007', 'T1083']
+category: "FILES-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-rm/rm.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+  rm
+'
+arguments:
+- name: path
+  desc: "Path to remove"
+  type: string
+  required: true
+- name: options
+  desc: "Flags: r (recursive), f (force)"
+  type: string
+  required: false
+---
+name: rmdir
+description: remove empty directories
+author: Sebastian.Haas
+Arch: ["x64","x86","aarch64","arm"]
+tags: ['linux', 'cmprmsd', 'TA0007', 'T1083']
+category: "FILES-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-rmdir/rmdir.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+  rmdir
+'
+arguments:
+- name: target
+  desc: "Directory path(s)"
+  type: string
+  required: true
+---
+name: stat
+description: display file status
+author: Sebastian.Haas
+Arch: ["x64","x86","aarch64","arm"]
+tags: ['linux', 'cmprmsd', 'TA0007', 'T1083']
+category: "FILES-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-stat/stat.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+  stat
+'
+arguments:
+- name: target
+  desc: "File path(s)"
+  type: string
+  required: true
+---
+name: tar
+description: create, list, and extract tar archives
+author: Sebastian.Haas
+Arch: ["x64","x86","aarch64","arm"]
+tags: ['linux', 'cmprmsd', 'TA0007', 'T1083']
+category: "FILES-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-tar/tar.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+  tar
+'
+arguments:
+- name: mode
+  desc: "Operation: create, list, or extract"
+  type: string
+  required: true
+- name: archive
+  desc: "Archive file path"
+  type: string
+  required: true
+- name: path
+  desc: "Source path (create) or extract destination"
+  type: string
+  required: false
+- name: filter
+  desc: "Filter pattern for list/extract"
+  type: string
+  required: false
+---
+name: touch
+description: create file or update timestamps
+author: Sebastian.Haas
+Arch: ["x64","x86","aarch64","arm"]
+tags: ['linux', 'cmprmsd', 'TA0007', 'T1083']
+category: "FILES-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-touch/touch.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+  touch
+'
+arguments:
+- name: target
+  desc: "File path(s)"
+  type: string
+  required: true
+---
+name: tree
+description: recursive directory tree listing
+author: Sebastian.Haas
+Arch: ["x64","x86","aarch64","arm"]
+tags: ['linux', 'cmprmsd', 'TA0007', 'T1083']
+category: "FILES-BOF"
+OS: Linux
+entrypoint: "go"
+sources:
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/bf-tree/tree.c'
+    - 'https://raw.githubusercontent.com/cmprmsd/BusyBOF/refs/heads/main/include/bofdefs.h'
+examples: '
+  tree
+'
+arguments:
+- name: path
+  desc: "Root path (default: .)"
+  type: string
+  required: false
+- name: options
+  desc: "Flags: a (all), d (dirs only), F (full paths)"
+  type: string
+  required: false
+- name: depth
+  desc: "Max depth"
+  type: string
+  required: false
