@@ -3,6 +3,7 @@ name: adcs_enum
 srcfile: "entry"
 description: "Enumerate CAs and templates in the AD using Win32 functions"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 category: "ADCS-BOF"
 OS: Windows
@@ -28,6 +29,7 @@ name: adcs_enum_com
 srcfile: "entry"
 description: "Enumerate CAs and templates in the AD using ICertConfig COM object"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 category: "ADCS-BOF"
 OS: Windows
@@ -48,6 +50,7 @@ name: adcs_enum_com2
 srcfile: "entry"
 description: "Enumerate CAs and templates in the AD using IX509PolicyServerListManager COM object"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 category: "ADCS-BOF"
 OS: Windows
@@ -67,6 +70,7 @@ name: adv_audit_policies
 srcfile: "entry"
 description: "Retrieve advanced security audit policies"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -88,6 +92,7 @@ name: arp
 srcfile: "entry"
 description: "List ARP table"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 category: "SAL-BOF"
 OS: Windows
@@ -104,6 +109,7 @@ name: cacls
 srcfile: "entry"
 description: "List user permissions for the specified file, wildcards supported"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 category: "SAL-BOF"
 OS: Windows
@@ -129,6 +135,7 @@ name: dir
 srcfile: "entry"
 description: "List files in a directory. Supports wildcards"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 category: "SAL-BOF"
 OS: Windows
@@ -155,6 +162,7 @@ name: listmods
 srcfile: "entry"
 description: "List process modules (DLL). Target current process if PID is empty"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -176,6 +184,7 @@ name: ldapsearch
 srcfile: "entry"
 description: "Execute LDAP searches"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 category: "AD-BOF"
 OS: Windows
@@ -222,6 +231,7 @@ name: driversigs
 srcfile: "entry"
 description: "Enumerate installed services Imagepaths to check the signing cert against known AV/EDR vendors"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -237,6 +247,7 @@ name: enum_filter_driver
 srcfile: "entry"
 description: "Enumerate filter drivers"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -257,6 +268,7 @@ name: enumLocalSessions
 srcfile: "entry"
 description: "Enumerate currently attached user sessions both local and over RDP"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -272,6 +284,7 @@ name: env
 srcfile: "entry"
 description: "List process environment variables"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 category: "SAL-BOF"
 OS: Windows
@@ -288,6 +301,7 @@ name: findLoadedModule
 srcfile: "entry"
 description: "Find what processes *modulepart* are loaded into, optionally searching just *procnamepart*"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -314,6 +328,7 @@ name: get_dpapi_system
 srcfile: "entry"
 description: "Get the DPAPI_SYSTEM key and bootkey"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -329,6 +344,7 @@ name: get_password_policy
 srcfile: "entry"
 description: "Get target server or domain's configured password policy and lockouts"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -350,6 +366,7 @@ name: get_session_info
 srcfile: "entry"
 description: "Prints out information related to the current users logon session"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -365,6 +382,7 @@ name: ipconfig
 srcfile: "entry"
 description: "List IPv4 address, hostname, and DNS server"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 category: "SAL-BOF"
 OS: Windows
@@ -381,6 +399,7 @@ name: ldapsecuritycheck
 srcfile: "entry"
 description: "Check LDAP signing and LDAPS channel binding requirements on domain controllers. Performs authentication tests to detect security configurations"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -402,6 +421,7 @@ name: listdns
 srcfile: "entry"
 description: "List DNS cache entries. Attempt to query and resolve each"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 category: "SAL-BOF"
 OS: Windows
@@ -418,6 +438,7 @@ name: list_firewall_rules
 srcfile: "entry"
 description: "List Windows firewall rules"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -433,6 +454,7 @@ name: windowlist
 srcfile: "entry"
 description: "List visible windows in the current user session"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -454,6 +476,7 @@ name: whoami
 srcfile: "entry"
 description: "List whoami /all"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -469,6 +492,7 @@ name: wmi_query
 srcfile: "entry"
 description: "Run a wmi query and display results in CSV format"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -495,6 +519,7 @@ name: vssenum
 srcfile: "entry"
 description: "Enumerate Shadow Copies on some Server 2012+ servers"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -519,6 +544,7 @@ name: useridletime
 srcfile: "entry"
 description: "Shows how long the user as been idle, displayed in seconds, minutes, hours and days"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -534,6 +560,7 @@ name: uptime
 srcfile: "entry"
 description: "List system boot time and how long it has been running"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -549,6 +576,7 @@ name: tasklist
 srcfile: "entry"
 description: "List running processes including PID, PPID, and ComandLine (uses wmi)"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -571,6 +599,7 @@ name: sha1
 srcfile: "entry"
 description: "Hash filename using sha1"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -591,6 +620,7 @@ name: sha256
 srcfile: "entry"
 description: "Hash filename using sha256"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -611,6 +641,7 @@ name: schtasksquery
 srcfile: "entry"
 description: "Query the given task on the local or remote computer"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -637,6 +668,7 @@ name: schtasksenum
 srcfile: "entry"
 description: "Enumerate scheduled tasks on the local or remote computer"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -659,6 +691,7 @@ name: sc_enum
 srcfile: "entry"
 description: "Enumerate services for qc, query, qfailure, and qtriggers info"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -680,6 +713,7 @@ name: sc_qc
 srcfile: "entry"
 description: "sc qc impelmentation in BOF"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -705,6 +739,7 @@ name: sc_qdescription
 srcfile: "entry"
 description: "sc qdescription implementation in BOF"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -729,6 +764,7 @@ name: sc_qfailure
 srcfile: "entry"
 description: "Query a service for failure conditions"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -754,6 +790,7 @@ name: sc_qtriggerinfo
 srcfile: "entry"
 description: "Query a service for trigger conditions"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -779,6 +816,7 @@ name: sc_query
 srcfile: "entry"
 description: "sc query implementation in BOF"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -804,6 +842,7 @@ name: routeprint
 srcfile: "entry"
 description: "List IPv4 routes"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -819,6 +858,7 @@ name: resources
 srcfile: "entry"
 description: "List memory usage and available disk space on the primary hard drive"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -834,6 +874,7 @@ name: md5
 srcfile: "entry"
 description: "Hash filename using md5"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -854,6 +895,7 @@ name: probe
 srcfile: "entry"
 description: "Check if a specific port is open"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -878,6 +920,7 @@ name: regsession
 srcfile: "entry"
 description: "Return logged on user SIDs by enumerating HKEY_USERS. BOFHound compatible"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -898,6 +941,7 @@ name: reg_query
 srcfile: "entry"
 description: "Query a registry value or enumerate a single key"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -933,6 +977,7 @@ name: nslookup
 srcfile: "entry"
 description: "Make a DNS query"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 category: "SAL-BOF"
 OS: Windows
@@ -962,6 +1007,7 @@ name: locale
 srcfile: "entry"
 description: "List system locale language, locale ID, date, time, and country"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -978,6 +1024,7 @@ name: netgroup
 srcfile: "entry"
 description: "List groups or grup members from the default or specified domain"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -1007,6 +1054,7 @@ name: netlocalgroup
 srcfile: "entry"
 description: "List local groups or local grup members from the local or specified computer"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -1036,6 +1084,7 @@ name: netlocalgroup2
 srcfile: "entry"
 description: "List local grup members from the local or specified computer (supports BOFHound)"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -1061,6 +1110,7 @@ name: netloggedon
 srcfile: "entry"
 description: "Return users logged on the local or remote computer"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -1082,6 +1132,7 @@ name: netloggedon2
 srcfile: "entry"
 description: "Return users logged on the local or remote computer (supports BOFHound)"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -1103,6 +1154,7 @@ name: get-netsession
 srcfile: "entry"
 description: "Enumerate sessions on the local or specified computer"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -1124,6 +1176,7 @@ name: get-netsession2
 srcfile: "entry"
 description: "Enumerate sessions on the local or specified computer (supports BOFHound)"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -1152,6 +1205,7 @@ name: netshares
 srcfile: "entry"
 description: "List shares on the local or remote computer"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -1173,6 +1227,7 @@ name: netstat
 srcfile: "entry"
 description: "TCP and UDP IPv4 listing ports"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 category: "SAL-BOF"
 OS: Windows
@@ -1189,6 +1244,7 @@ name: nettime
 srcfile: "entry"
 description: "Display time on remote computer"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -1210,6 +1266,7 @@ name: netuptime
 srcfile: "entry"
 description: "Return information about the boot time on the local or remote computer"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -1231,6 +1288,7 @@ name: netuser
 srcfile: "entry"
 description: "Get info about specific user. Pull from domain if a domainname is specified"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -1256,6 +1314,7 @@ name: netuse
 srcfile: "entry"
 description: "Connect/disconnect a computer to/from a shared resource. List locally bound connections"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -1321,6 +1380,7 @@ name: netview
 srcfile: "entry"
 description: "List reachable computers in the current domain"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'host-recon', 'trustedsec', 'CS-Situational-Awareness-BOF']
 OS: Windows
 entrypoint: "go"
@@ -1336,6 +1396,7 @@ name: adduser
 srcfile: "entry"
 description: "Add specified user to a machine"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'lateral-movement', 'trustedsec', 'CS-Remote-OPs-BOF']
 OS: Windows
 entrypoint: "go"
@@ -1364,6 +1425,7 @@ name: unexpireuser
 srcfile: "entry"
 description: "Set a user account to never expire"
 author: Trustedsec
+Arch: ["x64", "x86"]
 tags: ['windows', 'lateral-movement', 'trustedsec', 'CS-Remote-OPs-BOF']
 OS: Windows
 entrypoint: "go"
