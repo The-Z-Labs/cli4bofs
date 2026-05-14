@@ -1,21 +1,4 @@
 ---
-name: KillDefender
-description: "Make Windows Defender useless by removing its token privileges and lowering the token integrity"
-author: Cerbersec
-Arch: ["x64", "x86"]
-tags: ['windows', 'host-recon', 'cerbersec']
-OS: Windows
-entrypoint: "go"
-sources:
-    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/KillDefender.c'
-    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/KillDefender.h'
-    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/syscalls-asm.h'
-    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/syscalls.c'
-    - 'https://raw.githubusercontent.com/Cerbersec/KillDefenderBOF/refs/heads/main/syscalls.h'
-examples: '
- KillDefender
-'
----
 name: ppenum
 description: "Read the protection level of a process"
 author: rasta-mouse
