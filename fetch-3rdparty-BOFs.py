@@ -46,10 +46,10 @@ if __name__ == "__main__":
                 srcfile = bofMetadata['srcfile']
             formats = ".coff"
             arch = ".x64, .x86"
-            if(os == "linux"):
+            if os == "linux" or os == "Linux":
                 formats = ".elf"
                 arch = ".x64, .x86, .aarch64, .arm"
-            if(os == "cross"):
+            if(os == "cross-platform"):
                 formats = ".coff, .elf"
                 arch = ".x64, .x86, .aarch64, .arm"
 
@@ -74,9 +74,9 @@ if __name__ == "__main__":
 
             # craft entry for BOFs table for build.zig
             if srcfile == "":
-                buildEntries.append("    .{ .name = \"" + name + "\", .dir = \"" + author + "/" + name + "/\", .formats = &.{ " + formats + " }, .archs = &.{ " + arch + " } },")
+                buildEntries.append("    .{ .name = \"" + name + "\", .dir = \"" + str(bofsSrcDir) + "/" + author + "/" + name + "/\", .formats = &.{ " + formats + " }, .archs = &.{ " + arch + " } },")
             else:
-                buildEntries.append("    .{ .name = \"" + name + "\", .srcfile = \"" + srcfile + "\", .dir = \"" + author + "/" + name + "/\", .formats = &.{ " + formats + " }, .archs = &.{ " + arch + " } },")
+                buildEntries.append("    .{ .name = \"" + name + "\", .srcfile = \"" + srcfile + "\", .dir = \"" + str(bofsSrcDir) + "/" + author + "/" + name + "/\", .formats = &.{ " + formats + " }, .archs = &.{ " + arch + " } },")
             print("")
 
     print("const bofs_my_custom = [_]BofTableItem{")
