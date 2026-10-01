@@ -1,3 +1,7 @@
+# cli4bofs tool migrated back to bof-launcher repository
+
+New home for the tool: `https://github.com/The-Z-Labs/bof-launcher/tree/main/examples/cli4bofs
+
 # cli4bofs 
 
 Standalone command line interface for launching, injecting and organizing [BOF files](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/beacon-object-files_main.htm) outside of [Cobalt Strike Beacon](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/welcome_main.htm) environment. Under the hood it uses [bof-launcher library](https://github.com/The-Z-Labs/bof-launcher) to run BOFs files on `Windows (x86, x64)` and `Linux (x86, x64, ARM, AARCH64)` platforms directly from a filesystem. You can download binaries for all supported platforms [here](https://github.com/The-Z-Labs/cli4bofs/releases).
