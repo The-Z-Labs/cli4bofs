@@ -1,6 +1,6 @@
 # cli4bofs tool migrated back to bof-launcher repository
 
-New home for the tool: `https://github.com/The-Z-Labs/bof-launcher/tree/main/examples/cli4bofs
+New home for the tool: https://github.com/The-Z-Labs/bof-launcher/tree/main/examples/cli4bofs
 
 # cli4bofs 
 
